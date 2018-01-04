@@ -7,6 +7,7 @@ var store = new mongoose.Schema({
     name: { type: String, required: true },
     address: { type: String, required: true },
     products: [{ type: mongoose.Schema.ObjectId, ref: "Product", required: false }],
+    sales: [{ type: mongoose.Schema.ObjectId, ref: "Sale", required: false }],
     solution: { type: mongoose.Schema.ObjectId, ref: "Solution", childPath: "stores", required: true, unique: false }
 });
 
