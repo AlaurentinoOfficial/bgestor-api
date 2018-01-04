@@ -1,19 +1,23 @@
-var passport = require("passport")
-import { Strategy, ExtractJwt } from "passport-jwt"
-import { UserSchema, User } from "../models/user"
+import * as jwt from "jsonwebtoken"
 
-exports.Passport = (app) => {
-    var opts = {}
-    //opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt')
-    opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
-    opts.secretOrKey = app.get('crypt_key')
-    passport.serializeUser((user, done) => {
-        done(null, user)
-    });
-    passport.use(new Strategy(opts, (user, done) =>
+import { UserSchema, User } from "../models/user"
+import { Server } from "../../server";
+
+exports.Authenticate = (req, res, next) => {
+    try
     {
-        UserSchema.findOne({_id: user.data}, (err, u) => {
-            done(null, err ? false : u)
-        });
-    }));
-};
+        let token = req.headers["authorization"].replace("CRM ", "")
+        let verify = jwt.verify(token, Server.get('crypt_key'))
+        
+        UserSchema.findOne({_id: verify.data}, (err, u) => {
+            if(err)
+                res.status(401).send('Unauthorized')
+            
+            res.locals.user = u
+            next();
+        })
+    } catch(e) {
+        res.status(401).send('Unauthorized')
+        console.log(e)
+    }
+}

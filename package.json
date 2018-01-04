@@ -21,9 +21,7 @@
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
     "mongoose": "^5.0.0-rc1",
-    "mongoose-relationship": "^0.1.5",
-    "passport": "^0.4.0",
-    "passport-jwt": "^3.0.1"
+    "mongoose-relationship": "^0.1.5"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",

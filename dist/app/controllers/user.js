@@ -35,7 +35,7 @@ exports.login = function (req, res) {
                         exp: Math.floor(Date.now() / 1000) + 60 * 60,
                         data: user._id
                     }, _server.Server.get('crypt_key'));
-                    var json = { solution: user.solution, solutionName: user.fullName, email: user.email, token: 'bearer ' + token };
+                    var json = { solution: user.solution, solutionName: user.fullName, email: user.email, token: 'CRM ' + token };
 
                     res.json(json);
                 } else res.json({ success: false, message: 'Invalid password' });

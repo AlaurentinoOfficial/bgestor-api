@@ -15,16 +15,12 @@ var _user = require('./app/models/user');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var passport = require("passport");
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ 'extended': 'true' }));
 app.use(bodyParser.json());
 app.set('crypt_key', 'dfhads8g3bfosdfs');
-
-(0, _passport.Passport)(app);
-app.use(passport.initialize());
-app.use(passport.session());
+app.set('port', 8080);
 
 (0, _router.Router)(app);
 (0, _database.DbConfig)({

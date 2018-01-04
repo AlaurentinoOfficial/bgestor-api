@@ -2,6 +2,6 @@
 
 var _server = require('../server');
 
-_server.Server.listen(8080, function () {
-	console.log('The server is litening in :8080');
+_server.Server.listen(_server.Server.get('port'), function () {
+	console.log('The server is litening in :' + _server.Server.get('port'));
 });

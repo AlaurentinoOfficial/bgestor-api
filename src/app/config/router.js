@@ -1,7 +1,11 @@
-var passport = require("passport")
-
+import * as store from '../controllers/store' 
 import * as product from '../controllers/product' 
 import * as user from '../controllers/user' 
+
+import * as jwt from "jsonwebtoken";
+import { Server } from "../../server";
+import { UserSchema } from "../models/user";
+import { Authenticate } from './passport';
 
 exports.Router = (app) => {
 	app.get('/helloworld', (req, res) => {
@@ -11,6 +15,9 @@ exports.Router = (app) => {
 	app.route('/login')
 		.post(user.login)
 
+	app.route('/stores')
+		.get(Authenticate, store.get)
+
 	app.route('/products')
-		.get(passport.authenticate('jwt', {sessions: false}), product.get)
+		.get(Authenticate, product.get)
 }
