@@ -6,7 +6,7 @@ exports.Mongo = "mongodb";
 
 exports.DbConfig = function (config) {
     var user = config.username && config.password ? config.username + ":" + config.password + "@" : "";
-    mongoose.connect(config.type + "://" + user + config.ip + ":" + config.port + "/" + config.database, { useMongoClient: true });
+    mongoose.connect(config.type + "://" + user + config.ip + ":" + config.port + "/" + config.database);
 
     mongoose.connection.on('connected', function () {
         console.log('\n> Database connected!\n');

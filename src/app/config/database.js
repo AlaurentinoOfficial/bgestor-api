@@ -10,7 +10,7 @@ exports.DbConfig = (config) => {
                     + user
                     + config.ip + ":"
                     + config.port + "/"
-                    + config.database, { useMongoClient: true });
+                    + config.database);
 
     mongoose.connection.on('connected', () => {
         console.log('\n> Database connected!\n');
