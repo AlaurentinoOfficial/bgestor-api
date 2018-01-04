@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 exports.Mongo = "mongodb";
 
-exports.config = (config) => {
+exports.DbConfig = (config) => {
     var user = config.username
                         && config.password
                         ? config.username + ":" + config.password + "@" : "";
@@ -11,11 +11,9 @@ exports.config = (config) => {
                     + config.ip + ":"
                     + config.port + "/"
                     + config.database, { useMongoClient: true });
-    MongoDB = false;
 
     mongoose.connection.on('connected', () => {
         console.log('\n> Database connected!\n');
-        MongoDB = true;
     });
 
     mongoose.connection.on('error', (err) => {
