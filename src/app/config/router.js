@@ -17,7 +17,8 @@ exports.Router = (app) => {
 
 	app.route('/stores')
 		.get(Authenticate, store.get)
+		.post(Authenticate, store.post)
 
-	app.route('/products')
+	app.route('/store/:id/products')
 		.get(Authenticate, product.get)
 }

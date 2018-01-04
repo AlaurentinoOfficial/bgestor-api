@@ -31,7 +31,7 @@ exports.Router = function (app) {
 
 	app.route('/login').post(user.login);
 
-	app.route('/stores').get(_passport.Authenticate, store.get);
+	app.route('/stores').get(_passport.Authenticate, store.get).post(_passport.Authenticate, store.post);
 
-	app.route('/products').get(_passport.Authenticate, product.get);
+	app.route('/store/:id/products').get(_passport.Authenticate, product.get);
 };

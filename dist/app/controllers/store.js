@@ -15,3 +15,17 @@ exports.get = function (req, res) {
         });
     });
 };
+
+exports.post = function (req, res) {
+    _solution.SolutionSchema.findOne({ user: res.locals.user }, function (err, solution) {
+        if (err) return res.status(500).json([]);
+
+        var body = { name: req.body.name, address: req.body.address, solution: solution };
+
+        _store.StoreSchema.create(body, function (err, stores) {
+            if (err) return res.status(500).json({ error: 'missing arguments' });
+
+            res.json({ message: "Succefuly created environment!" });
+        });
+    });
+};
