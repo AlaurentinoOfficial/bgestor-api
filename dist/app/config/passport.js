@@ -15,9 +15,9 @@ exports.Passport = function (app) {
     passport.serializeUser(function (user, done) {
         done(null, user);
     });
-    passport.use(new _passportJwt.Strategy(opts, function (jwt_payload, done) {
-        _user.UserSchema.findOne({ id: jwt_payload.id }, function (err, user) {
-            done(null, err ? false : user);
+    passport.use(new _passportJwt.Strategy(opts, function (user, done) {
+        _user.UserSchema.findOne({ _id: user.data }, function (err, u) {
+            done(null, err ? false : u);
         });
     }));
 };

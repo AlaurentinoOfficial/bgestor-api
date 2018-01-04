@@ -2,19 +2,29 @@
 
 var _database = require('./app/config/database');
 
+var _passport = require('./app/config/passport');
+
 var _router = require('./app/config/router');
 
-var _passport = require('./app/config/passport');
+var _solution = require('./app/models/solution');
+
+var _product = require('./app/models/product');
+
+var _user = require('./app/models/user');
 
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var passport = require("passport");
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ 'extended': 'true' }));
 app.use(bodyParser.json());
-
 app.set('crypt_key', 'dfhads8g3bfosdfs');
+
+(0, _passport.Passport)(app);
+app.use(passport.initialize());
+app.use(passport.session());
 
 (0, _router.Router)(app);
 (0, _database.DbConfig)({
@@ -25,8 +35,17 @@ app.set('crypt_key', 'dfhads8g3bfosdfs');
     username: null,
     password: null
 });
-(0, _passport.Passport)(app);
 
-app.listen(process.env.PORT | 8080, function () {
-    console.log('The server is litening in :8080');
-});
+// SolutionSchema.create({name: "STEAPH"}, (err, solution) => {
+//     if(err)
+//         return console.log("Solution not created");
+
+//     UserSchema.create({solution: solution, email: "alaurentino.br@gmail.com", password: "1234567890n"}, (err, user) => {
+//         if(err)
+//             return console.log("User not created");
+
+//         console.log("Succefuly");
+//     })
+// });
+
+exports.Server = app;

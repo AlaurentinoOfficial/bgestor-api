@@ -2,10 +2,11 @@
   "name": "crm",
   "version": "1.0.0",
   "description": "This is a basicly crm",
-  "main": "dist/server.js",
+  "main": "dist/bin/www.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel ./src/ --out-dir ./dist && node dist/server.js"
+    "start": "babel ./src/ --out-dir ./dist && node dist/bin/www.js",
+    "babel": "babel --watch ./src/ --out-dir ./dist && node dist/bin/www.js"
   },
   "keywords": [
     "crm",
@@ -18,6 +19,7 @@
   "dependencies": {
     "bcrypt": "^1.0.3",
     "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
     "mongoose": "^5.0.0-rc1",
     "mongoose-relationship": "^0.1.5",
     "passport": "^0.4.0",
