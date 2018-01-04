@@ -1,8 +1,13 @@
-var mongoose = require('mongoose')
+var mongoose = require("mongoose")
+var relationship = require("mongoose-relationship")
 
 let product = new mongoose.Schema({
     name: {type: String, required: true},
     amount: {type: Number, required: true},
-    description: {type: String, required: false}
+    description: {type: String, required: false},
+    solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"products", required: true, unique: false}
 });
-exports.ProductSchema = mongoose.model('Environment', environmentSchema);
+
+product.plugin(relationship, { relationshipPathName:'solution' });
+
+exports.ProductSchema = mongoose.model('Product', product);
