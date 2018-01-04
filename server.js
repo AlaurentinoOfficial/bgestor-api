@@ -1,10 +1,10 @@
 var express = require('express')
 var app = express()
 
-app.get('/', (req, res) => {
-	res.send('<h1>Hello, world!</h1>')
-})
+var Router = require('./app/config/router')
+
+Router(app)
 
 app.listen(process.env.PORT | 3000, () => {
-	console.log('Hello, world!')
+	console.log('The server is litening in :3000')
 })
