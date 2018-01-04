@@ -4,9 +4,10 @@ var mongoose = require("mongoose");
 var relationship = require("mongoose-relationship");
 
 var sale = new mongoose.Schema({
-    products: [{ type: mongoose.Schema.ObjectId, ref: "Product", required: false }],
-    amount: { type: Number, required: true },
-    date: { type: Date, default: Date.now },
+    client: { type: String, required: true },
+    products: [{ type: mongoose.Schema.Types.Mixed, required: true }],
+    date: { type: Date, default: Date.now(), required: true },
+    price: { type: Number, required: true },
     store: { type: mongoose.Schema.ObjectId, ref: "Store", childPath: "sales", required: true, unique: false }
 });
 

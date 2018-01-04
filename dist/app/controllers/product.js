@@ -7,13 +7,13 @@ var _product = require('../models/product');
 var _store = require('../models/store');
 
 exports.get = function (req, res) {
-    if (!req.params.id) return res.status(400).json({ error: "Missing arguments" });
+    if (!req.params.store) return res.status(400).json({ error: "Missing arguments" });
 
     _solution.SolutionSchema.findOne({ user: res.locals.user }, function (err, solution) {
         if (err) return res.status(500).json([]);
 
-        _store.StoreSchema.findOne({ _id: req.params.id }, function (err, store) {
-            if (err) return res.status(500).json({ error: "Invalid arguments" });
+        _store.StoreSchema.findOne({ _id: req.params.store }, function (err, store) {
+            if (err) return res.status(500).json({ code: 500, error: "Invalid arguments" });
 
             _product.ProductSchema.find({ store: store }, function (err, products) {
                 if (err) return res.status(500).json([]);
@@ -25,12 +25,12 @@ exports.get = function (req, res) {
 };
 
 exports.post = function (req, res) {
-    if (!req.params.id) return res.status(400).json({ error: "Missing arguments" });
+    if (!req.params.store) return res.status(400).json({ error: "Missing arguments" });
 
     _solution.SolutionSchema.findOne({ user: res.locals.user }, function (err, solution) {
         if (err) return res.status(500).json([]);
 
-        _store.StoreSchema.findOne({ _id: req.params.id }, function (err, store) {
+        _store.StoreSchema.findOne({ _id: req.params.store }, function (err, store) {
             if (err) return res.status(500).json({ error: "Invalid store" });
 
             var body = {
@@ -44,7 +44,8 @@ exports.post = function (req, res) {
             _product.ProductSchema.create(body, function (err, products) {
                 if (err) return res.status(500).json({ error: "Invalid product" });
 
-                res.json({ message: "Succefuly created product" });
+                res.json({ message: "Succefuly created product"
+                });
             });
         });
     });

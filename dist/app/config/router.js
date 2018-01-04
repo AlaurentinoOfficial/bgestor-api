@@ -1,5 +1,9 @@
 'use strict';
 
+var _user = require('../controllers/user');
+
+var user = _interopRequireWildcard(_user);
+
 var _store = require('../controllers/store');
 
 var store = _interopRequireWildcard(_store);
@@ -8,9 +12,9 @@ var _product = require('../controllers/product');
 
 var product = _interopRequireWildcard(_product);
 
-var _user = require('../controllers/user');
+var _sale = require('../controllers/sale');
 
-var user = _interopRequireWildcard(_user);
+var sale = _interopRequireWildcard(_sale);
 
 var _jsonwebtoken = require('jsonwebtoken');
 
@@ -33,5 +37,7 @@ exports.Router = function (app) {
 
 	app.route('/stores').get(_passport.Authenticate, store.get).post(_passport.Authenticate, store.post);
 
-	app.route('/store/:id/products').get(_passport.Authenticate, product.get).post(_passport.Authenticate, product.post);
+	app.route('/store/:store/products').get(_passport.Authenticate, product.get).post(_passport.Authenticate, product.post);
+
+	app.route('/sale/:store').post(_passport.Authenticate, sale.post);
 };

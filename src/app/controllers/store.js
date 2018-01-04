@@ -24,9 +24,9 @@ exports.post = (req, res) => {
         
             StoreSchema.create(body, (err, stores) => {
             if(err)
-                return res.status(500).json({error: 'Invalid arguments'})
+                return res.status(500).json({code: 500, error: 'Invalid arguments'})
             
-                res.json({message: "Succefuly created store"});
+            res.json({code: 200, message: "Succefuly created store"});
         })
     })
 }
