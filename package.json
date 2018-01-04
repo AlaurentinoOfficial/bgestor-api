@@ -13,5 +13,8 @@
     "mongodb"
   ],
   "author": "Anderson Laurentino",
-  "license": "Alaurentino"
+  "license": "Alaurentino",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }
