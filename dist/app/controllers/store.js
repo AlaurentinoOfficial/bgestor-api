@@ -23,9 +23,9 @@ exports.post = function (req, res) {
         var body = { name: req.body.name, address: req.body.address, solution: solution };
 
         _store.StoreSchema.create(body, function (err, stores) {
-            if (err) return res.status(500).json({ error: 'missing arguments' });
+            if (err) return res.status(500).json({ error: 'Invalid arguments' });
 
-            res.json({ message: "Succefuly created environment!" });
+            res.json({ message: "Succefuly created store" });
         });
     });
 };

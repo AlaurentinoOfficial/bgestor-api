@@ -33,5 +33,5 @@ exports.Router = function (app) {
 
 	app.route('/stores').get(_passport.Authenticate, store.get).post(_passport.Authenticate, store.post);
 
-	app.route('/store/:id/products').get(_passport.Authenticate, product.get);
+	app.route('/store/:id/products').get(_passport.Authenticate, product.get).post(_passport.Authenticate, product.post);
 };
