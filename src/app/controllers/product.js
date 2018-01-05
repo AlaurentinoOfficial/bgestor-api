@@ -67,7 +67,7 @@ exports.putById = (req, res) => {
                 if(err)
                     return res.status(500).json({error: "Invalid product"})
                 
-                res.json({message: "Succefuly created product"
+                res.json({message: "Succefuly updated product"
             });
         })
     })

@@ -60,7 +60,7 @@ exports.putById = function (req, res) {
         _product.ProductSchema.findOneAndUpdate({ _id: req.params.id }, req.body, { upsert: true }, function (err, products) {
             if (err) return res.status(500).json({ error: "Invalid product" });
 
-            res.json({ message: "Succefuly created product"
+            res.json({ message: "Succefuly updated product"
             });
         });
     });

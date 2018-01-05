@@ -19,6 +19,9 @@ exports.Router = (app) => {
 	app.route('/stores')
 		.get(Authenticate, store.get)
 		.post(Authenticate, store.post)
+	
+	app.route('/store/:id')
+		.put(Authenticate, store.putById)
 
 	app.route('/store/:store/products')
 		.get(Authenticate, product.get)
