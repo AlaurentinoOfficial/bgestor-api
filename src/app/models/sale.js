@@ -4,7 +4,7 @@ var relationship = require("mongoose-relationship")
 import * as analytics from './analytics'
 import { StoreSchema } from "./store";
 import { SaleSchema } from "./sale";
-import { UpdateTicket } from "./analytics";
+import { UpdateTicket, UpdateSaleCharge } from "./analytics";
 
 let sale = new mongoose.Schema({
     client: {type: String, required: true},
@@ -18,6 +18,7 @@ sale.post('save', function() {
     var self = this
 
     UpdateTicket(self)
+    UpdateSaleCharge(self)
 });
 
 sale.plugin(relationship, { relationshipPathName:'store' });

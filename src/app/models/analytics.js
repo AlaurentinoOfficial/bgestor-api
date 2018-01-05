@@ -1,5 +1,6 @@
 import { StoreSchema } from "./store";
 import { SaleSchema } from "./sale";
+import { ProductSchema } from "./product";
 
 exports.UpdateTicket = (sales) => {
     StoreSchema.findOne({_id: sales.store}, (err, s) => {
@@ -19,28 +20,41 @@ exports.UpdateTicket = (sales) => {
     })
 }
 
-exports.UpdateSaleRate = (sales) => {
-    var products = []
-    sales.forEach(i => {
-        i.products.forEach(j => {
-            if(products.length > 0) {
-                products.forEach(k => {
-                    if(k._id == j._id)
-                        products.push(j)
-                    else
-                        k.amount += j.amount
+exports.UpdateSaleCharge = (sale) => {
+    ProductSchema.find({store: sale.store}, (err, products) => {
+        var pr = []
+        var ss = 0
+
+        products.forEach(i => {
+            var obj = {}
+
+            obj._id = i._id
+            obj.amount = 0
+
+            pr.push(obj)
+        })
+
+        SaleSchema.find({store: sale.store}, (err, sales) => {
+            sales.forEach(s => {
+                s.products.forEach(i => {
+                    pr.forEach(j => {
+                        if(i._id == j._id)
+                            j.amount += i.amount
+                    })
                 })
-            }
-            else products.push(j)
+            })
+
+            pr.forEach(i => ss += i.amount)
+
+            products.forEach(i => {
+                pr.forEach(j => {
+                    if(i._id == j._id)
+                    {
+                        i.sales_charge = j.amount * 100 / ss
+                        i.save()
+                    }
+                })
+            })
         })
     })
-
-    var num_sales = 0
-    products.forEach(i => num_sales += i.amount)
-
-    products.forEach(i => {
-        i.sale_rate = (i.amount * 100) / num_sales
-    })
-
-    return products
 }

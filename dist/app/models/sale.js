@@ -25,6 +25,7 @@ sale.post('save', function () {
     var self = this;
 
     (0, _analytics.UpdateTicket)(self);
+    (0, _analytics.UpdateSaleCharge)(self);
 });
 
 sale.plugin(relationship, { relationshipPathName: 'store' });

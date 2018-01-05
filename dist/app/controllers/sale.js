@@ -8,8 +8,6 @@ var _sale = require('../models/sale');
 
 var _product = require('../models/product');
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 exports.get = function (req, res) {
     if (!req.params.store) return res.status(400).json({ code: 400, error: "Missing arguments" });
 
@@ -71,45 +69,6 @@ exports.post = function (req, res) {
                 }
 
                 return res.status(200).json({ code: 200, message: "Successful transaction" });
-            });
-        });
-    });
-};
-
-exports.saleRate = function (req, res) {
-    _solution.SolutionSchema.findOne({ user: res.locals.user }, function (err, solution) {
-        if (err) return res.status(500).json([]);
-
-        _store.StoreSchema.findOne({ _id: req.params.store }, function (err, store) {
-            if (err) return res.status(500).json({ code: 500, error: "Invalid arguments" });
-
-            _sale.SaleSchema.find(_defineProperty({ store: store }, 'store', store), function (err, sales) {
-                if (err) return res.status(200).json([]);
-
-                return res.status(200).json(products);
-            });
-        });
-    });
-};
-
-exports.ticket = function (req, res) {
-    _solution.SolutionSchema.findOne({ user: res.locals.user }, function (err, solution) {
-        if (err) return res.status(500).json([]);
-
-        _store.StoreSchema.findOne({ _id: req.params.store }, function (err, store) {
-            if (err) return res.status(500).json({ code: 500, error: "Invalid arguments" });
-
-            _sale.SaleSchema.find(_defineProperty({ store: store }, 'store', store), function (err, sales) {
-                if (err) return res.status(200).json([]);
-
-                var income = 0;
-                var clients = 0;
-                sales.forEach(function (i) {
-                    income += i.price;
-                    ++clients;
-                });
-
-                return res.status(200).json({ ticket: income / clients });
             });
         });
     });

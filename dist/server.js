@@ -20,7 +20,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ 'extended': 'true' }));
 app.use(bodyParser.json());
 app.set('crypt_key', 'dfhads8g3bfosdfs');
-app.set('port', 8080);
+app.set('port', 3000);
 
 (0, _router.Router)(app);
 (0, _database.DbConfig)({
