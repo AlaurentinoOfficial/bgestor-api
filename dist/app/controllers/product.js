@@ -50,3 +50,18 @@ exports.post = function (req, res) {
         });
     });
 };
+
+exports.putById = function (req, res) {
+    if (!req.params.id) return res.status(400).json({ error: "Missing arguments" });
+
+    _solution.SolutionSchema.findOne({ user: res.locals.user }, function (err, solution) {
+        if (err) return res.status(500).json([]);
+
+        _product.ProductSchema.findOneAndUpdate({ _id: req.params.id }, req.body, { upsert: true }, function (err, products) {
+            if (err) return res.status(500).json({ error: "Invalid product" });
+
+            res.json({ message: "Succefuly created product"
+            });
+        });
+    });
+};

@@ -54,3 +54,21 @@ exports.post = (req, res) => {
         })
     })
 }
+
+exports.putById = (req, res) => {
+    if(!req.params.id)
+        return res.status(400).json({error: "Missing arguments"})
+
+    SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
+        if(err)
+            return res.status(500).json([])
+        
+            ProductSchema.findOneAndUpdate({_id: req.params.id},req.body, {upsert: true}, (err, products) => {
+                if(err)
+                    return res.status(500).json({error: "Invalid product"})
+                
+                res.json({message: "Succefuly created product"
+            });
+        })
+    })
+}
