@@ -68,8 +68,10 @@ exports.post = (req, res) => {
                 else
                     return res.status(500).json({code: 500, error: "Product missing from inventory", products: missing})
 
-                if(err)
+                if(err) {
+                    console.log(err)
                     return res.status(500).json({code: 500, error: "Invalid paramters"})
+                }
                 
                 return res.status(200).json({code: 200, message: "Successful transaction"})
             })
@@ -88,27 +90,7 @@ exports.saleRate = (req, res) => {
                 SaleSchema.find({store, store}, (err, sales) => {
                     if(err) return res.status(200).json([])
 
-                    var products = []
-                    sales.forEach(i => {
-                        i.products.forEach(j => {
-                            if(products.length > 0) {
-                                products.forEach(k => {
-                                    if(k._id == j._id)
-                                        products.push(j)
-                                    else
-                                        k.amount += j.amount
-                                })
-                            }
-                            else products.push(j)
-                        })
-                    })
-
-                    var num_sales = 0
-                    products.forEach(i => num_sales += i.amount)
-
-                    products.forEach(i => {
-                        i.sale_rate = (i.amount * 100) / num_sales
-                    })
+                    
 
                     return res.status(200).json(products)
                 })

@@ -65,7 +65,10 @@ exports.post = function (req, res) {
                     return e.save();
                 });else return res.status(500).json({ code: 500, error: "Product missing from inventory", products: missing });
 
-                if (err) return res.status(500).json({ code: 500, error: "Invalid paramters" });
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ code: 500, error: "Invalid paramters" });
+                }
 
                 return res.status(200).json({ code: 200, message: "Successful transaction" });
             });
@@ -82,26 +85,6 @@ exports.saleRate = function (req, res) {
 
             _sale.SaleSchema.find(_defineProperty({ store: store }, 'store', store), function (err, sales) {
                 if (err) return res.status(200).json([]);
-
-                var products = [];
-                sales.forEach(function (i) {
-                    i.products.forEach(function (j) {
-                        if (products.length > 0) {
-                            products.forEach(function (k) {
-                                if (k._id == j._id) products.push(j);else k.amount += j.amount;
-                            });
-                        } else products.push(j);
-                    });
-                });
-
-                var num_sales = 0;
-                products.forEach(function (i) {
-                    return num_sales += i.amount;
-                });
-
-                products.forEach(function (i) {
-                    i.sale_rate = i.amount * 100 / num_sales;
-                });
 
                 return res.status(200).json(products);
             });
