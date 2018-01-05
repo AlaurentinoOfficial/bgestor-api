@@ -6,6 +6,8 @@ var _sale = require("./sale");
 
 var _product = require("./product");
 
+var _constants = require("constants");
+
 exports.UpdateTicket = function (sales) {
     _store.StoreSchema.findOne({ _id: sales.store }, function (err, s) {
         var income = 0;
@@ -60,5 +62,13 @@ exports.UpdateSaleCharge = function (sale) {
                 });
             });
         });
+    });
+};
+
+exports.UpdateProfit = function (product) {
+    _product.ProductSchema.findOne({ _id: product._id }, function (err, p) {
+        p.profit = p.price - p.production_cost;
+        //p.profit = p.profit * 100 / p.price
+        p.save();
     });
 };

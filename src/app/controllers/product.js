@@ -36,15 +36,9 @@ exports.post = (req, res) => {
                 if(err)
                     return res.status(500).json({error: "Invalid store"})
                 
-                var body = {
-                    name: req.body.name,
-                    amount: req.body.amount,
-                    price: req.body.price,
-                    description: req.body.description,
-                    store: store
-                }
+                req.body.store = store
 
-                ProductSchema.create(body, (err, products) => {
+                ProductSchema.create(req.body, (err, products) => {
                     if(err)
                         return res.status(500).json({error: "Invalid product"})
                     

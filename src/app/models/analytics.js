@@ -1,6 +1,7 @@
 import { StoreSchema } from "./store";
 import { SaleSchema } from "./sale";
 import { ProductSchema } from "./product";
+import { X_OK } from "constants";
 
 exports.UpdateTicket = (sales) => {
     StoreSchema.findOne({_id: sales.store}, (err, s) => {
@@ -56,5 +57,13 @@ exports.UpdateSaleCharge = (sale) => {
                 })
             })
         })
+    })
+}
+
+exports.UpdateProfit = (product) => {
+    ProductSchema.findOne({_id: product._id}, (err, p) => {
+        p.profit = p.price - p.production_cost
+        //p.profit = p.profit * 100 / p.price
+        p.save()
     })
 }

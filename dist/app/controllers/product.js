@@ -33,15 +33,9 @@ exports.post = function (req, res) {
         _store.StoreSchema.findOne({ _id: req.params.store }, function (err, store) {
             if (err) return res.status(500).json({ error: "Invalid store" });
 
-            var body = {
-                name: req.body.name,
-                amount: req.body.amount,
-                price: req.body.price,
-                description: req.body.description,
-                store: store
-            };
+            req.body.store = store;
 
-            _product.ProductSchema.create(body, function (err, products) {
+            _product.ProductSchema.create(req.body, function (err, products) {
                 if (err) return res.status(500).json({ error: "Invalid product" });
 
                 res.json({ message: "Succefuly created product"
