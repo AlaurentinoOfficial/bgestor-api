@@ -76,3 +76,66 @@ exports.post = (req, res) => {
         })
     })
 }
+
+exports.saleRate = (req, res) => {
+    SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
+        if(err)
+            return res.status(500).json([])
+        
+            StoreSchema.findOne({_id: req.params.store}, (err, store) => {
+                if(err) return res.status(500).json({code: 500, error: "Invalid arguments"})
+
+                SaleSchema.find({store, store}, (err, sales) => {
+                    if(err) return res.status(200).json([])
+
+                    var products = []
+                    sales.forEach(i => {
+                        i.products.forEach(j => {
+                            if(products.length > 0) {
+                                products.forEach(k => {
+                                    if(k._id == j._id)
+                                        products.push(j)
+                                    else
+                                        k.amount += j.amount
+                                })
+                            }
+                            else products.push(j)
+                        })
+                    })
+
+                    var num_sales = 0
+                    products.forEach(i => num_sales += i.amount)
+
+                    products.forEach(i => {
+                        i.sale_rate = (i.amount * 100) / num_sales
+                    })
+
+                    return res.status(200).json(products)
+                })
+        })
+    })
+}
+
+exports.ticket = (req, res) => {
+    SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
+        if(err)
+            return res.status(500).json([])
+        
+            StoreSchema.findOne({_id: req.params.store}, (err, store) => {
+                if(err) return res.status(500).json({code: 500, error: "Invalid arguments"})
+
+                SaleSchema.find({store, store}, (err, sales) => {
+                    if(err) return res.status(200).json([])
+
+                    var income = 0
+                    var clients = 0
+                    sales.forEach(i => {
+                        income += i.price
+                        ++clients
+                    })
+
+                    return res.status(200).json({ticket: (income/clients)})
+                })
+        })
+    })
+}

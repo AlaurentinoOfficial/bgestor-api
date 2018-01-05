@@ -33,4 +33,10 @@ exports.Router = (app) => {
 	app.route('/sale/:store')
 		.get(Authenticate, sale.get)
 		.post(Authenticate, sale.post)
+	
+	app.route('/sale/:store/salerate')
+		.get(Authenticate, sale.saleRate)
+
+	app.route('/sale/:store/ticket')
+		.get(Authenticate, sale.ticket)
 }
