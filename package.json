@@ -21,7 +21,6 @@
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
     "mongoose": "^5.0.0-rc1",
-    "mongoose-events": "^0.3.9",
     "mongoose-relationship": "^0.1.5"
   },
   "devDependencies": {
