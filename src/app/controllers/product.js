@@ -56,13 +56,29 @@ exports.putById = (req, res) => {
     SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
         if(err)
             return res.status(500).json([])
-        
-            ProductSchema.findOneAndUpdate({_id: req.params.id},req.body, {upsert: true}, (err, products) => {
+
+            ProductSchema.findOneAndUpdate({_id: req.params.id}, req.body, (err, p) => {
                 if(err)
                     return res.status(500).json({error: "Invalid product"})
                 
-                res.json({message: "Succefuly updated product"
-            });
-        })
+                res.json({message: "Succefuly updated product"})
+            })
+    })
+}
+
+exports.postById = (req, res) => {
+    if(!req.params.id || typeof(req.body.stock) != typeof(10))
+        return res.status(400).json({error: "Missing arguments"})
+
+    SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
+        if(err)
+            return res.status(500).json([])
+
+            ProductSchema.addStock({_id: req.params.id}, req.body.stock, (err, p) => {
+                if(err)
+                    return res.status(500).json({error: "Invalid product"})
+                
+                res.json({message: "Succefuly added in stock"})
+            })
     })
 }

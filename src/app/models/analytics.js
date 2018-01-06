@@ -30,7 +30,7 @@ exports.UpdateSaleCharge = (sale) => {
             var obj = {}
 
             obj._id = i._id
-            obj.amount = 0
+            obj.stock = 0
 
             pr.push(obj)
         })
@@ -40,18 +40,18 @@ exports.UpdateSaleCharge = (sale) => {
                 s.products.forEach(i => {
                     pr.forEach(j => {
                         if(i._id == j._id)
-                            j.amount += i.amount
+                            j.stock += i.stock
                     })
                 })
             })
 
-            pr.forEach(i => ss += i.amount)
+            pr.forEach(i => ss += i.stock)
 
             products.forEach(i => {
                 pr.forEach(j => {
                     if(i._id == j._id)
                     {
-                        i.sales_charge = j.amount * 100 / ss
+                        i.sales_charge = j.stock * 100 / ss
                         i.save()
                     }
                 })
@@ -60,10 +60,10 @@ exports.UpdateSaleCharge = (sale) => {
     })
 }
 
-exports.UpdateProfit = (product) => {
+exports.UpdateProfitMarkup = (product) => {
     ProductSchema.findOne({_id: product._id}, (err, p) => {
-        p.profit = p.price - p.production_cost
-        //p.profit = p.profit * 100 / p.price
+        p.markup = p.price - p.production_cost
+        p.profit = p.markup * 100 / p.price
         p.save()
     })
 }

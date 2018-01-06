@@ -29,10 +29,8 @@ exports.login = function (req, res) {
                         sName = solution.name;
                     });
 
-                    var expiresTime = req.body.remember == true ? 160800 : 60000;
-
                     var token = jwt.sign({
-                        exp: Math.floor(Date.now() / 1000) + 60 * 60,
+                        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 3,
                         data: user._id
                     }, _server.Server.get('crypt_key'));
                     var json = { solution: user.solution, solutionName: user.fullName, email: user.email, token: 'CRM ' + token };

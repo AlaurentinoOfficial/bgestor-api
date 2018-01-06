@@ -35,7 +35,7 @@ exports.UpdateSaleCharge = function (sale) {
             var obj = {};
 
             obj._id = i._id;
-            obj.amount = 0;
+            obj.stock = 0;
 
             pr.push(obj);
         });
@@ -44,19 +44,19 @@ exports.UpdateSaleCharge = function (sale) {
             sales.forEach(function (s) {
                 s.products.forEach(function (i) {
                     pr.forEach(function (j) {
-                        if (i._id == j._id) j.amount += i.amount;
+                        if (i._id == j._id) j.stock += i.stock;
                     });
                 });
             });
 
             pr.forEach(function (i) {
-                return ss += i.amount;
+                return ss += i.stock;
             });
 
             products.forEach(function (i) {
                 pr.forEach(function (j) {
                     if (i._id == j._id) {
-                        i.sales_charge = j.amount * 100 / ss;
+                        i.sales_charge = j.stock * 100 / ss;
                         i.save();
                     }
                 });
@@ -65,10 +65,10 @@ exports.UpdateSaleCharge = function (sale) {
     });
 };
 
-exports.UpdateProfit = function (product) {
+exports.UpdateProfitMarkup = function (product) {
     _product.ProductSchema.findOne({ _id: product._id }, function (err, p) {
-        p.profit = p.price - p.production_cost;
-        //p.profit = p.profit * 100 / p.price
+        p.markup = p.price - p.production_cost;
+        p.profit = p.markup * 100 / p.price;
         p.save();
     });
 };
