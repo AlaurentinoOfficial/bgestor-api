@@ -1,9 +1,9 @@
-import { UpdateProfit } from "./analytics";
+import { UpdateProfit, UpdateProfitMarkup } from "./analytics";
 
 var mongoose = require("mongoose")
 var relationship = require("mongoose-relationship")
 
-let product = new mongoose.Schema({
+var product = new mongoose.Schema({
     name: {type: String, required: true},
     stock: {type: Number, required: true},
     average_stock: {type: Number, required: false},
@@ -14,13 +14,15 @@ let product = new mongoose.Schema({
     markup: {type: Number, default: 0, required: false},
     profit: {type: Number, default: 0, required: false},
     store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"products", required: true, unique: false}
-});
+})
 
-product.post('save', function(self) {
+product.pre('save', function() {
+    let self = this
+    
     UpdateProfitMarkup(self)
-});
+})
 
-product.plugin(relationship, { relationshipPathName:'store' });
+product.plugin(relationship, { relationshipPathName:'store' })
 product = mongoose.model('Product', product)
 
 product.findOneAndUpdate = (search, update, cb) => {
@@ -42,10 +44,10 @@ product.addStock = (search, stock, cb) => {
         if(err) cb(err, null)
         
         pro.stock += stock
-
         pro.save()
+
         cb(null, pro)
     })
 }
 
-exports.ProductSchema = product;
+exports.ProductSchema = product

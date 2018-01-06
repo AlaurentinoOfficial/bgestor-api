@@ -28,22 +28,21 @@ exports.post = (req, res) => {
     if(!req.params.store)
         return res.status(400).json({error: "Missing arguments"})
 
-    SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
-        if(err)
+    SolutionSchema.findOne({user: res.locals.user}, (e, solution) => {
+        if(e)
             return res.status(500).json([])
         
-            StoreSchema.findOne({_id: req.params.store}, (err, store) => {
-                if(err)
-                    return res.status(500).json({error: "Invalid store"})
-                
-                req.body.store = store
+        StoreSchema.findOne({_id: req.params.store}, (er, store) => {
+            if(er)
+                return res.status(500).json({error: "Invalid store"})
+            
+            req.body.store = store
 
-                ProductSchema.create(req.body, (err, products) => {
-                    if(err)
-                        return res.status(500).json({error: "Invalid product"})
-                    
-                    res.json({message: "Succefuly created product"
-                });
+            ProductSchema.create(req.body, (err, products) => {
+                if(err)
+                    return res.status(500).json({error: "Invalid product"})
+                
+                res.json({message: "Succefuly created product"});
             })
         })
     })
@@ -73,6 +72,8 @@ exports.postById = (req, res) => {
     SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
         if(err)
             return res.status(500).json([])
+
+            console.log(ProductSchema.aa)
 
             ProductSchema.addStock({_id: req.params.id}, req.body.stock, (err, p) => {
                 if(err)

@@ -1,5 +1,5 @@
 import {SolutionSchema} from '../models/solution'
-import { StoreSchema } from '../models/store';
+import { StoreSchema } from '../models/store'
 
 exports.get = (req, res) => {
     SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
@@ -26,7 +26,7 @@ exports.post = (req, res) => {
             if(err)
                 return res.status(500).json({code: 500, error: 'Invalid arguments'})
             
-            res.json({code: 200, message: "Succefuly created store"});
+            res.json({code: 200, message: "Succefuly created store"})
         })
     })
 }

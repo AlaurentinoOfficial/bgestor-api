@@ -18,8 +18,10 @@ var product = new mongoose.Schema({
     store: { type: mongoose.Schema.ObjectId, ref: "Store", childPath: "products", required: true, unique: false }
 });
 
-product.post('save', function (self) {
-    UpdateProfitMarkup(self);
+product.pre('save', function () {
+    var self = this;
+
+    (0, _analytics.UpdateProfitMarkup)(self);
 });
 
 product.plugin(relationship, { relationshipPathName: 'store' });
@@ -43,8 +45,8 @@ product.addStock = function (search, stock, cb) {
         if (err) cb(err, null);
 
         pro.stock += stock;
-
         pro.save();
+
         cb(null, pro);
     });
 };

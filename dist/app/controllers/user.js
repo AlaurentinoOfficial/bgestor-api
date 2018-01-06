@@ -14,11 +14,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 exports.login = function (req, res) {
     _user.UserSchema.findOne({ email: req.body.email }, function (err, user) {
-        if (err) {
-            console.log("Error at Login on UserController");
-            res.json({ success: false, message: 'Invalid email' });
-            return;
-        }
+        if (err) return res.json({ success: false, message: 'Invalid email' });
 
         if (!user) res.json({ success: false, message: 'Invalid email' });else {
             user.comparePassword(req.body.password, function (err, isMatch) {

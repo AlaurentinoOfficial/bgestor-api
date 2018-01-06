@@ -10,7 +10,7 @@ let store = new mongoose.Schema({
     products: [{type: mongoose.Schema.ObjectId, ref:"Product", required: false}],
     sales: [{type: mongoose.Schema.ObjectId, ref:"Sale", required: false}],
     solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"stores", required: true, unique: false}
-});
+})
 
-store.plugin(relationship, { relationshipPathName:'solution' });
-exports.StoreSchema = mongoose.model('Store', store);
+store.plugin(relationship, { relationshipPathName:'solution' })
+exports.StoreSchema = mongoose.model('Store', store)

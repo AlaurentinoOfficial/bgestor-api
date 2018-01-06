@@ -6,11 +6,8 @@ import { SolutionSchema, Solution } from "../models/solution";
 
 exports.login = (req, res) => {
     UserSchema.findOne({email: req.body.email}, (err, user) => {
-        if(err) {
-            console.log("Error at Login on UserController")
-            res.json({success: false, message: 'Invalid email'})
-            return;
-        }
+        if(err)
+            return res.json({success: false, message: 'Invalid email'})
 
         if(!user)
             res.json({success: false, message: 'Invalid email'})
@@ -22,20 +19,18 @@ exports.login = (req, res) => {
                     SolutionSchema.findOne({_id: user.solution}, (err, solution) => {
                         if(err || !solution) return;
                         sName = solution.name;
-                    });
-
-                    var expiresTime = req.body.remember == true ? 160800 : 60000;
+                    })
 
                     var token = jwt.sign({
-                                    exp: Math.floor(Date.now() / 1000) + (60 * 60),
+                                    exp: Math.floor(Date.now() / 1000) + (60 * 60) * 3,
                                     data: user._id
-                                }, Server.get('crypt_key'));
-                    var json = {solution: user.solution, solutionName: user.fullName, email: user.email, token: 'CRM ' + token};
+                                }, Server.get('crypt_key'))
+                    var json = {solution: user.solution, solutionName: user.fullName, email: user.email, token: 'CRM ' + token}
 
-                    res.json(json);
+                    res.json(json)
                 }
                 else
-                    res.json({success: false, message: 'Invalid password'});
+                    res.json({success: false, message: 'Invalid password'})
             });
         }
     });

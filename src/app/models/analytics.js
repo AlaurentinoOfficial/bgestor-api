@@ -61,9 +61,7 @@ exports.UpdateSaleCharge = (sale) => {
 }
 
 exports.UpdateProfitMarkup = (product) => {
-    ProductSchema.findOne({_id: product._id}, (err, p) => {
-        p.markup = p.price - p.production_cost
-        p.profit = p.markup * 100 / p.price
-        p.save()
-    })
+    product.markup = product.price - product.production_cost
+    product.profit = product.markup * 100 / product.price
+    product.save()
 }

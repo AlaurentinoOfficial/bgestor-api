@@ -29,19 +29,18 @@ exports.get = function (req, res) {
 exports.post = function (req, res) {
     if (!req.params.store) return res.status(400).json({ error: "Missing arguments" });
 
-    _solution.SolutionSchema.findOne({ user: res.locals.user }, function (err, solution) {
-        if (err) return res.status(500).json([]);
+    _solution.SolutionSchema.findOne({ user: res.locals.user }, function (e, solution) {
+        if (e) return res.status(500).json([]);
 
-        _store.StoreSchema.findOne({ _id: req.params.store }, function (err, store) {
-            if (err) return res.status(500).json({ error: "Invalid store" });
+        _store.StoreSchema.findOne({ _id: req.params.store }, function (er, store) {
+            if (er) return res.status(500).json({ error: "Invalid store" });
 
             req.body.store = store;
 
             _product.ProductSchema.create(req.body, function (err, products) {
                 if (err) return res.status(500).json({ error: "Invalid product" });
 
-                res.json({ message: "Succefuly created product"
-                });
+                res.json({ message: "Succefuly created product" });
             });
         });
     });
@@ -66,6 +65,8 @@ exports.postById = function (req, res) {
 
     _solution.SolutionSchema.findOne({ user: res.locals.user }, function (err, solution) {
         if (err) return res.status(500).json([]);
+
+        console.log(_product.ProductSchema.aa);
 
         _product.ProductSchema.addStock({ _id: req.params.id }, req.body.stock, function (err, p) {
             if (err) return res.status(500).json({ error: "Invalid product" });
