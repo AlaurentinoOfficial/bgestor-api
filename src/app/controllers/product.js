@@ -1,10 +1,11 @@
 import {SolutionSchema} from '../models/solution'
 import {ProductSchema} from '../models/product'
 import { StoreSchema } from '../models/store';
+import { GetCode } from '../config/Codes';
 
 exports.get = (req, res) => {
     if(!req.params.store)
-        return res.status(400).json({error: "Missing arguments"})
+        return res.status(400).json({code: GetCode('MISSING_ARGUMENTS'), message: "Missing arguments"})
 
     SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
         if(err)
@@ -12,7 +13,7 @@ exports.get = (req, res) => {
         
             StoreSchema.findOne({_id: req.params.store}, (err, store) => {
                 if(err)
-                    return res.status(500).json({code: 500, error: "Invalid arguments"})
+                    return res.status(500).json({code: GetCode('MISSING_ARGUMENTS'), message: "Invalid arguments"})
 
                 ProductSchema.find({store: store}, (err, products) => {
                     if(err)
@@ -26,7 +27,7 @@ exports.get = (req, res) => {
 
 exports.post = (req, res) => {
     if(!req.params.store)
-        return res.status(400).json({error: "Missing arguments"})
+        return res.status(400).json({code: GetCode('MISSING_ARGUMENTS'), message: "Missing arguments"})
 
     SolutionSchema.findOne({user: res.locals.user}, (e, solution) => {
         if(e)
@@ -34,15 +35,15 @@ exports.post = (req, res) => {
         
         StoreSchema.findOne({_id: req.params.store}, (er, store) => {
             if(er)
-                return res.status(500).json({error: "Invalid store"})
+                return res.status(500).json({code: GetCode('INVALID_STORE'), message: "Invalid store"})
             
             req.body.store = store
 
             ProductSchema.create(req.body, (err, products) => {
                 if(err)
-                    return res.status(500).json({error: "Invalid product"})
+                    return res.status(500).json({code: GetCode('MISSING_ARGUMENTS'), message: "Invalid arguments"})
                 
-                res.json({message: "Succefuly created product"});
+                res.json({code: GetCode('SUCCEFULY'), message: "Succefuly created product"});
             })
         })
     })
@@ -50,7 +51,7 @@ exports.post = (req, res) => {
 
 exports.putById = (req, res) => {
     if(!req.params.id)
-        return res.status(400).json({error: "Missing arguments"})
+        return res.status(400).json({code: GetCode('MISSING_ARGUMENTS'), message: "Missing arguments"})
 
     SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
         if(err)
@@ -58,16 +59,16 @@ exports.putById = (req, res) => {
 
             ProductSchema.findOneAndUpdate({_id: req.params.id}, req.body, (err, p) => {
                 if(err)
-                    return res.status(500).json({error: "Invalid product"})
+                    return res.status(500).json({code: GetCode('MISSING_ARGUMENTS'), message: "Invalid arguments"})
                 
-                res.json({message: "Succefuly updated product"})
+                res.json({code: GetCode('SUCCEFULY'), message: "Succefuly updated product"})
             })
     })
 }
 
 exports.postById = (req, res) => {
     if(!req.params.id || typeof(req.body.stock) != typeof(10))
-        return res.status(400).json({error: "Missing arguments"})
+        return res.status(400).json({code: GetCode('MISSING_ARGUMENTS'), message: "Missing arguments"})
 
     SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
         if(err)
@@ -77,9 +78,9 @@ exports.postById = (req, res) => {
 
             ProductSchema.addStock({_id: req.params.id}, req.body.stock, (err, p) => {
                 if(err)
-                    return res.status(500).json({error: "Invalid product"})
+                    return res.status(500).json({code: GetCode('MISSING_ARGUMENTS'), message: "Invalid arguments"})
                 
-                res.json({message: "Succefuly added in stock"})
+                res.json({code: GetCode('SUCCEFULY'), message: "Succefuly added in stock"})
             })
     })
 }

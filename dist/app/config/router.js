@@ -29,9 +29,6 @@ var _passport = require('./passport');
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 exports.Router = function (app) {
-	app.get('/helloworld', function (req, res) {
-		res.send('/hello.html');
-	});
 
 	app.route('/login').post(user.login);
 

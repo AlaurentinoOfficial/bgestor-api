@@ -3,6 +3,7 @@ var mongoose = require('mongoose')
 exports.Mongo = "mongodb";
 
 exports.DbConfig = (config) => {
+    // Custom connect
     var user = config.username
                         && config.password
                         ? config.username + ":" + config.password + "@" : ""
@@ -12,6 +13,7 @@ exports.DbConfig = (config) => {
                     + config.port + "/"
                     + config.database)
 
+    // Mongoose log
     mongoose.connection.on('connected', () => {
         console.log('\n> Database connected!\n')
     });

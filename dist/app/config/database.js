@@ -5,9 +5,11 @@ var mongoose = require('mongoose');
 exports.Mongo = "mongodb";
 
 exports.DbConfig = function (config) {
+    // Custom connect
     var user = config.username && config.password ? config.username + ":" + config.password + "@" : "";
     mongoose.connect(config.type + "://" + user + config.ip + ":" + config.port + "/" + config.database);
 
+    // Mongoose log
     mongoose.connection.on('connected', function () {
         console.log('\n> Database connected!\n');
     });

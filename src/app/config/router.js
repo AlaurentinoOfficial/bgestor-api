@@ -9,9 +9,6 @@ import { UserSchema } from "../models/user";
 import { Authenticate } from './passport';
 
 exports.Router = (app) => {
-	app.get('/helloworld', (req, res) => {
-		res.send('/hello.html')	
-	})
 
 	app.route('/login')
 		.post(user.login)
