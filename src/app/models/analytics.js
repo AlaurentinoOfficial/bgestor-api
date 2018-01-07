@@ -1,20 +1,22 @@
 import { StoreSchema } from "./store";
 import { SaleSchema } from "./sale";
 import { ProductSchema } from "./product";
-import { X_OK } from "constants";
 
 exports.UpdateTicket = (sales) => {
     StoreSchema.findOne({_id: sales.store}, (err, s) => {
         var income = 0
         var clients = 0
+
         s.sales.forEach(j => {
             SaleSchema.findOne({_id: j}, (err, sale) => {
+                if(err || !sale) return
                 income += sale.price
                 clients += 1
             })
         })
 
         StoreSchema.findOne({_id: sales.store}, (err, ss) => {
+            if(err || !ss) return
             ss.ticket = income/clients
             ss.save()
         })
@@ -40,7 +42,7 @@ exports.UpdateSaleCharge = (sale) => {
                 s.products.forEach(i => {
                     pr.forEach(j => {
                         if(i._id == j._id)
-                            j.stock += i.stock
+                            j.stock += i.qty
                     })
                 })
             })

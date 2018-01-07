@@ -6,20 +6,21 @@ var _sale = require("./sale");
 
 var _product = require("./product");
 
-var _constants = require("constants");
-
 exports.UpdateTicket = function (sales) {
     _store.StoreSchema.findOne({ _id: sales.store }, function (err, s) {
         var income = 0;
         var clients = 0;
+
         s.sales.forEach(function (j) {
             _sale.SaleSchema.findOne({ _id: j }, function (err, sale) {
+                if (err || !sale) return;
                 income += sale.price;
                 clients += 1;
             });
         });
 
         _store.StoreSchema.findOne({ _id: sales.store }, function (err, ss) {
+            if (err || !ss) return;
             ss.ticket = income / clients;
             ss.save();
         });
@@ -44,7 +45,7 @@ exports.UpdateSaleCharge = function (sale) {
             sales.forEach(function (s) {
                 s.products.forEach(function (i) {
                     pr.forEach(function (j) {
-                        if (i._id == j._id) j.stock += i.stock;
+                        if (i._id == j._id) j.stock += i.qty;
                     });
                 });
             });

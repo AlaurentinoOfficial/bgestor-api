@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
 var mongoose = require("mongoose");
 var bcrypt = require("bcrypt");
 var relationship = require("mongoose-relationship");

@@ -14,26 +14,24 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 exports.login = function (req, res) {
     _user.UserSchema.findOne({ email: req.body.email }, function (err, user) {
-        if (err) return res.json({ success: false, message: 'Invalid email' });
+        if (err || !user) return res.json(GetCode('INVALID_EMAIL'));
 
-        if (!user) res.json({ success: false, message: 'Invalid email' });else {
-            user.comparePassword(req.body.password, function (err, isMatch) {
-                if (isMatch && !err) {
-                    var sName = "";
-                    _solution.SolutionSchema.findOne({ _id: user.solution }, function (err, solution) {
-                        if (err || !solution) return;
-                        sName = solution.name;
-                    });
+        user.comparePassword(req.body.password, function (err, isMatch) {
+            if (isMatch && !err) {
+                var sName = "";
+                _solution.SolutionSchema.findOne({ _id: user.solution }, function (err, solution) {
+                    if (err || !solution) return;
+                    sName = solution.name;
+                });
 
-                    var token = jwt.sign({
-                        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 3,
-                        data: user._id
-                    }, _server.Server.get('crypt_key'));
-                    var json = { solution: user.solution, solutionName: user.fullName, email: user.email, token: 'CRM ' + token };
+                var token = jwt.sign({
+                    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 3,
+                    data: user._id
+                }, _server.Server.get('crypt_key'));
+                var json = { solution: user.solution, solutionName: user.fullName, email: user.email, token: 'CRM ' + token };
 
-                    res.json(json);
-                } else res.json({ success: false, message: 'Invalid password' });
-            });
-        }
+                res.json(json);
+            } else res.json(GetCode('INVALID_PASSWORD'));
+        });
     });
 };

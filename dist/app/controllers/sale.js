@@ -8,68 +8,31 @@ var _sale = require('../models/sale');
 
 var _product = require('../models/product');
 
+var _Codes = require('../config/Codes');
+
 exports.get = function (req, res) {
-    if (!req.params.store) return res.status(400).json({ code: 400, error: "Missing arguments" });
+    _store.StoreSchema.findOne({ _id: req.params.store }, function (err, store) {
+        if (err) return res.json((0, _Codes.GetCode)('INVALID_PARAMS'));
 
-    _solution.SolutionSchema.findOne({ user: res.locals.user }, function (err, solution) {
-        if (err) return res.status(500).json([]);
+        _sale.SaleSchema.find({ store: store }, function (err, sales) {
+            if (err) return res.json([]);
 
-        _store.StoreSchema.findOne({ _id: req.params.store }, function (err, store) {
-            if (err) return res.status(500).json({ code: 500, error: "Invalid arguments" });
-
-            _sale.SaleSchema.find({ store: store }, function (err, sales) {
-                if (err) return res.status(500).json([]);
-
-                return res.status(200).json(sales);
-            });
+            res.json(sales);
         });
     });
 };
 
 exports.post = function (req, res) {
-    if (!req.params.store || !req.body.client || !req.body.products) return res.status(400).json({ code: 400, error: "Missing arguments" });
+    if (!req.body.client || !req.body.products) return res.json((0, _Codes.GetCode)('INVALID_PARAMS'));
 
-    _solution.SolutionSchema.findOne({ user: res.locals.user }, function (err, solution) {
-        if (err) return res.status(500).json([]);
+    _store.StoreSchema.findOne({ _id: req.params.store }, function (err, store) {
+        if (err || !store) return res.json((0, _Codes.GetCode)('INVALID_PARAMS'));
 
-        _store.StoreSchema.findOne({ _id: req.params.store }, function (err, store) {
-            if (err) return res.status(500).json({ code: 500, error: "Invalid arguments" });
+        req.body.store = store;
+        _sale.SaleSchema.new(req.body, function (er, sale) {
+            if (er || !sale) return res.json(err);
 
-            var body = {
-                client: req.body.client,
-                products: req.body.products,
-                price: 0,
-                date: Date.now(),
-                store: store
-            };
-
-            var missing = [];
-            var saves = [];
-            body.products.forEach(function (e) {
-                _product.ProductSchema.findOne({ _id: e._id }, function (err, p) {
-                    if (err) return console.log('Error');
-
-                    if (p.amount - Math.abs(e.amount) >= 0) {
-                        p.amount -= Math.abs(e.amount);
-                        saves.push(p);
-                    } else missing.push(p);
-                });
-
-                body.price += Math.abs(e.amount) * e.price;
-            });
-
-            _sale.SaleSchema.create(body, function (err, sale) {
-                if (saves.length == body.products.length) saves.forEach(function (e) {
-                    return e.save();
-                });else return res.status(500).json({ code: 500, error: "Product missing from inventory", products: missing });
-
-                if (err) {
-                    console.log(err);
-                    return res.status(500).json({ code: 500, error: "Invalid paramters" });
-                }
-
-                return res.status(200).json({ code: 200, message: "Successful transaction" });
-            });
+            res.json({ code: (0, _Codes.GetCode)('SUCCEFULY'), message: 'Accepted transaction' });
         });
     });
 };

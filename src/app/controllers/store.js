@@ -1,50 +1,32 @@
 import {SolutionSchema} from '../models/solution'
 import { StoreSchema } from '../models/store'
+import { GetCode } from '../config/Codes';
 
 exports.get = (req, res) => {
-    SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
-        if(err)
-            return res.status(500).json([])
+    StoreSchema.find({solution: res.locals.user.solution}, (err, stores) => {
+        if(err || !stores)
+            return res.json([])
         
-            StoreSchema.find({solution: solution}, (err, stores) => {
-            if(err)
-                return res.status(500).json([])
-            
-            res.status(200).json(stores)
-        })
+        res.json(stores)
     })
 }
 
 exports.post = (req, res) => {
-    SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
-        if(err)
-            return res.status(500).json([])
-
-            var body = {name: req.body.name, address: req.body.address, solution: solution}
+    var body = {name: req.body.name, address: req.body.address, solution: res.locals.user.solution}
         
-            StoreSchema.create(body, (err, stores) => {
-            if(err)
-                return res.status(500).json({code: 500, error: 'Invalid arguments'})
-            
-            res.json({code: 200, message: "Succefuly created store"})
-        })
+    StoreSchema.create(body, (err, stores) => {
+        if(err || !stores)
+            return res.json(GetCode('INVALID_PARAMS'))
+        
+        res.json(GetCode('SUCCEFULY'))
     })
 }
 
 exports.putById = (req, res) => {
-    if(!req.params.id)
-        return res.status(400).json({error: "Missing arguments"})
-
-    SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
-        if(err)
-            return res.status(500).json([])
+    StoreSchema.findOneAndUpdate({_id: req.params.id},req.body, {upsert: true}, (err, products) => {
+        if(err || !products)
+            return res.json(GetCode('INVALID_PARAMS'))
         
-            StoreSchema.findOneAndUpdate({_id: req.params.id},req.body, {upsert: true}, (err, products) => {
-                if(err)
-                    return res.status(500).json({error: "Invalid store"})
-                
-                res.json({message: "Succefuly updated store"
-            });
-        })
+        res.json(GetCode('SUCCEFULY'));
     })
 }

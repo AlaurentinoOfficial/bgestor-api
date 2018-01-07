@@ -1,12 +1,15 @@
 var dictionary =
 [
-    {key: 'INVALID_TOKEN', value: 1},
-    {key: 'INVALID_USER', value: 2},
-    {key: 'INVALID_STORE', value: 3},
-    {key: 'USER_UNCHECKED', value: 4},
-    {key: 'MISSING_ARGUMENTS', value: 5},
-    {key: 'INVALID_ARGUMENTS', value: 6},
-    {key: 'SUCCEFULY', value: 7}
+    {key: 'INVALID_TOKEN', value: {code: 1, message: "Invalid token"}},
+    {key: 'INVALID_USER', value: {code: 2, message: "Invalid user"}},
+    {key: 'INVALID_STORE', value: {code: 3, message: "Invalid store"}},
+    {key: 'INVALID_PARAMS', value: {code: 5, message: "Invalid parameters"}},
+    {key: 'INVALID_EMAIL', value: {code: 5, message: "Invalid email"}},
+    {key: 'INVALID_PASSWORD', value: {code: 5, message: "Invalid password"}},
+    {key: 'USER_UNCHECKED', value: {code: 6, message: "User blocked"}},
+    {key: 'MISSING_ARGUMENTS', value: {code: 7, message: "Missing arguments"}},
+    {key: 'SUCCEFULY', value: {code: 8, message: "Succefuly"}},
+    {key: 'MISSING_STOCK', value: {code: 9, message: "Missing in stock"}}
 ]
 
 exports.GetCode = (code) => {

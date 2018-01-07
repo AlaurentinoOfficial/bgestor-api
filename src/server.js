@@ -14,7 +14,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json());
 app.set('crypt_key', 'dfhads8g3bfosdfs')
-app.set('port', 3000)
+app.set('port', 8080)
 
 
 Router(app)
@@ -38,5 +38,14 @@ DbConfig({
 //         console.log("Succefuly");
 //     })
 // });
+
+// UserSchema.findOne({}, (err, u) => {
+//     if(err)
+//         return console.log(err)
+    
+//     u.status = true
+//     u.save()
+//     console.log("OK!")
+// })
 
 exports.Server = app

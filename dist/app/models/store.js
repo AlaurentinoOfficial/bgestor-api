@@ -1,7 +1,5 @@
 "use strict";
 
-var _constants = require("constants");
-
 var mongoose = require("mongoose");
 var relationship = require("mongoose-relationship");
 

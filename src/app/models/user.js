@@ -1,4 +1,3 @@
-
 var mongoose = require("mongoose")
 var bcrypt = require("bcrypt")
 var relationship = require("mongoose-relationship")

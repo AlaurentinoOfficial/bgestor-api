@@ -1,4 +1,5 @@
 import { UpdateProfit, UpdateProfitMarkup } from "./analytics";
+import { GetCode } from "../config/Codes";
 
 var mongoose = require("mongoose")
 var relationship = require("mongoose-relationship")
@@ -40,13 +41,28 @@ product.findOneAndUpdate = (search, update, cb) => {
 }
 
 product.addStock = (search, stock, cb) => {
-    product.findOne(search, (err, pro) => {
+    ProductSchema.findOne(search, (err, pro) => {
         if(err) cb(err, null)
         
-        pro.stock += stock
+        pro.stock += Math.abs(stock)
         pro.save()
 
         cb(null, pro)
+    })
+}
+
+product.removeStock = (search, stock, cb) => {
+    ProductSchema.findOne(search, (err, pro) => {
+        if(err) cb(err, null)
+
+        if(pro.stock - Math.abs(stock) >= 0) {
+            pro.stock -= Math.abs(stock)
+            pro.save()
+
+            cb(null, pro)
+        }
+        else
+            cb({code: GetCode('MISSING_STOCK')})
     })
 }
 
