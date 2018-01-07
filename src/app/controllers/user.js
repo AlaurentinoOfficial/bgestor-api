@@ -18,12 +18,12 @@ exports.login = (req, res) => {
                     sName = solution.name;
                 })
 
-                var token = jwt.sign({
+                let token = jwt.sign({
                                 exp: Math.floor(Date.now() / 1000) + (60 * 60) * 3,
                                 data: user._id
                             }, Server.get('crypt_key'))
-                var json = {solution: user.solution, solutionName: user.fullName, email: user.email, token: 'CRM ' + token}
-
+    
+                let json = {solution: user.solution, solutionName: user.fullName, email: user.email, token: 'CRM ' + token}
                 res.json(json)
             }
             else

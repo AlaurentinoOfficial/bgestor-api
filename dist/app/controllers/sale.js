@@ -32,7 +32,7 @@ exports.post = function (req, res) {
         _sale.SaleSchema.new(req.body, function (er, sale) {
             if (er || !sale) return res.json(err);
 
-            res.json({ code: (0, _Codes.GetCode)('SUCCEFULY'), message: 'Accepted transaction' });
+            res.json((0, _Codes.GetCode)('SUCCEFULY'));
         });
     });
 };

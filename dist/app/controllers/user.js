@@ -28,8 +28,8 @@ exports.login = function (req, res) {
                     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 3,
                     data: user._id
                 }, _server.Server.get('crypt_key'));
-                var json = { solution: user.solution, solutionName: user.fullName, email: user.email, token: 'CRM ' + token };
 
+                var json = { solution: user.solution, solutionName: user.fullName, email: user.email, token: 'CRM ' + token };
                 res.json(json);
             } else res.json(GetCode('INVALID_PASSWORD'));
         });

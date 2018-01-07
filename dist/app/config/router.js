@@ -32,13 +32,13 @@ exports.Router = function (app) {
 
 	app.route('/login').post(user.login);
 
-	app.route('/stores').get(_passport.Authenticate, store.get).post(_passport.Authenticate, store.post);
+	app.route('/stores').get((0, _passport.Authenticate)({ level: 'admin' }), store.get).post((0, _passport.Authenticate)({ level: 'admin' }), store.post);
 
-	app.route('/store/:id').put(_passport.Authenticate, store.putById);
+	app.route('/store/:id').put((0, _passport.Authenticate)({ level: 'admin' }), store.putById);
 
-	app.route('/store/:store/products').get(_passport.Authenticate, product.get).post(_passport.Authenticate, product.post);
+	app.route('/store/:store/products').get((0, _passport.Authenticate)({ level: 'saler' }), product.get).post((0, _passport.Authenticate)({ level: 'admin' }), product.post);
 
-	app.route('/product/:id').put(_passport.Authenticate, product.putById).post(_passport.Authenticate, product.postById);
+	app.route('/product/:id').put((0, _passport.Authenticate)({ level: 'admin' }), product.putById).post((0, _passport.Authenticate)({ level: 'admin' }), product.postById);
 
-	app.route('/sale/:store').get(_passport.Authenticate, sale.get).post(_passport.Authenticate, sale.post);
+	app.route('/sale/:store').get((0, _passport.Authenticate)({ level: 'saler' }), sale.get).post((0, _passport.Authenticate)({ level: 'saler' }), sale.post);
 };

@@ -29,7 +29,7 @@ exports.post = (req, res) => {
             if(er || !sale)
                 return res.json(err)
             
-            res.json({code: GetCode('SUCCEFULY'), message: 'Accepted transaction'})
+            res.json(GetCode('SUCCEFULY'))
         })
     })
 }
