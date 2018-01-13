@@ -1,13 +1,11 @@
-"use strict";
+'use strict';
 
 var mongoose = require('mongoose');
 
 exports.Mongo = "mongodb";
 
-exports.DbConfig = function (config) {
-    // Custom connect
-    var user = config.username && config.password ? config.username + ":" + config.password + "@" : "";
-    mongoose.connect(config.type + "://" + user + config.ip + ":" + config.port + "/" + config.database);
+exports.DbConfig = function (link) {
+    mongoose.connect(link);
 
     // Mongoose log
     mongoose.connection.on('connected', function () {

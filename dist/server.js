@@ -20,37 +20,9 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ 'extended': 'true' }));
 app.use(bodyParser.json());
 app.set('crypt_key', 'dfhads8g3bfosdfs');
-app.set('port', 8080);
+app.set('port', process.env.PORT || 3000);
 
 (0, _router.Router)(app);
-(0, _database.DbConfig)({
-    type: _database.Mongo,
-    ip: "127.0.0.1",
-    port: "27017",
-    database: "CRM",
-    username: null,
-    password: null
-});
-
-// SolutionSchema.create({name: "STEAPH"}, (err, solution) => {
-//     if(err)
-//         return console.log("Solution not created");
-
-//     UserSchema.create({solution: solution, email: "alaurentino.br@gmail.com", password: "1234567890n"}, (err, user) => {
-//         if(err)
-//             return console.log("User not created");
-
-//         console.log("Succefuly");
-//     })
-// });
-
-// UserSchema.findOne({}, (err, u) => {
-//     if(err)
-//         return console.log(err)
-
-//     u.status = true
-//     u.save()
-//     console.log("OK!")
-// })
+(0, _database.DbConfig)("mongodb://localhost:27017/CRM");
 
 exports.Server = app;

@@ -66,4 +66,4 @@ product.removeStock = (search, stock, cb) => {
     })
 }
 
-exports.ProductSchema = product
+export let ProductSchema = product

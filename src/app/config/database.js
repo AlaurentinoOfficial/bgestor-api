@@ -2,16 +2,8 @@ var mongoose = require('mongoose')
 
 exports.Mongo = "mongodb";
 
-exports.DbConfig = (config) => {
-    // Custom connect
-    var user = config.username
-                        && config.password
-                        ? config.username + ":" + config.password + "@" : ""
-    mongoose.connect(config.type + "://"
-                    + user
-                    + config.ip + ":"
-                    + config.port + "/"
-                    + config.database)
+exports.DbConfig = (link) => {
+    mongoose.connect(link)
 
     // Mongoose log
     mongoose.connection.on('connected', () => {

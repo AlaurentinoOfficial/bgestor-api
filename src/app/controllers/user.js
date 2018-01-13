@@ -3,6 +3,7 @@ import * as jwt from "jsonwebtoken";
 import { Server } from "../../server";
 import { UserSchema } from "../models/user";
 import { SolutionSchema, Solution } from "../models/solution";
+import { GetCode } from "../config/Codes";
 
 exports.login = (req, res) => {
     UserSchema.findOne({email: req.body.email}, (err, user) => {
@@ -23,11 +24,23 @@ exports.login = (req, res) => {
                                 data: user._id
                             }, Server.get('crypt_key'))
     
-                let json = {solution: user.solution, solutionName: user.fullName, email: user.email, token: 'CRM ' + token}
-                res.json(json)
+                user.password = null
+                user.token = token
+                return res.json(user)
             }
             else
-                res.json(GetCode('INVALID_PASSWORD'))
+                return res.json(GetCode('INVALID_PASSWORD'))
         });
     });
+}
+
+exports.password = (req, res) => {
+    var body = {password: req.body.password}
+
+    UserSchema.findOneAndUpdate({_id: res.locals.user._id}, body, (err, user) => {
+        if(err || !user)
+            return res.json(GetCode('INVALID_USER'))
+        
+        res.json(GetCode('SUCCEFULY'))
+    })
 }

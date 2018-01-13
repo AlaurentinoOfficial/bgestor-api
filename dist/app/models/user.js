@@ -17,7 +17,8 @@ var userSchema = new mongoose.Schema({
     level: { type: String, enum: ['admin', 'saler'], default: 'saler', require: true },
     stores: [{ type: mongoose.Schema.ObjectId, ref: "Store", required: false }],
     status: { type: Boolean, default: false, require: false },
-    block: { type: Boolean, default: false, require: false }
+    block: { type: Boolean, default: false, require: false },
+    token: { type: String, require: false }
 });
 
 userSchema.pre('save', function (next) {

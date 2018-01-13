@@ -1,5 +1,10 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ProductSchema = undefined;
+
 var _analytics = require("./analytics");
 
 var _Codes = require("../config/Codes");
@@ -66,4 +71,4 @@ product.removeStock = function (search, stock, cb) {
     });
 };
 
-exports.ProductSchema = product;
+var ProductSchema = exports.ProductSchema = product;

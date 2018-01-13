@@ -7,10 +7,10 @@ var dictionary =
     {key: 'INVALID_EMAIL', value: {code: 5, message: "Invalid email"}},
     {key: 'INVALID_PASSWORD', value: {code: 6, message: "Invalid password"}},
     {key: 'USER_BLOCK', value: {code: 7, message: "User blocked"}},
-    {key: 'ACCESS_DENIED', value: {code: 7, message: "Access denied"}},
-    {key: 'MISSING_ARGUMENTS', value: {code: 8, message: "Missing arguments"}},
-    {key: 'SUCCEFULY', value: {code: 9, message: "Succefuly"}},
-    {key: 'MISSING_STOCK', value: {code: 10, message: "Missing in stock"}}
+    {key: 'ACCESS_DENIED', value: {code: 8, message: "Access denied"}},
+    {key: 'MISSING_ARGUMENTS', value: {code: 9, message: "Missing arguments"}},
+    {key: 'SUCCEFULY', value: {code: 10, message: "Succefuly"}},
+    {key: 'MISSING_STOCK', value: {code: 11, message: "Missing in stock"}}
 ]
 
 exports.GetCode = (code) => {

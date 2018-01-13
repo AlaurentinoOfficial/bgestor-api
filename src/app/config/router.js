@@ -22,7 +22,7 @@ exports.Router = (app) => {
 
 	app.route('/store/:store/products')
 		.get(Authenticate({level: 'saler'}), product.get)
-		.post(Authenticate({level: 'admin'}), product.post)
+		.post	(Authenticate({level: 'admin'}), product.post)
 	
 	app.route('/product/:id')
 		.put(Authenticate({level: 'admin'}), product.putById)
