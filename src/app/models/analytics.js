@@ -3,22 +3,19 @@ import { SaleSchema } from "./sale";
 import { ProductSchema } from "./product";
 
 exports.UpdateTicket = (sales) => {
-    StoreSchema.findOne({_id: sales.store}, (err, s) => {
-        var income = 0
-        var clients = 0
+    var income = 0
+    var clients = 0
 
+    StoreSchema.findOne({_id: sales.store}, (err, s) => {
         s.sales.forEach(j => {
             SaleSchema.findOne({_id: j}, (err, sale) => {
                 if(err || !sale) return
                 income += sale.price
                 clients += 1
-            })
-        })
 
-        StoreSchema.findOne({_id: sales.store}, (err, ss) => {
-            if(err || !ss) return
-            ss.ticket = income/clients
-            ss.save()
+                s.ticket = income/clients
+                s.save()
+            })
         })
     })
 }
@@ -65,5 +62,12 @@ exports.UpdateSaleCharge = (sale) => {
 exports.UpdateProfitMarkup = (product) => {
     product.markup = product.price - product.production_cost
     product.profit = product.markup * 100 / product.price
+    product.save()
+}
+
+exports.Stockout = (product) => {
+    if(product.stock == 0)
+        product.stockout.push(Date.now())
+
     product.save()
 }

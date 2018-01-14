@@ -7,22 +7,19 @@ var _sale = require("./sale");
 var _product = require("./product");
 
 exports.UpdateTicket = function (sales) {
-    _store.StoreSchema.findOne({ _id: sales.store }, function (err, s) {
-        var income = 0;
-        var clients = 0;
+    var income = 0;
+    var clients = 0;
 
+    _store.StoreSchema.findOne({ _id: sales.store }, function (err, s) {
         s.sales.forEach(function (j) {
             _sale.SaleSchema.findOne({ _id: j }, function (err, sale) {
                 if (err || !sale) return;
                 income += sale.price;
                 clients += 1;
-            });
-        });
 
-        _store.StoreSchema.findOne({ _id: sales.store }, function (err, ss) {
-            if (err || !ss) return;
-            ss.ticket = income / clients;
-            ss.save();
+                s.ticket = income / clients;
+                s.save();
+            });
         });
     });
 };
@@ -69,5 +66,11 @@ exports.UpdateSaleCharge = function (sale) {
 exports.UpdateProfitMarkup = function (product) {
     product.markup = product.price - product.production_cost;
     product.profit = product.markup * 100 / product.price;
+    product.save();
+};
+
+exports.Stockout = function (product) {
+    if (product.stock == 0) product.stockout.push(Date.now());
+
     product.save();
 };

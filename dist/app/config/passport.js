@@ -24,9 +24,12 @@ function Authenticate(options) {
             _user.UserSchema.findOne({ _id: result.data }, function (er, u) {
                 if (er || !u) return res.json((0, _Codes.GetCode)('INVALID_USER'));
 
-                if (!u.block) return res.json((0, _Codes.GetCode)('USER_BLOCK'));
+                // if(!u.block)
+                //     return res.json(GetCode('USER_BLOCK'))
 
-                if (options.level != undefined) if (!u.compareLevel(options.level)) return res.json((0, _Codes.GetCode)('ACCESS_DENIED'));
+                // if(options.level != undefined)
+                //     if(!u.compareLevel(options.level))
+                //         return res.json(GetCode('ACCESS_DENIED'))
 
                 res.locals.user = u;
                 next();

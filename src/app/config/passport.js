@@ -17,12 +17,12 @@ function Authenticate(options) {
                 if(er || !u)
                     return res.json(GetCode('INVALID_USER'))
 
-                if(!u.block)
-                    return res.json(GetCode('USER_BLOCK'))
+                // if(!u.block)
+                //     return res.json(GetCode('USER_BLOCK'))
                 
-                if(options.level != undefined)
-                    if(!u.compareLevel(options.level))
-                        return res.json(GetCode('ACCESS_DENIED'))
+                // if(options.level != undefined)
+                //     if(!u.compareLevel(options.level))
+                //         return res.json(GetCode('ACCESS_DENIED'))
                 
                 res.locals.user = u
                 next()

@@ -5,6 +5,7 @@ var mongoose = require("mongoose")
 var relationship = require("mongoose-relationship")
 
 var product = new mongoose.Schema({
+    store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"products", required: true, unique: false},
     name: {type: String, required: true},
     stock: {type: Number, required: true},
     average_stock: {type: Number, required: false},
@@ -14,7 +15,7 @@ var product = new mongoose.Schema({
     sales_charge: {type: Number, default: 0, required: false},
     markup: {type: Number, default: 0, required: false},
     profit: {type: Number, default: 0, required: false},
-    store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"products", required: true, unique: false}
+    stockout: [{type: Date, required: false}]
 })
 
 product.pre('save', function() {
@@ -26,7 +27,7 @@ product.pre('save', function() {
 product.plugin(relationship, { relationshipPathName:'store' })
 product = mongoose.model('Product', product)
 
-product.findOneAndUpdate = (search, update, cb) => {
+product.findOneNUpdate = (search, update, cb) => {
     product.findOne(search, (err, pro) => {
         if(err) cb(err, null)
         
@@ -53,16 +54,16 @@ product.addStock = (search, stock, cb) => {
 
 product.removeStock = (search, stock, cb) => {
     ProductSchema.findOne(search, (err, pro) => {
-        if(err) cb(err, null)
+        if(err) return cb(err, null)
 
         if(pro.stock - Math.abs(stock) >= 0) {
             pro.stock -= Math.abs(stock)
-            pro.save()
+            //pro.save()
 
-            cb(null, pro)
+            return cb(null, pro)
         }
         else
-            cb({code: GetCode('MISSING_STOCK')})
+            return cb({code: GetCode('MISSING_STOCK')}, null)
     })
 }
 

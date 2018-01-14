@@ -7,20 +7,15 @@ exports.get = (req, res) => {
     if(!req.params.store)
         return res.json(GetCode('INVALID_PARAMS'))
 
-    SolutionSchema.findOne({user: res.locals.user}, (err, solution) => {
-        if(err || !solution)
-            return res.json([])
-        
-            StoreSchema.findOne({_id: req.params.store}, (er, store) => {
-                if(er || !store)
-                    return res.json(GetCode('INVALID_PARAMS'))
+    StoreSchema.findOne({_id: req.params.store}, (er, store) => {
+        if(er || !store)
+            return res.json(GetCode('INVALID_PARAMS'))
 
-                ProductSchema.find({store: store}, (e, products) => {
-                    if(e || !products)
-                        return res.json([])
-                    
-                    res.json(products)
-            })
+        ProductSchema.find({store: store}, (e, products) => {
+            if(e || !products)
+                return res.json([])
+            
+            res.json(products)
         })
     })
 }
@@ -41,7 +36,7 @@ exports.post = (req, res) => {
 }
 
 exports.putById = (req, res) => {
-    ProductSchema.findOneAndUpdate({_id: req.params.id}, req.body, (err, p) => {
+    ProductSchema.findOneNUpdate({_id: req.params.id}, req.body, (err, p) => {
         if(err)
             return res.json(GetCode('INVALID_PARAMS'))
         

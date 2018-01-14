@@ -34,15 +34,13 @@ sale.new = function (body, cb) {
     body.price = 0;
 
     body.products.forEach(function (product) {
-        _product.ProductSchema.findOne({ _id: product._id }, function (err, p) {
-            var itens = Math.abs(product.qty);
+        var qty = Math.abs(product.qty);
 
-            if (p.stock - itens >= 0) {
-                p.stock -= itens;
+        _product.ProductSchema.removeStock({ _id: product._id }, qty, function (err, p) {
+            if (err && !p) missing.push(p);else {
+                p.qty = qty;
                 saves.push(p);
-            } else missing.push(p);
-
-            product.price = p.price;
+            }
         });
     });
 
@@ -58,12 +56,12 @@ sale.new = function (body, cb) {
         }
 
         saves.forEach(function (e) {
-            return e.save();
+            (0, _analytics.Stockout)(e);
         });
 
         sale.price = 0;
-        sale.products.forEach(function (p) {
-            return sale.price += Math.abs(p.price * p.qty);
+        saves.forEach(function (p) {
+            sale.price += Math.abs(p.price * p.qty);
         });
         sale.save();
 

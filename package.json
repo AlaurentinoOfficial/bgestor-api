@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "babel ./src/ --out-dir ./dist && node dist/bin/www.js",
-    "babelw": "babel --watch ./src/ --out-dir ./dist"
+    "babelw": "babel --watch ./src/ --out-dir ./dist",
+    "docker": "babel ./src/ --out-dir ./dist && node dist/bin/www.js --docker"
   },
   "keywords": [
     "crm",

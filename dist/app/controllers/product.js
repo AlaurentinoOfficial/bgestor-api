@@ -11,17 +11,13 @@ var _Codes = require('../config/Codes');
 exports.get = function (req, res) {
     if (!req.params.store) return res.json((0, _Codes.GetCode)('INVALID_PARAMS'));
 
-    _solution.SolutionSchema.findOne({ user: res.locals.user }, function (err, solution) {
-        if (err || !solution) return res.json([]);
+    _store.StoreSchema.findOne({ _id: req.params.store }, function (er, store) {
+        if (er || !store) return res.json((0, _Codes.GetCode)('INVALID_PARAMS'));
 
-        _store.StoreSchema.findOne({ _id: req.params.store }, function (er, store) {
-            if (er || !store) return res.json((0, _Codes.GetCode)('INVALID_PARAMS'));
+        _product.ProductSchema.find({ store: store }, function (e, products) {
+            if (e || !products) return res.json([]);
 
-            _product.ProductSchema.find({ store: store }, function (e, products) {
-                if (e || !products) return res.json([]);
-
-                res.json(products);
-            });
+            res.json(products);
         });
     });
 };
@@ -40,7 +36,7 @@ exports.post = function (req, res) {
 };
 
 exports.putById = function (req, res) {
-    _product.ProductSchema.findOneAndUpdate({ _id: req.params.id }, req.body, function (err, p) {
+    _product.ProductSchema.findOneNUpdate({ _id: req.params.id }, req.body, function (err, p) {
         if (err) return res.json((0, _Codes.GetCode)('INVALID_PARAMS'));
 
         res.json((0, _Codes.GetCode)('SUCCEFULY'));

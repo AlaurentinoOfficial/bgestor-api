@@ -26,15 +26,15 @@ exports.login = function (req, res) {
                     sName = solution.name;
                 });
 
-                var token = jwt.sign({
+                var token = "CRM " + jwt.sign({
                     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 3,
                     data: user._id
                 }, _server.Server.get('crypt_key'));
 
                 user.password = null;
                 user.token = token;
-                res.json(user);
-            } else res.json((0, _Codes.GetCode)('INVALID_PASSWORD'));
+                return res.json(user);
+            } else return res.json((0, _Codes.GetCode)('INVALID_PASSWORD'));
         });
     });
 };

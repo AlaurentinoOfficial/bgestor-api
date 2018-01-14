@@ -4,7 +4,7 @@ var relationship = require("mongoose-relationship")
 import * as analytics from './analytics'
 import { StoreSchema } from "./store"
 import { SaleSchema } from "./sale"
-import { UpdateTicket, UpdateSaleCharge, UpdateProfitMarkup } from "./analytics"
+import { UpdateTicket, UpdateSaleCharge, UpdateProfitMarkup, Stockout } from "./analytics"
 import { GetCode } from "../config/Codes";
 import { ProductSchema } from "./product";
 
@@ -25,18 +25,15 @@ sale.new = (body, cb) => {
     body.price = 0
 
     body.products.forEach(product => {
-        ProductSchema.findOne({_id: product._id}, (err, p) => {
-            var itens = Math.abs(product.qty)
+        var qty = Math.abs(product.qty)
 
-            if(p.stock - itens >= 0)
-            {
-                p.stock -= itens
+        ProductSchema.removeStock({_id: product._id}, qty, (err, p) => {
+            if(err && !p)
+                missing.push(p)
+            else {
+                p.qty = qty
                 saves.push(p)
             }
-            else
-                missing.push(p)
-
-            product.price = p.price
         })
     })
 
@@ -52,10 +49,14 @@ sale.new = (body, cb) => {
             return cb(code, null)
         }
         
-        saves.forEach(e => e.save())
+        saves.forEach(e => {
+            Stockout(e)
+        })
         
         sale.price = 0
-        sale.products.forEach(p => sale.price += Math.abs(p.price * p.qty))
+        saves.forEach(p =>  {
+            sale.price += Math.abs(p.price * p.qty)
+        })
         sale.save()
 
         UpdateTicket(sale)
