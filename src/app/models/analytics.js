@@ -59,15 +59,34 @@ exports.UpdateSaleCharge = (sale) => {
     })
 }
 
-exports.UpdateProfitMarkup = (product) => {
-    product.markup = product.price - product.production_cost
-    product.profit = product.markup * 100 / product.price
-    product.save()
-}
-
 exports.Stockout = (product) => {
     if(product.stock == 0)
         product.stockout.push(Date.now())
 
+    product.save()
+}
+
+exports.Cvt = (product) => {
+    product.cvt = 0
+
+    product.cvt += product.profit_previous
+    product.cvt += product.pis_confins
+    product.cvt += product.icms
+    product.cvt += product.ipi
+    product.cvt += product.commission
+    product.cvt += product.expenses
+
+    product.save()
+}
+
+exports.Markup = (product) => {
+    var div = (100 - product.cvt)/100
+    product.markup = 1 / div
+
+    product.save()
+}
+
+exports.Price = (product) => {
+    product.min_price = product.cost * product.markup
     product.save()
 }

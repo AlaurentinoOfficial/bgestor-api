@@ -1,4 +1,4 @@
-import { UpdateProfit, UpdateProfitMarkup } from "./analytics";
+import { UpdateProfit, UpdateProfitMarkup, Cvt, Markup, Price } from "./analytics";
 import { GetCode } from "../config/Codes";
 
 var mongoose = require("mongoose")
@@ -7,21 +7,37 @@ var relationship = require("mongoose-relationship")
 var product = new mongoose.Schema({
     store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"products", required: true, unique: false},
     name: {type: String, required: true},
-    stock: {type: Number, required: true},
-    average_stock: {type: Number, required: false},
-    production_cost: {type: Number, required: true},
-    price: {type: Number, required: true},
     description: {type: String, default: "", required: false},
-    sales_charge: {type: Number, default: 0, required: false},
+
+    price: {type: Number, default: 0, required: false},
+    min_price: {type: Number, default: 0, required: false},
+    profit_previous: {type: Number, default: 0, required: true},
+    cost: {type: Number, required: true},
+
+    pis_confins: {type: Number, default: 0, required: true},
+    icms: {type: Number, default: 0, require: true},
+    ipi: {type: Number, default: 0, require: true},
+    commission: {type: Number, default: 0, require: true},
+    expenses: {type: Number, default: 0, require: true},
+
+    cvt: {type: Number, default: 0, required: false},
     markup: {type: Number, default: 0, required: false},
-    profit: {type: Number, default: 0, required: false},
+    sales_charge: {type: Number, default: 0, required: false},
+    
+    average_stock: {type: Number, required: false},
+    stock: {type: Number, required: true},
     stockout: [{type: Date, required: false}]
 })
 
 product.pre('save', function() {
     let self = this
     
-    UpdateProfitMarkup(self)
+    Cvt(self)
+    Markup(self)
+    Price(self)
+    
+    if(self.price == 0 || self.price == undefined)
+        self.price = min_price
 })
 
 product.plugin(relationship, { relationshipPathName:'store' })
