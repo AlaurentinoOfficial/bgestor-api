@@ -1,4 +1,4 @@
-import { UpdateProfit, UpdateProfitMarkup, Cvt, Markup, MinPrice } from "./analytics";
+import { UpdateProfit, UpdateProfitMarkup, Cmv, Markup, MinPrice } from "./analytics";
 import { GetCode } from "../config/Codes";
 
 var mongoose = require("mongoose")
@@ -20,7 +20,7 @@ var product = new mongoose.Schema({
     commission: {type: Number, default: 0, require: true},
     expenses: {type: Number, default: 0, require: true},
 
-    cvt: {type: Number, default: 0, required: false},
+    cmv: {type: Number, default: 0, required: false},
     markup: {type: Number, default: 0, required: false},
     sales_charge: {type: Number, default: 0, required: false},
     
@@ -32,7 +32,7 @@ var product = new mongoose.Schema({
 product.pre('save', function() {
     let self = this
     
-    Cvt(self)
+    Cmv(self)
     Markup(self)
     MinPrice(self)
 

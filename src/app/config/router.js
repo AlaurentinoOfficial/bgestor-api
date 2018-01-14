@@ -14,21 +14,21 @@ exports.Router = (app) => {
 		.post(user.login)
 
 	app.route('/stores')
-		.get(Authenticate({level: 'admin'}), store.get)
-		.post(Authenticate({level: 'admin'}), store.post)
+		.get(Authenticate({}), store.get)
+		.post(Authenticate({}), store.post)
 	
 	app.route('/store/:id')
-		.put(Authenticate({level: 'admin'}), store.putById)
+		.put(Authenticate({}), store.putById)
 
 	app.route('/store/:store/products')
-		.get(Authenticate({level: 'saler'}), product.get)
-		.post	(Authenticate({level: 'admin'}), product.post)
+		.get(Authenticate({}), product.get)
+		.post	(Authenticate({}), product.post)
 	
 	app.route('/product/:id')
-		.put(Authenticate({level: 'admin'}), product.putById)
-		.post(Authenticate({level: 'admin'}), product.postById)
+		.put(Authenticate({}), product.putById)
+		.post(Authenticate({}), product.postById)
 	
 	app.route('/sale/:store')
-		.get(Authenticate({level: 'saler'}), sale.get)
-		.post(Authenticate({level: 'saler'}), sale.post)
+		.get(Authenticate({}), sale.get)
+		.post(Authenticate({}), sale.post)
 }

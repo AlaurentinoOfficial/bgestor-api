@@ -66,19 +66,19 @@ exports.Stockout = (product) => {
     product.save()
 }
 
-exports.Cvt = (product) => {
-    product.cvt = 0
+exports.Cmv = (product) => {
+    product.cmv = 0
 
-    product.cvt += product.profit_previous
-    product.cvt += product.pis_confins
-    product.cvt += product.icms
-    product.cvt += product.ipi
-    product.cvt += product.commission
-    product.cvt += product.expenses
+    product.cmv += product.profit_previous
+    product.cmv += product.pis_confins
+    product.cmv += product.icms
+    product.cmv += product.ipi
+    product.cmv += product.commission
+    product.cmv += product.expenses
 }
 
 exports.Markup = (product) => {
-    var div = (100 - product.cvt)/100
+    var div = (100 - product.cmv)/100
     product.markup = 1 / div
 }
 
