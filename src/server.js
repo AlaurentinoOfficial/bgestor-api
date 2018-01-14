@@ -31,8 +31,7 @@ DbConfig(argv.indexOf("--docker") >= 0 ? "mongodb://mongo/CRM" : "mongodb://loca
 //         email: "alaurentino.br@gmail.com",
 //         password: "1234567890n",
 //         cpf: "12345678910",
-//         gender: "male",
-//         level: "admin"
+//         gender: "male"
 //     }
 
 //     UserSchema.create(b, (err, user) => {
