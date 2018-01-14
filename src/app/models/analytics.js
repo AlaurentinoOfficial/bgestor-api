@@ -75,18 +75,16 @@ exports.Cvt = (product) => {
     product.cvt += product.ipi
     product.cvt += product.commission
     product.cvt += product.expenses
-
-    product.save()
 }
 
 exports.Markup = (product) => {
     var div = (100 - product.cvt)/100
     product.markup = 1 / div
-
-    product.save()
 }
 
-exports.Price = (product) => {
+exports.MinPrice = (product) => {
     product.min_price = product.cost * product.markup
-    product.save()
+
+    if(product.price == 0)
+        product.price = product.min_price
 }

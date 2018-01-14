@@ -1,4 +1,4 @@
-import { UpdateProfit, UpdateProfitMarkup, Cvt, Markup, Price } from "./analytics";
+import { UpdateProfit, UpdateProfitMarkup, Cvt, Markup, MinPrice } from "./analytics";
 import { GetCode } from "../config/Codes";
 
 var mongoose = require("mongoose")
@@ -34,10 +34,9 @@ product.pre('save', function() {
     
     Cvt(self)
     Markup(self)
-    Price(self)
-    
-    if(self.price == 0 || self.price == undefined)
-        self.price = min_price
+    MinPrice(self)
+
+    product.save()
 })
 
 product.plugin(relationship, { relationshipPathName:'store' })
