@@ -28,7 +28,7 @@ exports.post = (req, res) => {
         req.body.store = store
         ProductSchema.create(req.body, (err, products) => {
             if(err)
-                return res.json({code: GetCode('INVALID_PARAMS'), message: req.body})
+                return res.json({code: GetCode('INVALID_PARAMS'), message: err})
             
             res.json(GetCode('SUCCEFULY'))
         })

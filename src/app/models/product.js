@@ -11,14 +11,15 @@ var product = new mongoose.Schema({
 
     price: {type: Number, default: 0, required: false},
     min_price: {type: Number, default: 0, required: false},
-    profit_previous: {type: Number, default: 0, required: true},
     cost: {type: Number, required: true},
-
-    pis_confins: {type: Number, default: 0, required: true},
-    icms: {type: Number, default: 0, require: true},
-    ipi: {type: Number, default: 0, require: true},
+    profit_previous: {type: Number, default: 0, required: true},
+    taxation: [{type: mongoose.Schema.Types.Mixed, require: true}],
     commission: {type: Number, default: 0, require: true},
-    expenses: {type: Number, default: 0, require: true},
+
+    //pis_confins: {type: Number, default: 0, required: true},
+    //icms: {type: Number, default: 0, require: true},
+    //ipi: {type: Number, default: 0, require: true},
+    //expenses: {type: Number, default: 0, require: true},
 
     cmv: {type: Number, default: 0, required: false},
     markup: {type: Number, default: 0, required: false},

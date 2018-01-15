@@ -69,12 +69,12 @@ exports.Stockout = (product) => {
 exports.Cmv = (product) => {
     product.cmv = 0
 
-    product.cmv += product.profit_previous
-    product.cmv += product.pis_confins
-    product.cmv += product.icms
-    product.cmv += product.ipi
+    product.taxation.forEach(e => {
+        product.cmv += e.cost
+    })
+
     product.cmv += product.commission
-    product.cmv += product.expenses
+    product.cmv += product.profit_previous
 }
 
 exports.Markup = (product) => {
