@@ -4,7 +4,7 @@ var relationship = require("mongoose-relationship")
 import * as analytics from './analytics'
 import { StoreSchema } from "./store"
 import { SaleSchema } from "./sale"
-import { UpdateTicket, UpdateSaleCharge, UpdateProfitMarkup, Stockout } from "./analytics"
+import { Ticket, SaleCharge, Stockout } from "./analytics"
 import { GetCode } from "../config/Codes";
 import { ProductSchema } from "./product";
 
@@ -59,8 +59,8 @@ sale.new = (body, cb) => {
         })
         sale.save()
 
-        UpdateTicket(sale)
-        UpdateSaleCharge(sale)
+        Ticket(sale)
+        SaleCharge(sale)
         
         cb(null, sale)
     })

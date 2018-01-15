@@ -2,25 +2,32 @@ import { StoreSchema } from "./store";
 import { SaleSchema } from "./sale";
 import { ProductSchema } from "./product";
 
-exports.UpdateTicket = (sales) => {
+exports.Ticket = (sale) => {
     var income = 0
     var clients = 0
 
-    StoreSchema.findOne({_id: sales.store}, (err, s) => {
-        s.sales.forEach(j => {
-            SaleSchema.findOne({_id: j}, (err, sale) => {
-                if(err || !sale) return
-                income += sale.price
-                clients += 1
+    SaleSchema.find({store: sale.store}, (err, sales) => {
+        if(err || !sales) return
 
-                s.ticket = income/clients
-                s.save()
-            })
+        sales.forEach(e => {
+            income += e.price != 0 ? e.price : sale.price
+            clients += 1
         })
+    })
+
+    StoreSchema.findOne({_id: sale.store}, (err, s) => {
+        if(err || !s) return
+
+        if(clients != 0)
+            s.ticket = income / clients
+        else
+            s.ticket = 0
+        
+        s.save()
     })
 }
 
-exports.UpdateSaleCharge = (sale) => {
+exports.SaleCharge = (sale) => {
     ProductSchema.find({store: sale.store}, (err, products) => {
         var pr = []
         var ss = 0
@@ -66,19 +73,19 @@ exports.Stockout = (product) => {
     product.save()
 }
 
-exports.Cmv = (product) => {
-    product.cmv = 0
+exports.COGS = (product) => {
+    product.cogs = 0
 
     product.taxation.forEach(e => {
-        product.cmv += e.cost
+        product.cogs += e.cost
     })
 
-    product.cmv += product.commission
-    product.cmv += product.profit_previous
+    product.cogs += product.commission
+    product.cogs += product.profit_previous
 }
 
 exports.Markup = (product) => {
-    var div = (100 - product.cmv)/100
+    var div = (100 - product.cogs)/100
     product.markup = 1 / div
 }
 
