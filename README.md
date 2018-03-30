@@ -1,4 +1,4 @@
-# Simple CRM
+# Simple ERP
 
 ## Requirements
 * Docker
