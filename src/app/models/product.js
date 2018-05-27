@@ -1,5 +1,5 @@
 import { UpdateProfit, UpdateProfitMarkup, COGS, Markup, MinPrice } from "./analytics";
-import { GetCode } from "../config/Codes";
+import { Strings } from "../config/strings";
 
 var mongoose = require("mongoose")
 var relationship = require("mongoose-relationship")
@@ -74,7 +74,7 @@ product.removeStock = (search, stock, cb) => {
             return cb(null, pro)
         }
         else
-            return cb({code: GetCode('MISSING_STOCK')}, null)
+            return cb({code: Strings.MISSING_STOCK}, null)
     })
 }
 

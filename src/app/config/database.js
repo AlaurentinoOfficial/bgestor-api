@@ -1,26 +1,24 @@
 var mongoose = require('mongoose')
-
-exports.Mongo = "mongodb";
+import { green, red, cyan } from 'colors'
 
 exports.DbConfig = (link) => {
     mongoose.connect(link)
 
-    // Mongoose log
     mongoose.connection.on('connected', () => {
-        console.log('\n> Database connected!\n')
+        console.log(green('➜  MONGODB:') + ' Connected!')
     });
 
     mongoose.connection.on('error', (err) => {
-        console.log('\n> Error - Database: ' + err + '\n')
+        console.log(red('\n➜  ') + green('MONGODB:') + red(' Connection refused!'))
     });
 
     mongoose.connection.on('disconnected', () => {
-        console.log('\n> Database disconnected!\n')
+        console.log(red('\n➜  ') + green('MONGODB:') + ' Disconnected!')
     });
 
     process.on('SIGINT', () => {
         mongoose.connection.close(() => {
-            console.log('\n> Closing application!\n')
+            console.log(green('➜  ') + cyan('SERVER:') + " Closing server!")
             process.exit(0)
         });
     });

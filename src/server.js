@@ -1,20 +1,19 @@
-var express = require('express')
-var app = express()
-var bodyParser = require('body-parser')
+var express = require('express'), 
+    app = express(),
+    bodyParser = require('body-parser')
 
-import {DbConfig, Mongo} from './app/config/database'
-import {Passport} from './app/config/passport'
-import {Router} from './app/config/router'
+import { DbConfig, Mongo } from './app/config/database'
+import { Router } from './app/config/router'
 
-import {SolutionSchema} from './app/models/solution'
-import {ProductSchema} from './app/models/product'
-import {UserSchema} from './app/models/user'
+import { SolutionSchema } from './app/models/solution'
+import { ProductSchema } from './app/models/product'
+import { UserSchema } from './app/models/user'
 
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({'extended':'true'}));
-app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public'))
+app.use(bodyParser.urlencoded({'extended':'true'}))
+app.use(bodyParser.json())
 app.set('crypt_key', 'ksdfadsklfjo34e')
-app.set('port', process.env.PORT || 3000)
+app.set('port', process.env.PORT || 8080)
 
 var argv = process.argv.slice(2)
 
@@ -23,7 +22,7 @@ DbConfig(argv.indexOf("--docker") >= 0 ? "mongodb://mongo/CRM" : "mongodb://loca
 
 // SolutionSchema.create({name: "STEAPH", cnpj: "1234567894567"}, (err, solution) => {
 //     if(err)
-//         return console.log(err);
+//         return console.log(err)
 
 //     var b = {
 //         solution: solution,
@@ -36,11 +35,11 @@ DbConfig(argv.indexOf("--docker") >= 0 ? "mongodb://mongo/CRM" : "mongodb://loca
 
 //     UserSchema.create(b, (err, user) => {
 //         if(err)
-//             return console.log("User not created");
+//             return console.log("User not created")
 
-//         console.log("Succefuly");
+//         console.log("Succefuly")
 //     })
-// });
+// })
 
 // UserSchema.findOne({}, (err, u) => {
 //     if(err)

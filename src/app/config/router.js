@@ -6,7 +6,7 @@ import * as sale from '../controllers/sale'
 import * as jwt from "jsonwebtoken";
 import { Server } from "../../server";
 import { UserSchema } from "../models/user";
-import { Authenticate } from './passport';
+import { Authenticate } from '../middlewares/passport';
 
 exports.Router = (app) => {
 

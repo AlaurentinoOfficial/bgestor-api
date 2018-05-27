@@ -5,7 +5,7 @@ import * as analytics from './analytics'
 import { StoreSchema } from "./store"
 import { SaleSchema } from "./sale"
 import { Ticket, SaleCharge, Stockout } from "./analytics"
-import { GetCode } from "../config/Codes";
+import { Strings } from "../config/strings";
 import { ProductSchema } from "./product";
 
 let sale = new mongoose.Schema({
@@ -39,12 +39,12 @@ sale.new = (body, cb) => {
 
     SaleSchema.create(body, (err, sale) => {
         if(err || !sale)
-            return cb(GetCode('INVALID_PARAMS'), null)
+            return cb(Strings.INVALID_PARAMS, null)
         
         if(missing.length > 0){
             SaleSchema.remove({_id: sale._id})
 
-            var code = GetCode('MISSING_STOCK')
+            var code = Strings.MISSING_STOCK
             code.missing = missing
             return cb(code, null)
         }
