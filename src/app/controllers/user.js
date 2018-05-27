@@ -3,12 +3,12 @@ import * as jwt from "jsonwebtoken";
 import { Server } from "../../server";
 import { UserSchema } from "../models/user";
 import { SolutionSchema, Solution } from "../models/solution";
-import { GetCode } from "../config/Codes";
+import { Strings } from "../config/strings";
 
 exports.login = (req, res) => {
     UserSchema.findOne({email: req.body.email}, (err, user) => {
         if(err || !user)
-            return res.json(GetCode('INVALID_EMAIL'))
+            return res.json(Strings.INVALID_EMAIL)
 
         user.comparePassword(req.body.password, (err, isMatch) => {
             if(isMatch && !err)
@@ -29,7 +29,7 @@ exports.login = (req, res) => {
                 return res.json(user)
             }
             else
-                return res.json(GetCode('INVALID_PASSWORD'))
+                return res.json(Strings.INVALID_PASSWORD)
         });
     });
 }
@@ -39,8 +39,8 @@ exports.password = (req, res) => {
 
     UserSchema.findOneAndUpdate({_id: res.locals.user._id}, body, (err, user) => {
         if(err || !user)
-            return res.json(GetCode('INVALID_USER'))
+            return res.json(Strings.INVALID_USER)
         
-        res.json(GetCode('SUCCEFULY'))
+        res.json(Strings.SUCCEFULY)
     })
 }

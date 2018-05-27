@@ -13,7 +13,7 @@ import {UserSchema} from './app/models/user'
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json());
-app.set('crypt_key', 'dfhads8g3bfosdfs')
+app.set('crypt_key', 'ksdfadsklfjo34e')
 app.set('port', process.env.PORT || 3000)
 
 var argv = process.argv.slice(2)

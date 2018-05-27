@@ -1,6 +1,6 @@
-import {SolutionSchema} from '../models/solution'
+import { SolutionSchema } from '../models/solution'
 import { StoreSchema } from '../models/store'
-import { GetCode } from '../config/Codes';
+import { Strings } from '../config/strings'
 
 exports.get = (req, res) => {
     StoreSchema.find({solution: res.locals.user.solution}, (err, stores) => {
@@ -16,17 +16,17 @@ exports.post = (req, res) => {
         
     StoreSchema.create(body, (err, stores) => {
         if(err || !stores)
-            return res.json(GetCode('INVALID_PARAMS'))
+            return res.json(Strings.INVALID_PARAMS)
         
-        res.json(GetCode('SUCCEFULY'))
+        res.json(Strings.SUCCEFULY)
     })
 }
 
 exports.putById = (req, res) => {
     StoreSchema.findOneAndUpdate({_id: req.params.id},req.body, {upsert: true}, (err, products) => {
         if(err || !products)
-            return res.json(GetCode('INVALID_PARAMS'))
+            return res.json(Strings.INVALID_PARAMS)
         
-        res.json(GetCode('SUCCEFULY'));
+        res.json(Strings.SUCCEFULY)
     })
 }
