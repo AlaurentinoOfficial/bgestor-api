@@ -18,7 +18,8 @@ SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567890n"}, (err, s
         email: "alaurentino.br@gmail.com",
         password: "1234567890n",
         cpf: "12345678910",
-        gender: "male"
+        gender: "male",
+        level: "admin"
     }
 
     // Mock user

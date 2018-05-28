@@ -7,6 +7,7 @@ let userSchema = new mongoose.Schema({
     name: {type: String, required: true, unique: true},
     cpf: {type: String, required: true, unique: true},
     gender: {type: String, enum: ['male', 'female', 'other'], require: true},
+    gender: {type: String, enum: ['admin', 'write', 'reader', 'salesman'], require: true},
     email: {type: String, required: true, lowercase: true, unique: true},
     password: {type: String, required: true},
     stores: [{type: mongoose.Schema.ObjectId, ref:"Store", required: false}],
