@@ -18,7 +18,15 @@ function Authenticate(options) {
                     return res.json(Strings.INVALID_USER)
                 
                 res.locals.user = u
-                next()
+                
+                if(options.level.constructor == [].constructor) {
+                    if(options.level.indexOf(u.level) >= 0 || options.level.length == 0)
+                        next()
+                    else
+                        res.json(Strings.ACCESS_DENIED);
+                }
+                else
+                    next()
             })
         })
     } 

@@ -14,24 +14,24 @@ exports.Router = (app) => {
 		.post(user.login)
 
 	app.route('/info')
-		.get(Authenticate({}), user.info)
+		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), user.info)
 
 	app.route('/stores')
-		.get(Authenticate({}), store.get)
-		.post(Authenticate({}), store.post)
+		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), store.get)
+		.post(Authenticate({level: ['admin']}), store.post)
 	
-	app.route('/store/:id')
-		.put(Authenticate({}), store.putById)
+	app.route('/stores/:id')
+		.put(Authenticate({level: ['admin']}), store.putById)
 
-	app.route('/store/:store/products')
-		.get(Authenticate({}), product.get)
-		.post(Authenticate({}), product.post)
+	app.route('/stores/:store/products')
+		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), product.get)
+		.post(Authenticate({level: ['admin']}), product.post) // Add in stock
 	
-	app.route('/product/:id')
+	app.route('/stores/:store/products/:id')
 		.put(Authenticate({}), product.putById)
-		.post(Authenticate({}), product.postById)
+		.post(Authenticate({level: ['admin']}), product.postById)
 	
-	app.route('/sale/:store')
-		.get(Authenticate({}), sale.get)
-		.post(Authenticate({}), sale.post)
+	app.route('/stores/:store/sales')
+		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), sale.get)
+		.post(Authenticate({level: ['admin', 'reader', 'salesman']}), sale.post)
 }
