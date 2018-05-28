@@ -1,6 +1,6 @@
-version: "2"
+version: "2.1"
 services:
-  crm:
+  api:
     build: .
     ports:
       - "3000:3000"

@@ -1,6 +1,6 @@
 {
   "name": "crm",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "description": "This is a basicly crm",
   "main": "dist/bin/www.js",
   "scripts": {
