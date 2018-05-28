@@ -67,10 +67,13 @@ exports.SaleCharge = (sale) => {
 }
 
 exports.Stockout = (product) => {
-    if(product.stock == 0)
+    if(product.stock == 0) {
         product.stockout.push(Date.now())
-
-    product.save()
+        // Send some notification
+    }
+    else if(product.stock <= product.stock_thresholder && product.stock_thresholder_notify) {
+        // Send some alert
+    }
 }
 
 exports.COGS = (product) => {

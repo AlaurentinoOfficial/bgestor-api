@@ -45,14 +45,13 @@ sale.new = (body, cb) => {
             SaleSchema.remove({_id: sale._id})
             return cb(Strings.MISSING_STOCK, null)
         }
-        
-        saves.forEach(e => {
-            Stockout(e)
-        })
-        
+    
         sale.price = 0
         saves.forEach(p =>  {
             sale.price += Math.abs(p.price * p.qty)
+
+            Stockout(p)
+            p.save()
         })
         sale.save()
 
