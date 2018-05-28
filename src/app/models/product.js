@@ -20,8 +20,9 @@ var product = new mongoose.Schema({
     markup: {type: Number, default: 0, required: false},
     sales_charge: {type: Number, default: 0, required: false},
     
-    average_stock: {type: Number, required: false},
     stock: {type: Number, required: true},
+    stock_thresholder: {type: Number, required: false},
+    stock_thresholder_notify: {type: Boolean, required: true},
     stockout: [{type: Date, required: false}]
 })
 
