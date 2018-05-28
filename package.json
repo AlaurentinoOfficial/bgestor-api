@@ -1,5 +1,5 @@
 {
-  "name": "crm",
+  "name": "erp",
   "version": "2.1.0",
   "description": "This is a basicly crm",
   "main": "dist/bin/www.js",
@@ -10,7 +10,7 @@
     "mock": "babel ./src/ --out-dir ./dist && node dist/mock.js"
   },
   "keywords": [
-    "crm",
+    "erp",
     "business",
     "nodejs",
     "mongodb"
