@@ -5,9 +5,9 @@ import { Strings } from '../config/strings'
 exports.get = (req, res) => {
     StoreSchema.find({solution: res.locals.user.solution}, (err, stores) => {
         if(err || !stores)
-            return res.json([])
+            return res.json({status: true, value: []})
         
-        res.json(stores)
+        res.json({status: true, value: stores})
     })
 }
 
@@ -16,17 +16,17 @@ exports.post = (req, res) => {
         
     StoreSchema.create(body, (err, stores) => {
         if(err || !stores)
-            return res.json(Strings.INVALID_PARAMS)
+            return res.json({status: false, value: Strings.INVALID_PARAMS})
         
-        res.json(Strings.SUCCEFULY)
+        res.json({status: true, value: Strings.SUCCEFULY})
     })
 }
 
 exports.putById = (req, res) => {
     StoreSchema.findOneAndUpdate({_id: req.params.id},req.body, {upsert: true}, (err, products) => {
         if(err || !products)
-            return res.json(Strings.INVALID_PARAMS)
+            return res.json({status: false, value: Strings.INVALID_PARAMS})
         
-        res.json(Strings.SUCCEFULY)
+        res.json({status: true, value: Strings.SUCCEFULY})
     })
 }

@@ -8,7 +8,7 @@ import { Strings } from "../config/strings";
 exports.login = (req, res) => {
     UserSchema.findOne({email: req.body.email}, (err, user) => {
         if(err || !user)
-            return res.json(Strings.INVALID_EMAIL)
+            return res.json({status: false, value: Strings.INVALID_EMAIL})
 
         user.comparePassword(req.body.password, (err, isMatch) => {
             if(isMatch && !err)
@@ -24,12 +24,10 @@ exports.login = (req, res) => {
                                 data: user._id
                             }, Server.get('crypt_key'))
     
-                user.password = null
-                user.token = token
-                return res.json(user)
+                return res.json({status: true, value: {token: token}})
             }
             else
-                return res.json(Strings.INVALID_PASSWORD)
+                return res.json({status: false, value: Strings.INVALID_PASSWORD})
         });
     });
 }
@@ -37,7 +35,10 @@ exports.login = (req, res) => {
 exports.info = (req, res) => {
     var user = res.locals.user
     user.password = ""
+    user.token = ""
+
     delete user.password
+    delete user.token
 
     res.json(user);
 }
@@ -47,8 +48,8 @@ exports.password = (req, res) => {
 
     UserSchema.findOneAndUpdate({_id: res.locals.user._id}, body, (err, user) => {
         if(err || !user)
-            return res.json(Strings.INVALID_USER)
+            return res.json({status: false, value: Strings.INVALID_USER})
         
-        res.json(Strings.SUCCEFULY)
+        res.json({status: true, value: Strings.SUCCEFULY})
     })
 }

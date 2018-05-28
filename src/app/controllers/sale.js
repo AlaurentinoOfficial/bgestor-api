@@ -6,30 +6,30 @@ import { Strings } from '../config/strings'
 
 exports.get = (req, res) => {
     StoreSchema.findOne({_id: req.params.store}, (err, store) => {
-        if(err) return res.json(Strings.INVALID_PARAMS)
+        if(err) return res.json({status: false, value: Strings.INVALID_PARAMS})
 
         SaleSchema.find({store: store}, (err, sales) => {
             if(err)
-                return res.json([])
+                return res.json({status: true, value: []})
             
-            res.json(sales)
+            res.json({status: true, value: sales})
         })
     })
 }
 
 exports.post = (req, res) => {
     if(!req.body.client || !req.body.products)
-        return res.json(Strings.INVALID_PARAMS)
+        return res.json({status: false, value: Strings.INVALID_PARAMS})
 
     StoreSchema.findOne({_id: req.params.store}, (err, store) => {
-        if(err || !store) return res.json(Strings.INVALID_PARAMS)
+        if(err || !store) return res.json({status: false, value: Strings.INVALID_PARAMS})
 
         req.body.store = store
         SaleSchema.new(req.body, (er, sale) => {
             if(er || !sale)
-                return res.json(err)
+                return res.json({status: false, value: er})
             
-            res.json(Strings.SUCCEFULY)
+            res.json({status: true, value: Strings.SUCCEFULY})
         })
     })
 }

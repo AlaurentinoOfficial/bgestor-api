@@ -43,10 +43,7 @@ sale.new = (body, cb) => {
         
         if(missing.length > 0){
             SaleSchema.remove({_id: sale._id})
-
-            var code = Strings.MISSING_STOCK
-            code.missing = missing
-            return cb(code, null)
+            return cb(Strings.MISSING_STOCK, null)
         }
         
         saves.forEach(e => {

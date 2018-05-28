@@ -74,7 +74,7 @@ product.removeStock = (search, stock, cb) => {
             return cb(null, pro)
         }
         else
-            return cb({code: Strings.MISSING_STOCK}, null)
+            return cb(Strings.MISSING_STOCK, null)
     })
 }
 
