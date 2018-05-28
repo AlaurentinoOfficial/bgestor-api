@@ -8,7 +8,7 @@ var argv = process.argv.slice(2)
 DbConfig(argv.indexOf("--docker") >= 0 ? "mongodb://mongo/CRM" : "mongodb://localhost:27017/CRM")
 
 // Mock solution
-SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567894567"}, (err, solution) => {
+SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567890n"}, (err, solution) => {
     if(err)
         return console.log(err)
 
@@ -29,3 +29,5 @@ SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567894567"}, (err,
         console.log(bold(green('➜  ') + cyan('MOCK: ')) + 'Solution and User mocked with success!')
     })
 })
+
+process.exit(0)
