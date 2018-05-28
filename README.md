@@ -1,10 +1,10 @@
-# Simple ERP
+# BGESTOR api
 
 ## Requirements
 * Docker
 * Docker compose
 
-* Nodejs 8.9
+* Nodejs 10
 * NPM
 * Mongo db
 
