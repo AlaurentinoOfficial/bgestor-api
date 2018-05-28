@@ -1,6 +1,6 @@
 import { Server } from '../server'
-import { cyan, blue, green } from 'colors'
+import { cyan, blue, green, bold } from 'colors'
 
 Server.listen(Server.get('port'), () => {
-	console.log(green('➜  ') + cyan('SERVER:') + " Listening in " + blue(`:${Server.get('port')}`))
+	console.log(bold(green('➜  ')) + bold(cyan('SERVER:')) + " Listening in " + bold(blue(`:${Server.get('port')}`)))
 })
