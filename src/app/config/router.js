@@ -13,6 +13,9 @@ exports.Router = (app) => {
 	app.route('/login')
 		.post(user.login)
 
+	app.route('/info')
+		.get(Authenticate({}), user.info)
+
 	app.route('/stores')
 		.get(Authenticate({}), store.get)
 		.post(Authenticate({}), store.post)
@@ -22,7 +25,7 @@ exports.Router = (app) => {
 
 	app.route('/store/:store/products')
 		.get(Authenticate({}), product.get)
-		.post	(Authenticate({}), product.post)
+		.post(Authenticate({}), product.post)
 	
 	app.route('/product/:id')
 		.put(Authenticate({}), product.putById)

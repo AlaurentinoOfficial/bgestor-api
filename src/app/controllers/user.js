@@ -34,6 +34,13 @@ exports.login = (req, res) => {
     });
 }
 
+exports.info = (req, res) => {
+    var user = res.locals.user
+    delete user._id
+
+    res.json(user);
+}
+
 exports.password = (req, res) => {
     var body = {password: req.body.password}
 
