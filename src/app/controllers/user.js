@@ -36,7 +36,8 @@ exports.login = (req, res) => {
 
 exports.info = (req, res) => {
     var user = res.locals.user
-    delete user._id
+    user.password = ""
+    delete user.password
 
     res.json(user);
 }
