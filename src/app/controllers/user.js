@@ -53,3 +53,25 @@ exports.password = (req, res) => {
         res.json({status: true, value: Strings.SUCCEFULY})
     })
 }
+
+exports.addNewUser = (req, res) => {
+    var body = {
+        solution: res.locals.user.solution,
+        name: req.body.name,
+        cpf: req.body.cpf,
+        gender: req.body.gender,
+        level: req.body.level,
+        email: req.body.email,
+        password: req.body.password
+    }
+
+    if(req.body.stores !== undefined)
+        body.stores = req.body.stores
+
+    UserSchema.create(body, (err, user) => {
+        if(err || !user)
+            return res.json({status: false, value: Strings.INVALID_USER})
+        
+        res.json({status: true, value: Strings.SUCCEFULY})
+    })
+}

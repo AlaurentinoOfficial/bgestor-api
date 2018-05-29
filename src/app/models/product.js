@@ -21,8 +21,8 @@ var product = new mongoose.Schema({
     sales_charge: {type: Number, default: 0, required: false},
     
     stock: {type: Number, required: true},
-    stock_thresholder: {type: Number, required: false},
-    stock_thresholder_notify: {type: Boolean, required: true},
+    stock_threshold: {type: Number, required: false},
+    stock_threshold_notify: {type: Boolean, required: true},
     stockout: [{type: Date, required: false}]
 })
 
