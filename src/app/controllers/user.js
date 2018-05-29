@@ -54,6 +54,15 @@ exports.password = (req, res) => {
     })
 }
 
+exports.getAllUsers = (req, res) => {
+    UserSchema.find({solution: res.locals.user.solution}, (err, users) => {
+        if(err || !users)
+            return {status: false, value: Strings.INVALID_USER}
+        
+        res.json({status: true, value: users})
+    })
+}
+
 exports.addNewUser = (req, res) => {
     var body = {
         solution: res.locals.user.solution,

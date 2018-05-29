@@ -17,6 +17,7 @@ exports.Router = (app) => {
 		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), user.info)
 
 	app.route('/users')
+		.get(Authenticate({level: ['admin', 'reader']}), user.getAllUsers)
 		.post(Authenticate({level: ['admin']}), user.addNewUser)
 
 	app.route('/stores')
