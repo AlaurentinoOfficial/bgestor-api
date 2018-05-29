@@ -4,6 +4,7 @@
   "description": "This is a basicly erp",
   "main": "dist/bin/www.js",
   "scripts": {
+    "tests": "babel ./src/ --out-dir ./dist && node dist/test.js",
     "start": "babel ./src/ --out-dir ./dist && node dist/bin/www.js",
     "docker": "babel ./src/ --out-dir ./dist && node dist/bin/www.js --docker",
     "babelw": "babel --watch ./src/ --out-dir ./dist"
