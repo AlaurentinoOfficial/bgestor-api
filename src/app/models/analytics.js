@@ -88,8 +88,7 @@ exports.COGS = (product) => {
 }
 
 exports.Markup = (product) => {
-    var div = (100 - product.cogs)/100
-    product.markup = 1 / div
+    product.markup = 100/(100 - product.cogs)
 }
 
 exports.MinPrice = (product) => {
