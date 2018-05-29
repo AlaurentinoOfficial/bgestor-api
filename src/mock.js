@@ -2,6 +2,7 @@ import { SolutionSchema } from './app/models/solution'
 import { UserSchema } from './app/models/user'
 import { DbConfig, Mongo } from './app/config/database'
 import { green, cyan, bold } from 'colors';
+import { StoreSchema } from './app/models/store';
 
 // Configure server
 var argv = process.argv.slice(2)
@@ -12,23 +13,37 @@ SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567890n"}, (err, s
     if(err)
         return console.log(err)
 
-    var user = {
-        solution: solution,
-        name: "Anderson Laurentino",
-        email: "alaurentino.br@gmail.com",
-        password: "1234567890n",
-        cpf: "12345678910",
-        gender: "male",
-        level: "admin"
+    var storeBody = {
+        name: "sdfasdf",
+        address: "sadfadsf",
+        type: "physical",
+        solution: solution
     }
 
-    // Mock user
-    UserSchema.create(user, (err, doc) => {
-        if(err)
-            return console.log("User not created")
-
-        console.log(bold(green('➜  ') + cyan('MOCK: ')) + 'Solution and User mocked with success!')
+    StoreSchema.create(storeBody, (er, store) => {
+        if(er)
+            return console.log("Store not created")
+        
+        var userBody = {
+            solution: solution,
+            name: "Anderson Laurentino",
+            email: "alaurentino.br@gmail.com",
+            password: "1234567890n",
+            cpf: "12345678910",
+            gender: "male",
+            level: "admin",
+            // stores: [store]
+        }
+        
+        // Mock user
+        UserSchema.create(userBody, (err, user) => {
+            if(err)
+                return console.log("User not created")
+            
+                console.log(bold(green('➜  ') + cyan('MOCK: ')) + 'Solution and User mocked with success!')
+                console.log(solution)
+                console.log(user)
+                console.log(store)
+        })
     })
 })
-
-process.exit(0)

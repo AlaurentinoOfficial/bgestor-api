@@ -8,6 +8,7 @@ let store = new mongoose.Schema({
     type: {type: String, enum: ['physical', 'ecommerce'], require: true},
     products: [{type: mongoose.Schema.ObjectId, ref:"Product", required: false}],
     sales: [{type: mongoose.Schema.ObjectId, ref:"Sale", required: false}],
+    employees: [{type: mongoose.Schema.ObjectId, ref:"User", required: false}],
     solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"stores", required: true, unique: false}
 })
 
