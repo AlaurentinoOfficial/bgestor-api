@@ -29,9 +29,11 @@ var product = new mongoose.Schema({
 product.pre('save', function() {
     let self = this
     
-    COGS(self)
-    Markup(self)
-    MinPrice(self)
+    self.cogs = COGS(self.taxation, self.commission, self.profit_previous)
+    self.markup = Markup(self.cogs)
+    self.min_price = MinPrice(self.cost, self.markup)
+
+    if(self.price == 0) self.price = self.min_price
 
     product.save()
 })

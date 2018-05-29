@@ -58,7 +58,7 @@ sale.new = (body, cb) => {
         Ticket(sale)
         SaleCharge(sale)
         
-        cb(null, sale)
+        return cb(null, sale)
     })
 }
 

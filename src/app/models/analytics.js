@@ -76,24 +76,20 @@ exports.Stockout = (product) => {
     }
 }
 
-exports.COGS = (product) => {
-    product.cogs = 0
+exports.COGS = (taxation, commission, profit_previous) => {
+    var cogs = commission + profit_previous
 
-    product.taxation.forEach(e => {
-        product.cogs += e.cost
+    taxation.forEach(e => {
+        cogs += e.cost
     })
 
-    product.cogs += product.commission
-    product.cogs += product.profit_previous
+    return cogs
 }
 
-exports.Markup = (product) => {
-    product.markup = 100/(100 - product.cogs)
+exports.Markup = (cogs) => {
+    return 100/(100 - product.cogs)
 }
 
-exports.MinPrice = (product) => {
-    product.min_price = product.cost * product.markup
-
-    if(product.price == 0)
-        product.price = product.min_price
+exports.MinPrice = (cost, markup) => {
+    return cost * markup
 }
