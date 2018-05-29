@@ -54,6 +54,20 @@ exports.info = (req, res) => {
     res.json(user);
 }
 
+exports.getById = (req, res) => {
+    UserSchema.findOne({solution: res.locals.user.solution, _id: req.params.id}, (err, users) => {
+        if(err || !users)
+            return {status: false, value: Strings.INVALID_USER}
+        
+        users.forEach(u => {
+            u.password = ""
+            delete u.password
+        })
+                
+        res.json({status: true, value: users})
+    })
+}
+
 exports.getAllUsers = (req, res) => {
     UserSchema.find({solution: res.locals.user.solution}, (err, users) => {
         if(err || !users)
@@ -86,31 +100,20 @@ exports.addNewUser = (req, res) => {
 }
 
 exports.updateById = (req, res) => {
-    var body = {
-        name: req.body.name,
-        cpf: req.body.cpf,
-        gender: req.body.gender,
-        level: req.body.level,
-        email: req.body.email,
-        password: req.body.password
-    }
+    var body = {}
 
-    if(req.body.stores !== undefined)
-        body.stores = req.body.stores
+    if(req.body.name !== undefined) body.name = req.body.name
+    if(req.body.cpf !== undefined) body.cpf = req.body.cpf
+    if(req.body.gender !== undefined) body.gender = req.body.gender
+    if(req.body.level !== undefined) body.level = req.body.level
+    if(req.body.email !== undefined) body.email = req.body.email
+    if(req.body.password !== undefined) body.password = req.body.password
+    if(req.body.stores !== undefined) body.stores = req.body.stores
 
     UserSchema.findOneAndUpdate({solution: res.locals.user.solution, _id: req.params.id}, body, (err, user) => {
         if(err || !user)
             return res.json({status: false, value: Strings.INVALID_USER})
         
         res.json({status: true, value: Strings.SUCCEFULY})
-    })
-}
-
-exports.getById = (req, res) => {
-    UserSchema.findOne({solution: res.locals.user.solution, _id: req.params.id}, (err, users) => {
-        if(err || !users)
-            return {status: false, value: Strings.INVALID_USER}
-        
-        res.json({status: true, value: users})
     })
 }
