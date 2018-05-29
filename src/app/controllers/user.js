@@ -32,17 +32,6 @@ exports.login = (req, res) => {
     });
 }
 
-exports.changePwd = (req, res) => {
-    var body = {password: req.body.password}
-
-    UserSchema.findOneAndUpdate({_id: res.locals.user._id}, body, (err, user) => {
-        if(err || !user)
-            return res.json({status: false, value: Strings.INVALID_USER})
-        
-        res.json({status: true, value: Strings.SUCCEFULY})
-    })
-}
-
 exports.info = (req, res) => {
     var user = res.locals.user
     user.password = ""
@@ -61,7 +50,9 @@ exports.getById = (req, res) => {
         
         users.forEach(u => {
             u.password = ""
+            u.token = ""
             delete u.password
+            delete u.token
         })
                 
         res.json({status: true, value: users})

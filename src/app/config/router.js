@@ -22,7 +22,7 @@ exports.Router = (app) => {
 	
 	app.route('/users/:id')
 		.get(Authenticate({level: ['admin', 'reader']}), user.getById)
-		.put(Authenticate({level: ['admin']}), user.addNewUser)
+		.put(Authenticate({level: ['admin']}), user.updateById)
 
 	app.route('/stores')
 		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), store.get)
