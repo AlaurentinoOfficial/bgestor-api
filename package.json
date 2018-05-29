@@ -6,8 +6,7 @@
   "scripts": {
     "start": "babel ./src/ --out-dir ./dist && node dist/bin/www.js",
     "docker": "babel ./src/ --out-dir ./dist && node dist/bin/www.js --docker",
-    "babelw": "babel --watch ./src/ --out-dir ./dist",
-    "mock": "babel ./src/ --out-dir ./dist && node dist/mock.js"
+    "babelw": "babel --watch ./src/ --out-dir ./dist"
   },
   "keywords": [
     "erp",
