@@ -32,6 +32,17 @@ exports.login = (req, res) => {
     });
 }
 
+exports.changePwd = (req, res) => {
+    var body = {password: req.body.password}
+
+    UserSchema.findOneAndUpdate({_id: res.locals.user._id}, body, (err, user) => {
+        if(err || !user)
+            return res.json({status: false, value: Strings.INVALID_USER})
+        
+        res.json({status: true, value: Strings.SUCCEFULY})
+    })
+}
+
 exports.info = (req, res) => {
     var user = res.locals.user
     user.password = ""
@@ -41,17 +52,6 @@ exports.info = (req, res) => {
     delete user.token
 
     res.json(user);
-}
-
-exports.password = (req, res) => {
-    var body = {password: req.body.password}
-
-    UserSchema.findOneAndUpdate({_id: res.locals.user._id}, body, (err, user) => {
-        if(err || !user)
-            return res.json({status: false, value: Strings.INVALID_USER})
-        
-        res.json({status: true, value: Strings.SUCCEFULY})
-    })
 }
 
 exports.getAllUsers = (req, res) => {
@@ -82,5 +82,35 @@ exports.addNewUser = (req, res) => {
             return res.json({status: false, value: Strings.INVALID_USER})
         
         res.json({status: true, value: Strings.SUCCEFULY})
+    })
+}
+
+exports.updateById = (req, res) => {
+    var body = {
+        name: req.body.name,
+        cpf: req.body.cpf,
+        gender: req.body.gender,
+        level: req.body.level,
+        email: req.body.email,
+        password: req.body.password
+    }
+
+    if(req.body.stores !== undefined)
+        body.stores = req.body.stores
+
+    UserSchema.findOneAndUpdate({solution: res.locals.user.solution, _id: req.params.id}, body, (err, user) => {
+        if(err || !user)
+            return res.json({status: false, value: Strings.INVALID_USER})
+        
+        res.json({status: true, value: Strings.SUCCEFULY})
+    })
+}
+
+exports.getById = (req, res) => {
+    UserSchema.findOne({solution: res.locals.user.solution, _id: req.params.id}, (err, users) => {
+        if(err || !users)
+            return {status: false, value: Strings.INVALID_USER}
+        
+        res.json({status: true, value: users})
     })
 }
