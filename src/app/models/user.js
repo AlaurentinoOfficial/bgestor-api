@@ -13,7 +13,7 @@ let userSchema = new mongoose.Schema({
     block: {type: Boolean, default: false, require: false},
     token: {type: String, require: false},
     solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"employees"},
-    stores: [{type: mongoose.Schema.ObjectId, ref:"Store", childPath:"employees", required: false}]
+    stores: [{type: mongoose.Schema.ObjectId, required: false}]
 })
 
 userSchema.pre('save', function(next) {
@@ -54,6 +54,5 @@ userSchema.methods.comparePassword = function(pw, cb) {
     })
 }
 
-userSchema.plugin(relationship, { relationshipPathName:'stores' })
-userSchema.plugin(relationship, { relationshipPathName:'solution' })
+userSchema.plugin(relationship, { relationshipPathName:['solution'] })
 export const UserSchema = mongoose.model('User', userSchema)

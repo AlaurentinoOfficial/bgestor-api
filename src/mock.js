@@ -32,18 +32,16 @@ SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567890n"}, (err, s
             cpf: "12345678910",
             gender: "male",
             level: "admin",
-            // stores: [store]
+            stores: [store]
         }
         
         // Mock user
         UserSchema.create(userBody, (err, user) => {
             if(err)
-                return console.log("User not created")
+                return console.log(err)
             
                 console.log(bold(green('➜  ') + cyan('MOCK: ')) + 'Solution and User mocked with success!')
-                console.log(solution)
-                console.log(user)
-                console.log(store)
         })
     })
 })
+
