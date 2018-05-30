@@ -44,6 +44,13 @@ userSchema.pre('save', function(next) {
         return next()
 });
 
+/**
+ * Compare Password
+ * Compare actual password with another
+ * 
+ * @param pw Other password
+ * @param cb callback(Error, Obj)
+ */
 userSchema.methods.comparePassword = function(pw, cb) {
     bcrypt.compare(pw, this.password, (err, isMath) => {
         if(err)
