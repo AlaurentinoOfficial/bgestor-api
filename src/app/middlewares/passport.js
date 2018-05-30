@@ -19,14 +19,15 @@ function Authenticate(options) {
                 
                 res.locals.user = u
 
-                if(options.permission !== undefined) {
+                if(options.permission !== undefined)
                     if(u.permissions.indexOf(options.permission) == -1)
-                        res.json({status: false, value: Strings.ACCESS_DENIED})
-                    else
-                        next()
-                }
-                else
-                    next()
+                        return res.json({status: false, value: Strings.ACCESS_DENIED})
+
+                if(options.limit !== undefined && u[options.limit.property].length > 0)
+                    if(u[options.limit.property].indexOf(req.params[options.limit.path]) == -1)
+                        return res.json({status: false, value: Strings.ACCESS_DENIED})
+                
+                next()
             })
         })
     } 

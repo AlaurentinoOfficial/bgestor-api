@@ -32,19 +32,19 @@ exports.Router = (app) => {
 		.post(Authenticate({permission: 'addStore'}), store.addNew)
 	
 	app.route('/stores/:id')
-		.put(Authenticate({permission: 'updateStore'}), store.putById)
+		.put(Authenticate({permission: 'updateStore', limit: {path: 'id', property: 'stores'}}), store.putById)
 
 	app.route('/stores/:store/products')
-		.get(Authenticate({}), product.getAll)
-		.post(Authenticate({permission: 'addProduct'}), product.addNew) // Add in stock
+		.get(Authenticate({limit: {path: 'store', property: 'stores'}}), product.getAll)
+		.post(Authenticate({permission: 'addProduct', limit: {path: 'store', property: 'stores'}}), product.addNew) // Add in stock
 	
 	app.route('/stores/:store/products/:id')
-		.put(Authenticate({permission: 'updateProduct'}), product.putById)
-		.post(Authenticate({permission: 'addInStock'}), product.addInStockById)
+		.put(Authenticate({permission: 'updateProduct', limit: {path: 'store', property: 'stores'}}), product.putById)
+		.post(Authenticate({permission: 'addInStock', limit: {path: 'store', property: 'stores'}}), product.addInStockById)
 	
 	app.route('/stores/:store/sales')
-		.get(Authenticate({}), sale.getAll)
-		.post(Authenticate({permission: 'sell'}), sale.sell)
+		.get(Authenticate({limit: {path: 'store', property: 'stores'}}), sale.getAll)
+		.post(Authenticate({permission: 'sell', limit: {path: 'store', property: 'stores'}}), sale.sell)
 	
 	app.route('/*')
 		.get(notFound)
