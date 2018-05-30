@@ -19,7 +19,7 @@ exports.login = (req, res) => {
                     sName = solution.name;
                 })
 
-                let token = "CRM " + jwt.sign({
+                let token = jwt.sign({
                                 exp: Math.floor(Date.now() / 1000) + (60 * 60) * 3,
                                 data: user._id
                             }, Server.get('crypt_key'))
@@ -85,7 +85,7 @@ exports.addNewUser = (req, res) => {
 
     UserSchema.create(body, (err, user) => {
         if(err || !user)
-            return res.json({status: false, value: Strings.INVALID_USER})
+            return res.json({status: false, value: err.code == 11000 ? Strings.ALREADY_CREATED : Strings.INVALID_USER})
         
         res.json({status: true, value: Strings.SUCCEFULY})
     })
