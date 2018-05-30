@@ -78,21 +78,6 @@ exports.SaleCharge = (sale) => {
 }
 
 /**
- * Stockout
- * 
- * @param product Log Date when get Stockout
- */
-exports.Stockout = (product) => {
-    if(product.stock == 0) {
-        product.stockout.push(Date.now())
-        // Send some notification
-    }
-    else if(product.stock <= product.stock_thresholder && product.stock_thresholder_notify) {
-        // Send some alert
-    }
-}
-
-/**
  * COGS (Cost of goods sold)
  * Sum of taxes, commissions and profit previous
  * 

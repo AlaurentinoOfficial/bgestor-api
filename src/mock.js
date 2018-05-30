@@ -8,13 +8,17 @@ import { StoreSchema } from './app/models/store'
 var argv = process.argv.slice(2)
 DbConfig(argv.indexOf("--docker") >= 0 ? "mongodb://mongo/CRM" : "mongodb://localhost:27017/CRM")
 
-// Mock solution
-SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567890n"}, (err, solution) => {
+var solutionBody = {
+    name: "Empresa S.A.",
+    cnpj: "1234567890n"
+}
+
+SolutionSchema.create(solutionBody, (err, solution) => {
     if(err)
         return console.log(err)
 
     var storeBody = {
-        name: "Uma loja",
+        name: "adfsadkf",
         address: "Não tem rua",
         type: "physical",
         solution: solution
@@ -22,7 +26,7 @@ SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567890n"}, (err, s
 
     StoreSchema.create(storeBody, (er, store) => {
         if(er)
-            return console.log("Store not created")
+            return console.log(er)
 
         storeBody.name = "Outra loja"
         storeBody.type = "ecommerce"
@@ -39,7 +43,7 @@ SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567890n"}, (err, s
                 cpf: "12345678910",
                 gender: "male",
                 permissions: ['addUser', 'deleteUser', 'updateUser', 'addStore', 'deleteStore', 'updateStore', 'addProduct', 'deleteProduct', 'updateProduct', 'addInStock', 'sell'],
-                stores: [store2]
+                stores: []
             }
             
             // Mock user

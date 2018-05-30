@@ -21,9 +21,10 @@ var product = new mongoose.Schema({
     sales_charge: {type: Number, default: 0, required: false},
     
     stock: {type: Number, required: true},
+    stock_recharge: [{type: mongoose.Schema.ObjectId, default: [], require: false}],
     stock_threshold: {type: Number, required: false},
     stock_threshold_notify: {type: Boolean, required: true},
-    stockout: [{type: Date, required: false}]
+    stockout: [{type: Date, default: null, required: false}]
 })
 
 product.pre('save', function(next) {
@@ -35,6 +36,14 @@ product.pre('save', function(next) {
 
     if(self.price == 0)
         self.price = self.min_price
+
+    if(self.stock == 0) {
+        self.stockout.push(new Date())
+        // Despatch a notification to admin
+    }
+    else if(self.stock <= self.stock_threshold) {
+        // Despatch a notification to admin
+    }
 
     next()
 })
@@ -77,6 +86,7 @@ product.addStock = (search, qty, cb) => {
     ProductSchema.findOne(search, (err, pro) => {
         if(err) cb(err, null)
         
+        pro.stock_recharge.push(new Date())
         pro.stock += Math.abs(qty)
         pro.save()
 

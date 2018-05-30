@@ -4,7 +4,7 @@ var relationship = require("mongoose-relationship")
 import * as analytics from './analytics'
 import { StoreSchema } from "./store"
 import { SaleSchema } from "./sale"
-import { Ticket, SaleCharge, Stockout } from "./analytics"
+import { Ticket, SaleCharge } from "./analytics"
 import { Strings } from "../config/strings"
 import { ProductSchema } from "./product"
 
@@ -58,9 +58,6 @@ sale.createSell = (body, cb) => {
                     if(product._id == p._id) {
                         ProductSchema.removeStock({_id: p._id}, product.qty, (err, ret) => {})
                         sale.price += Math.abs(p.price * product.qty)
-
-                        // Stockout(p)
-                        // p.save()
                     }
                 })
             })
