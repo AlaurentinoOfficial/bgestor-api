@@ -20,7 +20,7 @@ exports.getAll = (req, res) => {
 
                     if(u.stores.indexOf(s._id) >= 0) {
                         if(s.employees === undefined) s["employees"] = []
-                        s.employees.push(u)
+                        s.employees.push(u._id)
                     }
 
                     ss.push(s)
