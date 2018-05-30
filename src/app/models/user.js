@@ -11,7 +11,6 @@ let userSchema = new mongoose.Schema({
     password: {type: String, required: true},
     status: {type: Boolean, default: false, require: false},
     block: {type: Boolean, default: false, require: false},
-    token: {type: String, require: false},
     solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"employees"},
     stores: [{type: mongoose.Schema.ObjectId, required: false}]
 })

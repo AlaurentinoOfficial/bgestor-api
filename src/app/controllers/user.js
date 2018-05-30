@@ -44,18 +44,14 @@ exports.info = (req, res) => {
 }
 
 exports.getById = (req, res) => {
-    UserSchema.findOne({solution: res.locals.user.solution, _id: req.params.id}, (err, users) => {
-        if(err || !users)
+    UserSchema.findOne({solution: res.locals.user.solution, _id: req.params.id}, (err, user) => {
+        if(err || !user)
             return {status: false, value: Strings.INVALID_USER}
         
-        users.forEach(u => {
-            u.password = ""
-            u.token = ""
-            delete u.password
-            delete u.token
-        })
+        var shadow = user._doc
+        delete shadow.password
                 
-        res.json({status: true, value: users})
+        res.json({status: true, value: shadow})
     })
 }
 
@@ -63,6 +59,11 @@ exports.getAllUsers = (req, res) => {
     UserSchema.find({solution: res.locals.user.solution}, (err, users) => {
         if(err || !users)
             return {status: false, value: Strings.INVALID_USER}
+        
+        users.forEach(u => {
+            u = u._doc
+            delete u.password
+        })
         
         res.json({status: true, value: users})
     })

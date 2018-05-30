@@ -7,6 +7,9 @@ import * as jwt from "jsonwebtoken";
 import { Server } from "../../server";
 import { UserSchema } from "../models/user";
 import { Authenticate } from '../middlewares/passport';
+import { Strings } from './strings';
+
+var notFound = (req, res) => res.json({status: false, value: Strings.INVALID_ROUTE})
 
 exports.Router = (app) => {
 
@@ -25,21 +28,27 @@ exports.Router = (app) => {
 		.put(Authenticate({level: ['admin']}), user.updateById)
 
 	app.route('/stores')
-		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), store.get)
-		.post(Authenticate({level: ['admin']}), store.post)
+		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), store.getAll)
+		.post(Authenticate({level: ['admin']}), store.addNew)
 	
 	app.route('/stores/:id')
 		.put(Authenticate({level: ['admin']}), store.putById)
 
 	app.route('/stores/:store/products')
-		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), product.get)
-		.post(Authenticate({level: ['admin']}), product.post) // Add in stock
+		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), product.getAll)
+		.post(Authenticate({level: ['admin']}), product.addNew) // Add in stock
 	
 	app.route('/stores/:store/products/:id')
 		.put(Authenticate({}), product.putById)
-		.post(Authenticate({level: ['admin']}), product.postById)
+		.post(Authenticate({level: ['admin']}), product.addInStockById)
 	
 	app.route('/stores/:store/sales')
-		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), sale.get)
-		.post(Authenticate({level: ['admin', 'reader', 'salesman']}), sale.post)
+		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), sale.getAll)
+		.post(Authenticate({level: ['admin', 'reader', 'salesman']}), sale.sell)
+	
+	app.route('/*')
+		.get(notFound)
+		.post(notFound)
+		.put(notFound)
+		.delete(notFound)
 }

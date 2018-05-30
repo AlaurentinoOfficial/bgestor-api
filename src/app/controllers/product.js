@@ -3,7 +3,7 @@ import { ProductSchema } from '../models/product'
 import { StoreSchema } from '../models/store';
 import { Strings } from '../config/strings';
 
-exports.get = (req, res) => {
+exports.getAll = (req, res) => {
     if(!req.params.store)
         return res.json({status: false, value: Strings.INVALID_PARAMS})
 
@@ -20,7 +20,7 @@ exports.get = (req, res) => {
     })
 }
 
-exports.post = (req, res) => {
+exports.addNew = (req, res) => {
     StoreSchema.findOne({_id: req.params.store}, (er, store) => {
         if(er || !store)
             return res.json({status: false, value: Strings.INVALID_STORE})
@@ -44,7 +44,7 @@ exports.putById = (req, res) => {
     })
 }
 
-exports.postById = (req, res) => {
+exports.addInStockById = (req, res) => {
     ProductSchema.addStock({_id: req.params.id}, req.body.stock, (err, p) => {
         if(err)
             return res.json({status: false, value: Strings.INVALID_PARAMS})

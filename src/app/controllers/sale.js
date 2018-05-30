@@ -4,7 +4,7 @@ import { SaleSchema } from '../models/sale'
 import { ProductSchema } from '../models/product'
 import { Strings } from '../config/strings'
 
-exports.get = (req, res) => {
+exports.getAll = (req, res) => {
     StoreSchema.findOne({_id: req.params.store}, (err, store) => {
         if(err) return res.json({status: false, value: Strings.INVALID_PARAMS})
 
@@ -17,7 +17,7 @@ exports.get = (req, res) => {
     })
 }
 
-exports.post = (req, res) => {
+exports.sell = (req, res) => {
     if(!req.body.client || !req.body.products)
         return res.json({status: false, value: Strings.INVALID_PARAMS})
 

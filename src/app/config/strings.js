@@ -10,4 +10,5 @@ exports.Strings = {
     MISSING_ARGUMENTS: {code: 9, message: "Missing arguments"},
     SUCCEFULY: {code: 10, message: "Succefuly"},
     MISSING_STOCK: {code: 11, message: "Missing in stock"},
+    INVALID_ROUTE: {code: 12, message: "Route not found"}
 }
