@@ -17,34 +17,34 @@ exports.Router = (app) => {
 		.post(user.login)
 
 	app.route('/info')
-		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), user.info)
+		.get(Authenticate({}), user.info)
 
 	app.route('/users')
-		.get(Authenticate({level: ['admin', 'reader']}), user.getAllUsers)
-		.post(Authenticate({level: ['admin']}), user.addNewUser)
+		.get(Authenticate({}), user.getAllUsers)
+		.post(Authenticate({permission: 'addUser'}), user.addNewUser)
 	
 	app.route('/users/:id')
-		.get(Authenticate({level: ['admin', 'reader']}), user.getById)
-		.put(Authenticate({level: ['admin']}), user.updateById)
+		.get(Authenticate({}), user.getById)
+		.put(Authenticate({permission: 'updateUser'}), user.updateById)
 
 	app.route('/stores')
-		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), store.getAll)
-		.post(Authenticate({level: ['admin']}), store.addNew)
+		.get(Authenticate({}), store.getAll)
+		.post(Authenticate({permission: 'addStore'}), store.addNew)
 	
 	app.route('/stores/:id')
-		.put(Authenticate({level: ['admin'], limit: {path: 'id', property: 'stores'}}), store.putById)
+		.put(Authenticate({permission: 'updateStore'}), store.putById)
 
 	app.route('/stores/:store/products')
-		.get(Authenticate({level: ['admin', 'reader', 'salesman'], limit: {path: 'store', property: 'stores'}}), product.getAll)
-		.post(Authenticate({level: ['admin'], limit: {path: 'store', property: 'stores'}}), product.addNew) // Add in stock
+		.get(Authenticate({}), product.getAll)
+		.post(Authenticate({permission: 'addProduct'}), product.addNew) // Add in stock
 	
 	app.route('/stores/:store/products/:id')
-		.put(Authenticate({level: ['admin'], limit: {path: 'store', property: 'stores'}}), product.putById)
-		.post(Authenticate({level: ['admin'], limit: {path: 'store', property: 'stores'}}), product.addInStockById)
+		.put(Authenticate({permission: 'updateProduct'}), product.putById)
+		.post(Authenticate({permission: 'addInStock'}), product.addInStockById)
 	
 	app.route('/stores/:store/sales')
-		.get(Authenticate({level: ['admin', 'reader', 'salesman'], limit: {path: 'store', property: 'stores'}}), sale.getAll)
-		.post(Authenticate({level: ['admin', 'reader', 'salesman'], limit: {path: 'store', property: 'stores'}}), sale.sell)
+		.get(Authenticate({}), sale.getAll)
+		.post(Authenticate({permission: 'sell'}), sale.sell)
 	
 	app.route('/*')
 		.get(notFound)

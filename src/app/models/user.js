@@ -6,7 +6,7 @@ let userSchema = new mongoose.Schema({
     name: {type: String, required: true, unique: true},
     cpf: {type: String, required: true, unique: true},
     gender: {type: String, enum: ['male', 'female', 'other'], require: true},
-    level: {type: String, enum: ['admin', 'reader', 'salesman'], require: true},
+    permissions: [{type: String, enum: ['addUser', 'deleteUser', 'updateUser', 'addStore', 'deleteStore', 'updateStore', 'addProduct', 'deleteProduct', 'updateProduct', 'addInStock', 'sell'], require: true}],
     email: {type: String, required: true, lowercase: true, unique: true},
     password: {type: String, required: true},
     status: {type: Boolean, default: false, require: false},

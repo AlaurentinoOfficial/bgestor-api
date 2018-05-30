@@ -38,7 +38,7 @@ SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567890n"}, (err, s
                 password: "1234567890n",
                 cpf: "12345678910",
                 gender: "male",
-                level: "admin",
+                permissions: ['addUser', 'deleteUser', 'updateUser', 'addStore', 'deleteStore', 'updateStore', 'addProduct', 'deleteProduct', 'updateProduct', 'addInStock', 'sell'],
                 stores: [store2]
             }
             
