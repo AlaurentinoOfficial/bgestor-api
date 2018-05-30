@@ -20,27 +20,20 @@ sale.plugin(relationship, { relationshipPathName:'store' })
 sale = mongoose.model('Sale', sale)
 
 /**
- * New
+ * Sell
  * Make a NEW sale
  * 
  * @param body New entity
  * @param cb callback(Error, Obj)
  */
-sale.new = (body, cb) => {
+sale.createSell = (body, cb) => {
     var missing = []
-    var saves = []
     body.price = 0
 
     body.products.forEach(product => {
-        var qty = Math.abs(product.qty)
-
-        ProductSchema.removeStock({_id: product._id}, qty, (err, p) => {
-            if(err && !p)
-                missing.push(p)
-            else {
-                p.qty = qty
-                saves.push(p)
-            }
+        ProductSchema.checkRemove({_id: product._id}, product.qty, (err, status) => {
+            if(!status || err)
+                missing.push(product._id)
         })
     })
 
@@ -50,22 +43,34 @@ sale.new = (body, cb) => {
         
         if(missing.length > 0){
             SaleSchema.remove({_id: sale._id})
-            return cb(Strings.MISSING_STOCK, null)
+            return cb({err: Strings.MISSING_STOCK, products: missing}, null)
         }
-    
-        sale.price = 0
-        saves.forEach(p =>  {
-            sale.price += Math.abs(p.price * p.qty)
 
-            Stockout(p)
-            p.save()
+        ProductSchema.find({store: sale.store}, (err, products) => {
+            if(err) {
+                SaleSchema.remove({_id: sale._id})
+                return cb({err: Strings.MISSING_STOCK, products: missing}, null)
+            }
+
+            sale.price = 0
+            products.forEach(p => {
+                body.products.forEach(product => {
+                    if(product._id == p._id) {
+                        ProductSchema.removeStock({_id: p._id}, product.qty, (err, ret) => {})
+                        sale.price += Math.abs(p.price * product.qty)
+
+                        // Stockout(p)
+                        // p.save()
+                    }
+                })
+            })
+            sale.save() //
+
+            Ticket(sale.store, sale.price)
+            SaleCharge(sale)
+            
+            return cb(null, sale)
         })
-        sale.save()
-
-        Ticket(sale.store, sale.price)
-        SaleCharge(sale)
-        
-        return cb(null, sale)
     })
 }
 

@@ -25,7 +25,7 @@ exports.sell = (req, res) => {
         if(err || !store) return res.json({status: false, value: Strings.INVALID_PARAMS})
 
         req.body.store = store
-        SaleSchema.new(req.body, (er, sale) => {
+        SaleSchema.createSell(req.body, (er, sale) => {
             if(er || !sale)
                 return res.json({status: false, value: er})
             

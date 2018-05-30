@@ -26,16 +26,17 @@ var product = new mongoose.Schema({
     stockout: [{type: Date, required: false}]
 })
 
-product.pre('save', function() {
+product.pre('save', function(next) {
     let self = this
     
     self.cogs = COGS(self.taxation, self.commission, self.profit_previous)
-    self.markup = Markup(self.cogs)
-    self.min_price = MinPrice(self.cost, self.markup)
+    self.markup = parseFloat(Markup(self.cogs)).toFixed(5)
+    self.min_price = parseFloat(MinPrice(self.cost, self.markup)).toFixed(2)
 
-    if(self.price == 0) self.price = self.min_price
+    if(self.price == 0)
+        self.price = self.min_price
 
-    product.save()
+    next()
 })
 
 product.plugin(relationship, { relationshipPathName:'store' })
@@ -95,14 +96,24 @@ product.removeStock = (search, qty, cb) => {
     ProductSchema.findOne(search, (err, pro) => {
         if(err) return cb(err, null)
 
-        if(pro.stock - Math.abs(qty) >= 0) {
-            pro.stock -= Math.abs(qty)
-            //pro.save()
+        qty = Math.abs(qty)
+
+        if(pro.stock - qty >= 0) {
+            pro.stock -= qty
+            pro.save()
 
             return cb(null, pro)
         }
         else
             return cb(Strings.MISSING_STOCK, null)
+    })
+}
+
+product.checkRemove = (search, qty, cb) => {
+    ProductSchema.findOne(search, (err, pro) => {
+        if(err) return cb(err, null)
+
+        return cb(null, pro.stock - Math.abs(qty) >= 0)
     })
 }
 

@@ -5,6 +5,7 @@ var express = require('express'),
 import { AllowCrossDomain } from './app/middlewares/cors'
 import { DbConfig, Mongo } from './app/config/database'
 import { Router } from './app/config/router'
+import { Markup } from './app/models/analytics';
 
 app.use(AllowCrossDomain)
 app.use(express.static(__dirname + '/public'))

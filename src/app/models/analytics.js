@@ -11,7 +11,7 @@ import { ProductSchema } from "./product"
  */
 exports.Ticket = (storeId, start) => {
     StoreSchema.findOne({_id: storeId}, (err, store) => {
-        if(err || !s) return
+        if(err || !store) return
 
         SaleSchema.find({store: storeId}, (err, sales) => {
             if(err || !sales) return
@@ -20,7 +20,7 @@ exports.Ticket = (storeId, start) => {
             var clients = 0
     
             sales.forEach(e => {
-                income += e.price != 0 ? e.price : price
+                income += e.price != 0 ? e.price : 0
                 clients += 1
             })
             
@@ -116,9 +116,10 @@ exports.COGS = (taxation, commission, profit_previous) => {
  * Markup is the ratio between the cost of a good or service and its selling price
  * 
  * @param cogs COGS (Cost of goods sold)
+ * @returns Markup
  */
 exports.Markup = (cogs) => {
-    return 100/(100 - product.cogs)
+    return 100/(100 - cogs)
 }
 
 /**
@@ -126,7 +127,8 @@ exports.Markup = (cogs) => {
  * Caculate min price by cost and markup
  * 
  * @param cost COGS (Cost of goods sold)
- * @param markup Markup 
+ * @param markup Markup
+ * @returns Minimum price
  */
 exports.MinPrice = (cost, markup) => {
     return cost * markup
