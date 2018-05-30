@@ -21,7 +21,7 @@ var product = new mongoose.Schema({
     sales_charge: {type: Number, default: 0, required: false},
     
     stock: {type: Number, required: true},
-    stock_recharge: [{type: mongoose.Schema.ObjectId, default: [], require: false}],
+    stock_recharge: [{type: mongoose.Schema.Types.Mixed, require: false}],
     stock_threshold: {type: Number, required: false},
     stock_threshold_notify: {type: Boolean, required: true},
     stockout: [{type: Date, default: null, required: false}]
@@ -86,7 +86,7 @@ product.addStock = (search, qty, cb) => {
     ProductSchema.findOne(search, (err, pro) => {
         if(err) cb(err, null)
         
-        pro.stock_recharge.push(new Date())
+        pro.stock_recharge.push({date: new Date(), qty: Math.abs(qty)})
         pro.stock += Math.abs(qty)
         pro.save()
 
