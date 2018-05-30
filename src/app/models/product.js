@@ -109,6 +109,14 @@ product.removeStock = (search, qty, cb) => {
     })
 }
 
+/**
+ * Check remove from stock
+ * Try remove some qty from stock
+ * 
+ * @param search Query the entity
+ * @param qty Quantity
+ * @param cb callback(Error, Obj)
+ */
 product.checkRemove = (search, qty, cb) => {
     ProductSchema.findOne(search, (err, pro) => {
         if(err) return cb(err, null)
