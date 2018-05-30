@@ -14,8 +14,8 @@ SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567890n"}, (err, s
         return console.log(err)
 
     var storeBody = {
-        name: "sdfasdf",
-        address: "sadfadsf",
+        name: "Uma loja",
+        address: "Não tem rua",
         type: "physical",
         solution: solution
     }
@@ -23,24 +23,32 @@ SolutionSchema.create({name: "Projeto Maker Ltda", cnpj: "1234567890n"}, (err, s
     StoreSchema.create(storeBody, (er, store) => {
         if(er)
             return console.log("Store not created")
+
+        storeBody.name = "Outra loja"
+        storeBody.type = "ecommerce"
         
-        var userBody = {
-            solution: solution,
-            name: "Anderson Laurentino",
-            email: "alaurentino.br@gmail.com",
-            password: "1234567890n",
-            cpf: "12345678910",
-            gender: "male",
-            level: "admin",
-            stores: [store]
-        }
-        
-        // Mock user
-        UserSchema.create(userBody, (err, user) => {
-            if(err)
-                return console.log(err)
+        StoreSchema.create(storeBody, (er, store2) => {
+            if(er)
+                return console.log("Store 2 not created")
+
+            var userBody = {
+                solution: solution,
+                name: "Anderson Laurentino",
+                email: "alaurentino.br@gmail.com",
+                password: "1234567890n",
+                cpf: "12345678910",
+                gender: "male",
+                level: "admin",
+                stores: [store2]
+            }
             
-                console.log(bold(green('➜  ') + cyan('MOCK: ')) + 'Solution and User mocked with success!')
+            // Mock user
+            UserSchema.create(userBody, (err, user) => {
+                if(err)
+                    return console.log(err)
+                
+                    console.log(bold(green('➜  ') + cyan('MOCK: ')) + 'Solution and User mocked with success!')
+            })
         })
     })
 })

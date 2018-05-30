@@ -32,19 +32,19 @@ exports.Router = (app) => {
 		.post(Authenticate({level: ['admin']}), store.addNew)
 	
 	app.route('/stores/:id')
-		.put(Authenticate({level: ['admin']}), store.putById)
+		.put(Authenticate({level: ['admin'], limit: {path: 'id', property: 'stores'}}), store.putById)
 
 	app.route('/stores/:store/products')
-		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), product.getAll)
-		.post(Authenticate({level: ['admin']}), product.addNew) // Add in stock
+		.get(Authenticate({level: ['admin', 'reader', 'salesman'], limit: {path: 'store', property: 'stores'}}), product.getAll)
+		.post(Authenticate({level: ['admin'], limit: {path: 'store', property: 'stores'}}), product.addNew) // Add in stock
 	
 	app.route('/stores/:store/products/:id')
-		.put(Authenticate({}), product.putById)
-		.post(Authenticate({level: ['admin']}), product.addInStockById)
+		.put(Authenticate({level: ['admin'], limit: {path: 'store', property: 'stores'}}), product.putById)
+		.post(Authenticate({level: ['admin'], limit: {path: 'store', property: 'stores'}}), product.addInStockById)
 	
 	app.route('/stores/:store/sales')
-		.get(Authenticate({level: ['admin', 'reader', 'salesman']}), sale.getAll)
-		.post(Authenticate({level: ['admin', 'reader', 'salesman']}), sale.sell)
+		.get(Authenticate({level: ['admin', 'reader', 'salesman'], limit: {path: 'store', property: 'stores'}}), sale.getAll)
+		.post(Authenticate({level: ['admin', 'reader', 'salesman'], limit: {path: 'store', property: 'stores'}}), sale.sell)
 	
 	app.route('/*')
 		.get(notFound)

@@ -18,12 +18,16 @@ function Authenticate(options) {
                     return res.json({status: false, value: Strings.INVALID_USER})
                 
                 res.locals.user = u
+
+                if(options.limit && u[options.limit.property].length > 0)
+                    if(u[options.limit.property].indexOf(req.params[options.limit.path]) == -1)
+                        return res.json({status: false, value: Strings.ACCESS_DENIED})
                 
                 if(options.level.constructor == [].constructor) {
                     if(options.level.indexOf(u.level) >= 0 || options.level.length == 0)
                         next()
                     else
-                        res.json({status: false, value: Strings.ACCESS_DENIED});
+                        return res.json({status: false, value: Strings.ACCESS_DENIED});
                 }
                 else
                     next()
