@@ -1,9 +1,9 @@
-import * as jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken"
 
-import { Server } from "../../server";
-import { UserSchema } from "../models/user";
-import { SolutionSchema, Solution } from "../models/solution";
-import { Strings } from "../config/strings";
+import { Server } from "../../server"
+import { UserSchema } from "../models/user"
+import { SolutionSchema, Solution } from "../models/solution"
+import { Strings } from "../config/strings"
 
 exports.login = (req, res) => {
     UserSchema.findOne({email: req.body.email}, (err, user) => {
@@ -15,8 +15,8 @@ exports.login = (req, res) => {
             {
                 var sName = ""
                 SolutionSchema.findOne({_id: user.solution}, (err, solution) => {
-                    if(err || !solution) return;
-                    sName = solution.name;
+                    if(err || !solution) return
+                    sName = solution.name
                 })
 
                 let token = jwt.sign({
@@ -28,8 +28,8 @@ exports.login = (req, res) => {
             }
             else
                 return res.json({status: false, value: Strings.INVALID_PASSWORD})
-        });
-    });
+        })
+    })
 }
 
 exports.info = (req, res) => {
@@ -40,7 +40,7 @@ exports.info = (req, res) => {
     delete user.password
     delete user.token
 
-    res.json(user);
+    res.json(user)
 }
 
 exports.getById = (req, res) => {

@@ -1,8 +1,8 @@
 import { SolutionSchema } from './app/models/solution'
 import { UserSchema } from './app/models/user'
 import { DbConfig, Mongo } from './app/config/database'
-import { green, cyan, bold } from 'colors';
-import { StoreSchema } from './app/models/store';
+import { green, cyan, bold } from 'colors'
+import { StoreSchema } from './app/models/store'
 
 // Configure server
 var argv = process.argv.slice(2)

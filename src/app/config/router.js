@@ -3,11 +3,10 @@ import * as store from '../controllers/store'
 import * as product from '../controllers/product' 
 import * as sale from '../controllers/sale' 
 
-import * as jwt from "jsonwebtoken";
-import { Server } from "../../server";
-import { UserSchema } from "../models/user";
-import { Authenticate } from '../middlewares/passport';
-import { Strings } from './strings';
+import { Server } from "../../server"
+import { UserSchema } from "../models/user"
+import { Authenticate } from '../middlewares/passport'
+import { Strings } from './strings'
 
 var notFound = (req, res) => res.json({status: false, value: Strings.INVALID_ROUTE})
 

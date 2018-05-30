@@ -1,7 +1,7 @@
 import { SolutionSchema } from '../models/solution'
 import { StoreSchema } from '../models/store'
 import { Strings } from '../config/strings'
-import { UserSchema } from '../models/user';
+import { UserSchema } from '../models/user'
 
 exports.getAll = (req, res) => {
     StoreSchema.find({solution: res.locals.user.solution}, (err, stores) => {

@@ -1,32 +1,43 @@
-import { StoreSchema } from "./store";
-import { SaleSchema } from "./sale";
-import { ProductSchema } from "./product";
+import { StoreSchema } from "./store"
+import { SaleSchema } from "./sale"
+import { ProductSchema } from "./product"
 
-exports.Ticket = (sale) => {
-    var income = 0
-    var clients = 0
-
-    SaleSchema.find({store: sale.store}, (err, sales) => {
-        if(err || !sales) return
-
-        sales.forEach(e => {
-            income += e.price != 0 ? e.price : sale.price
-            clients += 1
-        })
-    })
-
-    StoreSchema.findOne({_id: sale.store}, (err, s) => {
+/**
+ * Ticket
+ * Profit divided by number of customers
+ * 
+ * @param storeId Store id
+ * @param start Start income
+ */
+exports.Ticket = (storeId, start) => {
+    StoreSchema.findOne({_id: storeId}, (err, store) => {
         if(err || !s) return
 
-        if(clients != 0)
-            s.ticket = income / clients
-        else
-            s.ticket = 0
-        
-        s.save()
+        SaleSchema.find({store: storeId}, (err, sales) => {
+            if(err || !sales) return
+
+            var income = start
+            var clients = 0
+    
+            sales.forEach(e => {
+                income += e.price != 0 ? e.price : price
+                clients += 1
+            })
+            
+            store.ticket = clients != 0 ? income/clients : 0
+            store.save()
+        })
     })
 }
 
+/**
+ * Sale Charge
+ * Proportion of sales of a product in relation to other products
+ * 
+ * @param taxation Taxes
+ * @param commision Commission of each sealesman
+ * @param profit_previous Variable profit margin
+ */
 exports.SaleCharge = (sale) => {
     ProductSchema.find({store: sale.store}, (err, products) => {
         var pr = []
@@ -66,6 +77,11 @@ exports.SaleCharge = (sale) => {
     })
 }
 
+/**
+ * Stockout
+ * 
+ * @param product Log Date when get Stockout
+ */
 exports.Stockout = (product) => {
     if(product.stock == 0) {
         product.stockout.push(Date.now())
@@ -76,6 +92,15 @@ exports.Stockout = (product) => {
     }
 }
 
+/**
+ * COGS (Cost of goods sold)
+ * Sum of taxes, commissions and profit previous
+ * 
+ * @param taxation Taxes
+ * @param commision Commission of each sealesman
+ * @param profit_previous Variable profit margin
+ * @returns Porcentage
+ */
 exports.COGS = (taxation, commission, profit_previous) => {
     var cogs = commission + profit_previous
 
@@ -86,10 +111,23 @@ exports.COGS = (taxation, commission, profit_previous) => {
     return cogs
 }
 
+/**
+ * Markup
+ * Markup is the ratio between the cost of a good or service and its selling price
+ * 
+ * @param cogs COGS (Cost of goods sold)
+ */
 exports.Markup = (cogs) => {
     return 100/(100 - product.cogs)
 }
 
+/**
+ * Minimum Price
+ * Caculate min price by cost and markup
+ * 
+ * @param cost COGS (Cost of goods sold)
+ * @param markup Markup 
+ */
 exports.MinPrice = (cost, markup) => {
     return cost * markup
 }

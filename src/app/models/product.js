@@ -1,5 +1,5 @@
-import { UpdateProfit, UpdateProfitMarkup, COGS, Markup, MinPrice } from "./analytics";
-import { Strings } from "../config/strings";
+import { UpdateProfit, UpdateProfitMarkup, COGS, Markup, MinPrice } from "./analytics"
+import { Strings } from "../config/strings"
 
 var mongoose = require("mongoose")
 var relationship = require("mongoose-relationship")
@@ -41,6 +41,15 @@ product.pre('save', function() {
 product.plugin(relationship, { relationshipPathName:'store' })
 product = mongoose.model('Product', product)
 
+
+/**
+ * Custom findOneAndUpte
+ * Find one entity and update properties
+ * 
+ * @param search Query the entity
+ * @param update Changes
+ * @param cb callback(Error, Obj)
+ */
 product.findOneNUpdate = (search, update, cb) => {
     product.findOne(search, (err, pro) => {
         if(err) cb(err, null)
@@ -55,23 +64,39 @@ product.findOneNUpdate = (search, update, cb) => {
     })
 }
 
-product.addStock = (search, stock, cb) => {
+/**
+ * Add in stock
+ * Add product in stock
+ * 
+ * @param search Query the entity
+ * @param qty Quantity
+ * @param cb callback(Error, Obj)
+ */
+product.addStock = (search, qty, cb) => {
     ProductSchema.findOne(search, (err, pro) => {
         if(err) cb(err, null)
         
-        pro.stock += Math.abs(stock)
+        pro.stock += Math.abs(qty)
         pro.save()
 
         cb(null, pro)
     })
 }
 
-product.removeStock = (search, stock, cb) => {
+/**
+ * Remove from stock
+ * Remove some qty from stock
+ * 
+ * @param search Query the entity
+ * @param qty Quantity
+ * @param cb callback(Error, Obj)
+ */
+product.removeStock = (search, qty, cb) => {
     ProductSchema.findOne(search, (err, pro) => {
         if(err) return cb(err, null)
 
-        if(pro.stock - Math.abs(stock) >= 0) {
-            pro.stock -= Math.abs(stock)
+        if(pro.stock - Math.abs(qty) >= 0) {
+            pro.stock -= Math.abs(qty)
             //pro.save()
 
             return cb(null, pro)

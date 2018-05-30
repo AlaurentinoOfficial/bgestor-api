@@ -1,7 +1,7 @@
 import { SolutionSchema } from '../models/solution'
 import { ProductSchema } from '../models/product'
-import { StoreSchema } from '../models/store';
-import { Strings } from '../config/strings';
+import { StoreSchema } from '../models/store'
+import { Strings } from '../config/strings'
 
 exports.getAll = (req, res) => {
     if(!req.params.store)

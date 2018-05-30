@@ -5,8 +5,8 @@ import * as analytics from './analytics'
 import { StoreSchema } from "./store"
 import { SaleSchema } from "./sale"
 import { Ticket, SaleCharge, Stockout } from "./analytics"
-import { Strings } from "../config/strings";
-import { ProductSchema } from "./product";
+import { Strings } from "../config/strings"
+import { ProductSchema } from "./product"
 
 let sale = new mongoose.Schema({
     client: {type: String, required: true},
@@ -19,6 +19,13 @@ let sale = new mongoose.Schema({
 sale.plugin(relationship, { relationshipPathName:'store' })
 sale = mongoose.model('Sale', sale)
 
+/**
+ * New
+ * Make a NEW sale
+ * 
+ * @param body New entity
+ * @param cb callback(Error, Obj)
+ */
 sale.new = (body, cb) => {
     var missing = []
     var saves = []
@@ -55,7 +62,7 @@ sale.new = (body, cb) => {
         })
         sale.save()
 
-        Ticket(sale)
+        Ticket(sale.store, sale.price)
         SaleCharge(sale)
         
         return cb(null, sale)
