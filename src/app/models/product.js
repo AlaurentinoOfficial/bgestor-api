@@ -131,7 +131,7 @@ product.checkRemove = (search, qty, cb) => {
     ProductSchema.findOne(search, (err, pro) => {
         if(err) return cb(err, null)
 
-        return cb(null, pro.stock - Math.abs(qty) >= 0)
+        return cb(null, pro.stock - Math.abs(qty) >= 0 && qty !== 0)
     })
 }
 
