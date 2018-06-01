@@ -28,20 +28,18 @@ var product = new mongoose.Schema({
 })
 
 product.pre('save', function(next) {
-    let self = this
-    
-    self.cogs = COGS(self.taxation, self.commission, self.profit_previous)
-    self.markup = parseFloat(Markup(self.cogs)).toFixed(5)
-    self.min_price = parseFloat(MinPrice(self.cost, self.markup)).toFixed(2)
+    this.cogs = COGS(this.taxation, this.commission, this.profit_previous)
+    this.markup = parseFloat(Markup(this.cogs)).toFixed(5)
+    this.min_price = parseFloat(MinPrice(this.cost, this.markup)).toFixed(2)
 
-    if(self.price == 0)
-        self.price = self.min_price
+    if(this.price == 0)
+        this.price = this.min_price
 
-    if(self.stock == 0) {
-        self.stockout.push(new Date())
+    if(this.stock == 0) {
+        this.stockout.push(new Date())
         // Despatch a notification to admin
     }
-    else if(self.stock <= self.stock_threshold) {
+    else if(this.stock <= this.stock_threshold) {
         // Despatch a notification to admin
     }
 

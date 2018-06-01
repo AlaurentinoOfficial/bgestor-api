@@ -24,7 +24,7 @@ exports.Ticket = (storeId, start) => {
                 clients += 1
             })
             
-            store.ticket = clients != 0 ? income/clients : 0
+            store.ticket = clients != 0 ? parseFloat(Markup(income/clients)).toFixed(2) : 0
             store.save()
         })
     })
