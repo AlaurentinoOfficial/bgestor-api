@@ -38,8 +38,8 @@ exports.Ticket = (storeId, start) => {
  * @param commision Commission of each sealesman
  * @param profit_previous Variable profit margin
  */
-exports.SaleCharge = (sale) => {
-    ProductSchema.find({store: sale.store}, (err, products) => {
+exports.SaleCharge = (store) => {
+    ProductSchema.find({store: store}, (err, products) => {
         var pr = []
         var ss = 0
 
@@ -52,7 +52,7 @@ exports.SaleCharge = (sale) => {
             pr.push(obj)
         })
 
-        SaleSchema.find({store: sale.store}, (err, sales) => {
+        SaleSchema.find({store: store}, (err, sales) => {
             sales.forEach(s => {
                 s.products.forEach(i => {
                     pr.forEach(j => {

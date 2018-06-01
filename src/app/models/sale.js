@@ -64,7 +64,7 @@ sale.createSell = (body, cb) => {
             sale.save() //
 
             Ticket(sale.store, sale.price)
-            SaleCharge(sale)
+            SaleCharge(sale.store)
             
             return cb(null, sale)
         })
