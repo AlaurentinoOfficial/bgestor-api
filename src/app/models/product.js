@@ -14,7 +14,7 @@ var product = new mongoose.Schema({
     cost: {type: Number, required: true},
     profit_previous: {type: Number, default: 0, required: true},
     commission: {type: Number, default: 0, require: true},
-    taxation: [{type: mongoose.Schema.Types.Mixed, require: true}],
+    taxes: [{type: mongoose.Schema.Types.Mixed, require: true}],
 
     cogs: {type: Number, default: 0, required: false},
     markup: {type: Number, default: 0, required: false},
@@ -28,7 +28,7 @@ var product = new mongoose.Schema({
 })
 
 product.pre('save', function(next) {
-    this.cogs = COGS(this.taxation, this.commission, this.profit_previous)
+    this.cogs = COGS(this.taxes, this.commission, this.profit_previous)
     this.markup = parseFloat(Markup(this.cogs)).toFixed(5)
     this.min_price = parseFloat(MinPrice(this.cost, this.markup)).toFixed(2)
 

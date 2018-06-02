@@ -11,11 +11,19 @@ exports.getAll = (req, res) => {
         if(er || !store)
             return res.json({status: false, value: Strings.INVALID_PARAMS})
 
-        ProductSchema.find({store: store}, (e, products) => {
+        ProductSchema.find({store: store._id}, (e, products) => {
             if(e || !products)
                 return res.json({status: true, value: []})
+
+            productsDoc = products._doc
+
+            productsDoc.forEach(p => {
+                if(p.stock_recharge.length > 0) {
+                    p.last_recharge = (new Date() - p.stock_recharge[p.stock_recharge.length-1]) / (24 * 60 * 60 * 1000)
+                }
+            })
             
-            res.json({status: true, value: products})
+            res.json({status: true, value: productsDoc})
         })
     })
 }
