@@ -5,7 +5,7 @@ var mongoose = require("mongoose")
 var relationship = require("mongoose-relationship")
 
 var product = new mongoose.Schema({
-    store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"products", required: true, unique: false},
+    solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"products", required: true},
     name: {type: String, required: true},
     description: {type: String, default: "", required: false},
 
@@ -46,7 +46,7 @@ product.pre('save', function(next) {
     next()
 })
 
-product.plugin(relationship, { relationshipPathName:'store' })
+product.plugin(relationship, { relationshipPathName:'solution' })
 product = mongoose.model('Product', product)
 
 

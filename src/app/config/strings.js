@@ -4,6 +4,7 @@ exports.Strings = {
     INVALID_STORE: {code: 3, message: "Invalid store"},
     INVALID_PARAMS: {code: 4, message: "Invalid parameters"},
     INVALID_EMAIL: {code: 5, message: "Invalid email"},
+    INVALID_PRODUCT: {code: 13, message: "Invalid product"},
     INVALID_PASSWORD: {code: 6, message: "Invalid password"},
     USER_BLOCK: {code: 7, message: "User blocked"},
     ACCESS_DENIED: {code: 8, message: "Access denied"},
