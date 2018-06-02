@@ -9,11 +9,12 @@ import { Strings } from "../config/strings"
 import { ProductSchema } from "./product"
 
 let sale = new mongoose.Schema({
+    store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"sales", required: true},
+    
     client: {type: String, required: true},
-    products: [{type: mongoose.Schema.Types.Mixed, required: true}],
     date: {type: Date, default: Date.now(), required: false},
     price: {type: Number, default: 0, required: false},
-    store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"sales", required: true, unique: false}
+    products: [{type: mongoose.Schema.Types.Mixed, required: true}],
 })
 
 sale.plugin(relationship, { relationshipPathName:'store' })

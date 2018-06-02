@@ -3,16 +3,17 @@ var bcrypt = require("bcrypt")
 var relationship = require("mongoose-relationship")
 
 let userSchema = new mongoose.Schema({
+    solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"employees"},
+
     name: {type: String, required: true, unique: true},
     cpf: {type: String, required: true, unique: true},
     gender: {type: String, enum: ['male', 'female', 'other'], require: true},
-    permissions: [{type: String, enum: ['addUser', 'deleteUser', 'updateUser', 'addStore', 'deleteStore', 'updateStore', 'addProduct', 'deleteProduct', 'updateProduct', 'addInStock', 'sell'], require: true}],
     email: {type: String, required: true, lowercase: true, unique: true},
     password: {type: String, required: true},
+    
+    permissions: [{type: String, enum: ['addUser', 'deleteUser', 'updateUser', 'addStore', 'deleteStore', 'updateStore', 'addProduct', 'deleteProduct', 'updateProduct', 'addInStock', 'sell'], require: true}],
     status: {type: Boolean, default: false, require: false},
     block: {type: Boolean, default: false, require: false},
-    solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"employees"},
-    stores: [{type: mongoose.Schema.ObjectId, required: false}]
 })
 
 userSchema.pre('save', function(next) {
