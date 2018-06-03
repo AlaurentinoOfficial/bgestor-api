@@ -9,6 +9,7 @@ import { Strings } from "../config/strings"
 import { ProductSchema } from "./product"
 
 let sale = new mongoose.Schema({
+    solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"sales", required: true},
     store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"sales", required: true},
     
     client: {type: String, required: true},
@@ -17,7 +18,7 @@ let sale = new mongoose.Schema({
     products: [{type: mongoose.Schema.Types.Mixed, required: true}],
 })
 
-sale.plugin(relationship, { relationshipPathName:'store' })
+sale.plugin(relationship, { relationshipPathName:['store', 'solution'] })
 sale = mongoose.model('Sale', sale)
 
 /**
@@ -47,7 +48,7 @@ sale.createSell = (body, cb) => {
             return cb({err: Strings.MISSING_STOCK, products: missing}, null)
         }
 
-        ProductSchema.find({store: sale.store}, (err, products) => {
+        ProductSchema.find({solution: sale.solution}, (err, products) => {
             if(err) {
                 SaleSchema.remove({_id: sale._id})
                 return cb({err: Strings.MISSING_STOCK, products: missing}, null)
