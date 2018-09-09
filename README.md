@@ -1,4 +1,4 @@
-# BGESTOR api
+# fast business api
 
 ## Requirements
 * Docker
