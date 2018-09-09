@@ -1,7 +1,7 @@
 {
-  "name": "erp",
-  "version": "2.1.0",
-  "description": "This is a basicly erp",
+  "name": "fastb",
+  "version": "2.2.0",
+  "description": "The best API",
   "main": "dist/bin/www.js",
   "scripts": {
     "tests": "babel ./src/ --out-dir ./dist && node dist/test.js",
@@ -10,7 +10,7 @@
     "babelw": "babel --watch ./src/ --out-dir ./dist"
   },
   "keywords": [
-    "erp",
+    "fast",
     "business",
     "nodejs",
     "mongodb"
