@@ -29,6 +29,7 @@ exports.Router = (app) => {
 		.post(Authenticate({permission: 'addStore'}), store.addNew)
 	
 	app.route('/stores/:id')
+		.get(Authenticate({}), store.getById)
 		.put(Authenticate({permission: 'updateStore', limit: {path: 'id', property: 'stores'}}), store.putById)
 
 	app.route('/stores/:store/sales')
