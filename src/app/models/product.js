@@ -4,7 +4,8 @@ import { Strings } from "../config/strings"
 var mongoose = require("mongoose")
 
 var product = new mongoose.Schema({
-    solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"products", required: true},
+    store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"products", required: true},
+
     name: {type: String, required: true},
     description: {type: String, default: "", required: true},
 

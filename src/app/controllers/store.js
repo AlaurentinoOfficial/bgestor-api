@@ -1,7 +1,6 @@
 import { StoreSchema } from '../models/store'
 import { Strings } from '../config/strings'
 import { UserSchema } from '../models/user'
-import { ProductSchema } from '../models/product';
 
 exports.getAll = (req, res) => {
     StoreSchema.find({solution: res.locals.user.solution}, (err, stores) => {
@@ -44,21 +43,10 @@ exports.getById = (req, res) => {
         if(err || !store)
             return res.json({status: true, value: Strings.INVALID_STORE})
         
-        ProductSchema.find({}, (err, products) => {
-            productsDoc = products._doc
+        var r = Strings.SUCCEFULY
+        r.product = store
 
-            var validProducts = []
-
-            productsDoc.forEach(p => {
-                if(store.products.indexOf(p._id) !== -1)
-                validProducts.push(p)
-            })
-
-            var r = Strings.SUCCEFULY
-            r.product = validProducts
-
-            res.json({status: true, value: r})
-        })
+        res.json({status: true, value: r})
     })
 }
 

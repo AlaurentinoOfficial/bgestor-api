@@ -1,12 +1,13 @@
 import { ProductSchema } from '../models/product'
 import { Strings } from '../config/strings'
+import { StoreSchema } from '../models/store';
 
 exports.getAll = (req, res) => {
     if(!req.params.store)
         return res.json({status: false, value: Strings.INVALID_PARAMS})
 
     // Find products
-    ProductSchema.find({solution: res.locals.user.solution}, (e, products) => {
+    ProductSchema.find({store: req.params.store}, (e, products) => {
         if(e || !products) {
             var r = Stringd.INTERNAL_ERROR
             r.products = []
@@ -34,21 +35,25 @@ exports.getAll = (req, res) => {
 }
 
 exports.addNew = (req, res) => {
-    // Add store id in the product 
-    req.body.solution = res.locals.user.solution
+    StoreSchema.findOne({_id: req.params.store}, (err, store) => {
+        if(err) return res.json({status: false, value: Strings.INVALID_STORE})
 
-    // Create a new product
-    ProductSchema.create(req.body, (err, products) => {
-        if(err)
-            return res.json({status: false, value: Strings.INVALID_PARAMS})
-        
-        res.json({status: true, value: Strings.SUCCEFULY})
+        // Add store id in the product 
+        req.body.store = store._id 
+
+        // Create a new product
+        ProductSchema.create(req.body, (err, products) => {
+            if(err)
+                return res.json({status: false, value: Strings.INVALID_PARAMS})
+            
+            res.json({status: true, value: Strings.SUCCEFULY})
+        })
     })
 }
 
 exports.putById = (req, res) => {
     // Custom method to update with some restrictions
-    ProductSchema.findOneNUpdate({solution: res.locals.user.solution, _id: req.params.id}, req.body, (err, p) => {
+    ProductSchema.findOneNUpdate({store: req.params.store, _id: req.params.id}, req.body, (err, p) => {
         if(err)
             return res.json({status: false, value: Strings.INVALID_PARAMS})
         
@@ -58,7 +63,7 @@ exports.putById = (req, res) => {
 
 exports.addInStockById = (req, res) => {
     // Update the stock
-    ProductSchema.addStock({solution: res.locals.user.solution, _id: req.params.id}, req.body.stock, (err, p) => {
+    ProductSchema.addStock({store: req.params.store, _id: req.params.id}, req.body.stock, (err, p) => {
         if(err)
             return res.json({status: false, value: Strings.INVALID_PARAMS})
         
