@@ -6,24 +6,24 @@ var mongoose = require("mongoose")
 var product = new mongoose.Schema({
     solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"products", required: true},
     name: {type: String, required: true},
-    description: {type: String, default: "", required: false},
+    description: {type: String, default: "", required: true},
 
-    price: {type: Number, default: 0, required: false},
+    price: {type: Number, default: 0, required: true},
     min_price: {type: Number, default: 0, required: false},
     cost: {type: Number, required: true},
-    profit_previous: {type: Number, default: 0, required: true},
-    commission: {type: Number, default: 0, require: true},
-    taxes: [{type: mongoose.Schema.Types.Mixed, require: true}],
+    profit_previous: {type: Number, default: 0, required: false},
+    commission: {type: Number, default: 0, require: false},
+    taxes: [{type: mongoose.Schema.Types.Mixed, require: false}],
 
     cogs: {type: Number, default: 0, required: false},
     markup: {type: Number, default: 0, required: false},
     sales_charge: {type: Number, default: 0, required: false},
     
-    stock_actived: {type: Boolean, required: true},
-    stock: {type: Number, required: true},
+    stock_actived: {type: Boolean, default: false, required: true},
+    stock: {type: Number, default: 0, required: false},
     stock_recharge: [{type: mongoose.Schema.Types.Mixed, require: false}],
     stock_threshold: {type: Number, required: false},
-    stock_threshold_notify: {type: Boolean, required: true},
+    stock_threshold_notify: {type: Boolean, default: false, required: true},
     stockout: [{type: Date, default: null, required: false}]
 })
 
