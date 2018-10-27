@@ -1,8 +1,6 @@
 var mongoose = require("mongoose")
 var relationship = require("mongoose-relationship")
 
-import * as analytics from './analytics'
-import { StoreSchema } from "./store"
 import { SaleSchema } from "./sale"
 import { Ticket, SaleCharge } from "./analytics"
 import { Strings } from "../config/strings"

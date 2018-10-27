@@ -1,4 +1,4 @@
-import { UpdateProfit, UpdateProfitMarkup, COGS, Markup, MinPrice } from "./analytics"
+import { COGS, Markup, MinPrice } from "./analytics"
 import { Strings } from "../config/strings"
 
 var mongoose = require("mongoose")

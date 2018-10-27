@@ -2,7 +2,7 @@ import * as jwt from "jsonwebtoken"
 
 import { Server } from "../../server"
 import { UserSchema } from "../models/user"
-import { SolutionSchema, Solution } from "../models/solution"
+import { SolutionSchema } from "../models/solution"
 import { Strings } from "../config/strings"
 
 exports.login = (req, res) => {

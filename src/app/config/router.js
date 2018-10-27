@@ -3,8 +3,6 @@ import * as store from '../controllers/store'
 import * as product from '../controllers/product' 
 import * as sale from '../controllers/sale' 
 
-import { Server } from "../../server"
-import { UserSchema } from "../models/user"
 import { Authenticate } from '../middlewares/passport'
 import { Strings } from './strings'
 

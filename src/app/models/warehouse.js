@@ -1,6 +1,3 @@
-import { ProductSchema } from './product'
-import { Strings } from '../config/strings';
-
 var mongoose = require("mongoose")
 var relationship = require("mongoose-relationship")
 
