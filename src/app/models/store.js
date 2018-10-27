@@ -10,6 +10,7 @@ let store = new mongoose.Schema({
     ticket: {type: Number, default: 0, required: false},
     
     products: [{type: mongoose.Schema.ObjectId, required: false}],
+    employees: [{type: mongoose.Schema.ObjectId, required: false}],
     sales: [{type: mongoose.Schema.ObjectId, ref:"Sale", required: false}],
 })
 
