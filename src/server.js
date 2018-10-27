@@ -3,7 +3,7 @@ var express = require('express'),
     bodyParser = require('body-parser')
 
 import { AllowCrossDomain } from './app/middlewares/cors'
-import { DbConfig, Mongo } from './app/config/database'
+import { DbConfig } from './app/config/database'
 import { Router } from './app/config/router'
 
 app.use(AllowCrossDomain)
@@ -13,9 +13,7 @@ app.use(bodyParser.json())
 app.set('crypt_key', 'ksdfadsklfjo34e')
 app.set('port', process.env.PORT || 8080)
 
-var argv = process.argv.slice(2)
-
 Router(app)
-DbConfig(argv.indexOf("--docker") >= 0 ? "mongodb://mongo/fastb" : "mongodb://localhost:27017/fastb")
+DbConfig("mongodb://localhost:27017/fastb")
 
 exports.Server = app
