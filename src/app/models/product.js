@@ -19,6 +19,7 @@ var product = new mongoose.Schema({
     markup: {type: Number, default: 0, required: false},
     sales_charge: {type: Number, default: 0, required: false},
     
+    stock_actived: {type: Boolean, required: true},
     stock: {type: Number, required: true},
     stock_recharge: [{type: mongoose.Schema.Types.Mixed, require: false}],
     stock_threshold: {type: Number, required: false},
