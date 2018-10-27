@@ -9,7 +9,7 @@ var argv = process.argv.slice(2)
 DbConfig(argv.indexOf("--docker") >= 0 ? "mongodb://mongo/CRM" : "mongodb://localhost:27017/CRM")
 
 var solutionBody = {
-    name: "Empresa S.A.",
+    name: "Empresa LLC",
     cnpj: "1234567890n"
 }
 
