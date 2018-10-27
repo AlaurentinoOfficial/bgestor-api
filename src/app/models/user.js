@@ -1,6 +1,5 @@
 var mongoose = require("mongoose")
 var bcrypt = require("bcrypt")
-var relationship = require("mongoose-relationship")
 
 let userSchema = new mongoose.Schema({
     solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"employees"},
@@ -61,5 +60,4 @@ userSchema.methods.comparePassword = function(pw, cb) {
     })
 }
 
-userSchema.plugin(relationship, { relationshipPathName:['solution'] })
 export const UserSchema = mongoose.model('User', userSchema)

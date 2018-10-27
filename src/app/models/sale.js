@@ -1,5 +1,4 @@
 var mongoose = require("mongoose")
-var relationship = require("mongoose-relationship")
 
 import { SaleSchema } from "./sale"
 import { Ticket, SaleCharge } from "./analytics"
@@ -16,7 +15,6 @@ let sale = new mongoose.Schema({
     products: [{type: mongoose.Schema.Types.Mixed, required: true}],
 })
 
-sale.plugin(relationship, { relationshipPathName:['store', 'solution'] })
 sale = mongoose.model('Sale', sale)
 
 /**

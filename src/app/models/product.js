@@ -2,7 +2,6 @@ import { COGS, Markup, MinPrice } from "./analytics"
 import { Strings } from "../config/strings"
 
 var mongoose = require("mongoose")
-var relationship = require("mongoose-relationship")
 
 var product = new mongoose.Schema({
     solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"products", required: true},
@@ -46,7 +45,6 @@ product.pre('save', function(next) {
     next()
 })
 
-product.plugin(relationship, { relationshipPathName:'solution' })
 product = mongoose.model('Product', product)
 
 

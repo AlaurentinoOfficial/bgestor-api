@@ -4,7 +4,7 @@ import { Strings } from '../config/strings'
 
 exports.getAll = (req, res) => {
     StoreSchema.findOne({_id: req.params.store}, (err, store) => {
-        if(err) return res.json({status: false, value: Strings.INVALID_PARAMS})
+        if(err) return res.json({status: false, value: Strings.INVALID_STORE})
 
         SaleSchema.find({store: store}, (err, sales) => {
             if(err) {
@@ -27,7 +27,7 @@ exports.sell = (req, res) => {
         return res.json({status: false, value: Strings.INVALID_PARAMS})
 
     StoreSchema.findOne({_id: req.params.store}, (err, store) => {
-        if(err || !store) return res.json({status: false, value: Strings.INVALID_PARAMS})
+        if(err || !store) return res.json({status: false, value: Strings.INVALID_STORE})
 
         req.body.store = store
         req.body.solution = res.locals.user.solution

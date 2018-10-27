@@ -1,5 +1,4 @@
 var mongoose = require("mongoose")
-var relationship = require("mongoose-relationship")
 
 let store = new mongoose.Schema({
     solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"stores", required: true},
@@ -14,5 +13,4 @@ let store = new mongoose.Schema({
     sales: [{type: mongoose.Schema.ObjectId, ref:"Sale", required: false}],
 })
 
-store.plugin(relationship, { relationshipPathName: 'solution' })
 exports.StoreSchema = mongoose.model('Store', store)
