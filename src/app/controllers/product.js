@@ -9,8 +9,12 @@ exports.getAll = (req, res) => {
 
     // Find products
     ProductSchema.find({solution: res.locals.user.solution}, (e, products) => {
-        if(e || !products)
-            return res.json({status: true, value: []})
+        if(e || !products) {
+            var r = Stringd.INTERNAL_ERROR
+            r.products = []
+
+            return res.json({status: true, value: r})
+        }
 
         // Get only the attributes
         productsDoc = products._doc
@@ -23,8 +27,11 @@ exports.getAll = (req, res) => {
                 p.last_recharge = (new Date() - p.stock_recharge[size-1]) / (24 * 60 * 60 * 1000)
             }
         })
-        
-        res.json({status: true, value: productsDoc})
+
+        var r = Strings.SUCCEFULY
+        r.products = productsDoc
+
+        res.json({status: true, value: r})
     })
 }
 

@@ -5,8 +5,12 @@ import { UserSchema } from '../models/user'
 
 exports.getAll = (req, res) => {
     StoreSchema.find({solution: res.locals.user.solution}, (err, stores) => {
-        if(err || !stores)
-            return res.json({status: true, value: []})
+        if(err || !stores) {
+            var r = Stringd.INTERNAL_ERROR
+            r.products = []
+
+            return res.json({status: true, value: r})
+        }
         
         UserSchema.find({}, (err, users) => {
             if(err || !users)
@@ -27,7 +31,8 @@ exports.getAll = (req, res) => {
                 })
             })
 
-            
+            var r = Strings.SUCCEFULY
+            r.products = ss
 
             res.json({status: true, value: ss})
         })
