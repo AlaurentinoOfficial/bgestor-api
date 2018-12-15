@@ -36,12 +36,14 @@ product.pre('save', function(next) {
     if(this.price == 0)
         this.price = this.min_price
 
-    if(this.stock == 0) {
-        this.stockout.push(new Date())
-        // Despatch a notification to admin
-    }
-    else if(this.stock <= this.stock_threshold) {
-        // Despatch a notification to admin
+    if(this.stock_actived) {
+        if(this.stock == 0) {
+            this.stockout.push(new Date())
+            // Despatch a notification to admin
+        }
+        else if(this.stock <= this.stock_threshold && this.stock_threshold_notify) {
+            // Despatch a notification to admin
+        }
     }
 
     next()
@@ -106,7 +108,7 @@ product.removeStock = (search, qty, cb) => {
 
         if(pro.stock_actived) {
             qty = Math.abs(qty)
-            
+
             if(pro.stock - qty >= 0) {
                 pro.stock -= qty
                 pro.save()
