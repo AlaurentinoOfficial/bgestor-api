@@ -11,7 +11,7 @@ let userSchema = new mongoose.Schema({
     password: {type: String, required: true},
     
     stores: [{type: mongoose.Schema.ObjectId, required: false}],
-    permissions: [{type: String, enum: ['addUser', 'deleteUser', 'updateUser', 'addStore', 'deleteStore', 'updateStore', 'addProduct', 'deleteProduct', 'updateProduct', 'addInStock', 'sell'], require: true}],
+    permissions: [{type: String, enum: ['admin', 'addUser', 'deleteUser', 'updateUser', 'addStore', 'deleteStore', 'updateStore', 'addProduct', 'deleteProduct', 'updateProduct', 'addInStock', 'sell'], require: true}],
     status: {type: Boolean, default: false, require: false},
     block: {type: Boolean, default: false, require: false},
 })

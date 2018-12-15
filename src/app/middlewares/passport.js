@@ -18,11 +18,11 @@ function Authenticate(options) {
 
                 // Verifify the permission of this user
                 if(options.permission !== undefined)
-                    if(u.permissions.indexOf(options.permission) == -1)
+                    if(u.permissions.indexOf(options.permission) == -1 || u.permissions.indexOf("admin") == -1)
                         return res.json({status: false, value: Strings.ACCESS_DENIED})
 
                 // Verify if there is a limitation
-                if(options.limit !== undefined && u[options.limit.property].length > 0)
+                if((options.limit !== undefined && u[options.limit.property].length > 0) && u.permissions.indexOf("admin") == -1)
                     if(u[options.limit.property].indexOf(req.params[options.limit.path]) == -1)
                         return res.json({status: false, value: Strings.ACCESS_DENIED})
                 
