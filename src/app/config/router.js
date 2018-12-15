@@ -31,6 +31,7 @@ exports.Router = (app) => {
 	app.route('/stores/:id')
 		.get(Authenticate({}), store.getById)
 		.put(Authenticate({permission: 'updateStore', limit: {path: 'id', property: 'stores'}}), store.putById)
+		.delete(Authenticate({permission: 'deleteStore'}), store.deleById)
 
 	app.route('/stores/:store/sales')
 		.get(Authenticate({limit: {path: 'store', property: 'stores'}}), sale.getAll)

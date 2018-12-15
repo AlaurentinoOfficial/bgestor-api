@@ -62,10 +62,19 @@ exports.addNew = (req, res) => {
 }
 
 exports.putById = (req, res) => {
-    StoreSchema.findOneAndUpdate({_id: req.params.id},req.body, {upsert: true}, (err, products) => {
+    StoreSchema.findOneAndUpdate({_id: req.params.id, solution: res.locals.user.solution},req.body, {upsert: true}, (err, products) => {
         if(err || !products)
             return res.json({status: false, value: Strings.INVALID_PARAMS})
         
+        res.json({status: true, value: Strings.SUCCEFULY})
+    })
+}
+
+exports.deleById = (req, res) => {
+    StoreSchema.remove({_id: req.params.id, solution: res.locals.user.solution}, (err, docs) => {
+        if(err)
+            return res.json({status: false, value: Strings.INVALID_PARAMS})
+    
         res.json({status: true, value: Strings.SUCCEFULY})
     })
 }
