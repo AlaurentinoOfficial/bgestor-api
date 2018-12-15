@@ -104,16 +104,20 @@ product.removeStock = (search, qty, cb) => {
     ProductSchema.findOne(search, (err, pro) => {
         if(err) return cb(err, null)
 
-        qty = Math.abs(qty)
-
-        if(pro.stock - qty >= 0) {
-            pro.stock -= qty
-            pro.save()
-
-            return cb(null, pro)
+        if(pro.stock_actived) {
+            qty = Math.abs(qty)
+            
+            if(pro.stock - qty >= 0) {
+                pro.stock -= qty
+                pro.save()
+    
+                return cb(null, pro)
+            }
+            else
+                return cb(Strings.MISSING_STOCK, null)
         }
         else
-            return cb(Strings.MISSING_STOCK, null)
+            return cb(null, pro)
     })
 }
 
