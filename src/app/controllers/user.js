@@ -51,7 +51,7 @@ exports.getById = (req, res) => {
         var shadow = user._doc
         delete shadow.password
                 
-        res.json({status: true, value: shadow})
+        res.json({status: true, value: Strings.SUCCEFULY, user: shadow})
     })
 }
 
@@ -65,7 +65,7 @@ exports.getAllUsers = (req, res) => {
             delete u.password
         })
         
-        res.json({status: true, value: users})
+        res.json({status: true, value: Strings.SUCCEFULY, users: users})
     })
 }
 
@@ -85,7 +85,7 @@ exports.addNewUser = (req, res) => {
 
     UserSchema.create(body, (err, user) => {
         if(err || !user)
-            return res.json({status: false, value: err.code == 11000 ? Strings.ALREADY_CREATED : Strings.INVALID_USER})
+            return res.json({status: false, value: err.code == 11000 ? Strings.ALREADY_CREATED : Strings.INVALID_PARAMS})
         
         res.json({status: true, value: Strings.SUCCEFULY})
     })
@@ -104,7 +104,7 @@ exports.updateById = (req, res) => {
 
     UserSchema.findOneAndUpdate({solution: res.locals.user.solution, _id: req.params.id}, body, (err, user) => {
         if(err || !user)
-            return res.json({status: false, value: Strings.INVALID_USER})
+            return res.json({status: false, value: Strings.INVALID_PARAMS})
         
         res.json({status: true, value: Strings.SUCCEFULY})
     })

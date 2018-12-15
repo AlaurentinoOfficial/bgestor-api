@@ -27,7 +27,7 @@ function Authenticate(options) {
                 //         return res.json({status: false, value: Strings.ACCESS_DENIED})
                 
                 // Save the user to pass to anothers middleware 
-                res.locals.user = u
+                res.locals.user = u._doc
 
                 next()
             })

@@ -7,17 +7,10 @@ exports.getAll = (req, res) => {
         if(err) return res.json({status: false, value: Strings.INVALID_STORE})
 
         SaleSchema.find({store: store}, (err, sales) => {
-            if(err) {
-                var r = Stringd.INTERNAL_ERROR
-                r.products = []
-    
-                return res.json({status: true, value: r})
-            }
-            
-            var r = Strings.SUCCEFULY
-            r.sales = sales
+            if(err)
+                return res.json({status: true, value: Strings.INTERNAL_ERROR, products: []})
 
-            res.json({status: true, value: r})
+            res.json({status: true, value: Strings.SUCCEFULY, sales: sales})
         })
     })
 }
