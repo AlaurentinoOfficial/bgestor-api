@@ -37,11 +37,11 @@ exports.Router = (app) => {
 		.get(Authenticate({limit: {path: 'store', property: 'stores'}}), sale.getAll)
 		.post(Authenticate({permission: 'sell'}), sale.sell)
 
-	app.route('/stores/:id/products')
+	app.route('/stores/:store/products')
 		.get(Authenticate({limit: {path: 'store', property: 'stores'}}), product.getAll)
 		.post(Authenticate({permission: 'addProduct'}), product.addNew) // Add in stock
 	
-	app.route('/stores/:id/products/:id')
+	app.route('/stores/:store/products/:id')
 		.put(Authenticate({permission: 'updateProduct'}), product.putById)
 		.post(Authenticate({permission: 'addInStock'}), product.addInStockById)
 		.delete(Authenticate({permission: 'deleteProduct'}), product.deleteById)

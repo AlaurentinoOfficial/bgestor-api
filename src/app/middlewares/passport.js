@@ -22,9 +22,9 @@ function Authenticate(options) {
                         return res.json({status: false, value: Strings.ACCESS_DENIED})
 
                 // Verify if there is a limitation
-                // if(options.limit !== undefined && u[options.limit.property].length > 0)
-                //     if(u[options.limit.property].indexOf(req.params[options.limit.path]) == -1)
-                //         return res.json({status: false, value: Strings.ACCESS_DENIED})
+                if(options.limit !== undefined && u[options.limit.property].length > 0)
+                    if(u[options.limit.property].indexOf(req.params[options.limit.path]) == -1)
+                        return res.json({status: false, value: Strings.ACCESS_DENIED})
                 
                 // Save the user to pass to anothers middleware 
                 res.locals.user = u._doc

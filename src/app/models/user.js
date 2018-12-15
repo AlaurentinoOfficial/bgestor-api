@@ -10,6 +10,7 @@ let userSchema = new mongoose.Schema({
     email: {type: String, required: true, lowercase: true, unique: true},
     password: {type: String, required: true},
     
+    stores: [{type: mongoose.Schema.ObjectId, required: false}],
     permissions: [{type: String, enum: ['addUser', 'deleteUser', 'updateUser', 'addStore', 'deleteStore', 'updateStore', 'addProduct', 'deleteProduct', 'updateProduct', 'addInStock', 'sell'], require: true}],
     status: {type: Boolean, default: false, require: false},
     block: {type: Boolean, default: false, require: false},
