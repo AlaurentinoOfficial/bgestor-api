@@ -70,7 +70,7 @@ exports.putById = (req, res) => {
     })
 }
 
-exports.deleById = (req, res) => {
+exports.deleteById = (req, res) => {
     StoreSchema.remove({_id: req.params.id, solution: res.locals.user.solution}, (err, docs) => {
         if(err)
             return res.json({status: false, value: Strings.INVALID_PARAMS})

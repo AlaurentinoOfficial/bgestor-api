@@ -31,7 +31,7 @@ exports.Router = (app) => {
 	app.route('/stores/:id')
 		.get(Authenticate({}), store.getById)
 		.put(Authenticate({permission: 'updateStore', limit: {path: 'id', property: 'stores'}}), store.putById)
-		.delete(Authenticate({permission: 'deleteStore'}), store.deleById)
+		.delete(Authenticate({permission: 'deleteStore'}), store.deleteById)
 
 	app.route('/stores/:store/sales')
 		.get(Authenticate({limit: {path: 'store', property: 'stores'}}), sale.getAll)
@@ -44,6 +44,7 @@ exports.Router = (app) => {
 	app.route('/stores/:id/products/:id')
 		.put(Authenticate({permission: 'updateProduct'}), product.putById)
 		.post(Authenticate({permission: 'addInStock'}), product.addInStockById)
+		.delete(Authenticate({permission: 'deleteProduct'}), product.deleteById)
 	
 	app.route('/*')
 		.get(notFound)
