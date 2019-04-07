@@ -13,12 +13,6 @@ exports.login = (req, res) => {
         user.comparePassword(req.body.password, (err, isMatch) => {
             if(isMatch && !err)
             {
-                var sName = ""
-                SolutionSchema.findOne({_id: user.solution}, (err, solution) => {
-                    if(err || !solution) return
-                    sName = solution.name
-                })
-
                 let token = jwt.sign({
                                 exp: Math.floor(Date.now() / 1000) + (60 * 60) * 3,
                                 data: user._id
@@ -70,20 +64,11 @@ exports.getAllUsers = (req, res) => {
 }
 
 exports.addNewUser = (req, res) => {
-    var body = {
-        solution: res.locals.user.solution,
-        name: req.body.name,
-        cpf: req.body.cpf,
-        gender: req.body.gender,
-        level: req.body.level,
-        email: req.body.email,
-        password: req.body.password
-    }
+    req.body.solution = res.locals.user.solution
+    delete req.body.status
+    delete req.body.block
 
-    if(req.body.stores !== undefined)
-        body.stores = req.body.stores
-
-    UserSchema.create(body, (err, user) => {
+    UserSchema.create(req.body, (err, user) => {
         if(err || !user)
             return res.json({status: false, value: err.code == 11000 ? Strings.ALREADY_CREATED : Strings.INVALID_PARAMS})
         
@@ -92,17 +77,12 @@ exports.addNewUser = (req, res) => {
 }
 
 exports.updateById = (req, res) => {
-    var body = {}
+    delete req.body.solution
+    delete req.body.permissions
+    delete req.body.status
+    delete req.body.block
 
-    if(req.body.name !== undefined) body.name = req.body.name
-    if(req.body.cpf !== undefined) body.cpf = req.body.cpf
-    if(req.body.gender !== undefined) body.gender = req.body.gender
-    if(req.body.level !== undefined) body.level = req.body.level
-    if(req.body.email !== undefined) body.email = req.body.email
-    if(req.body.password !== undefined) body.password = req.body.password
-    if(req.body.stores !== undefined) body.stores = req.body.stores
-
-    UserSchema.findOneAndUpdate({solution: res.locals.user.solution, _id: req.params.id}, body, (err, user) => {
+    UserSchema.findOneAndUpdate({solution: res.locals.user.solution, _id: req.params.id}, req.body, (err, user) => {
         if(err || !user)
             return res.json({status: false, value: Strings.INVALID_PARAMS})
         
