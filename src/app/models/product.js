@@ -19,6 +19,9 @@ var product = new mongoose.Schema({
     cogs: {type: Number, default: 0, required: false},
     markup: {type: Number, default: 0, required: false},
     sales_charge: {type: Number, default: 0, required: false},
+
+    enable_validate: {type: Boolean, required: true},
+    validate: {type: Date, required: false},
     
     stock_actived: {type: Boolean, default: false, required: true},
     stock: {type: Number, default: 0, required: false},
@@ -34,6 +37,9 @@ product.pre('save', function(next) {
     this.min_price = parseFloat(MinPrice(this.cost, this.markup)).toFixed(2)
 
     if(this.price == 0)
+        this.validate = new Date()
+    
+    if(this.enable_validate)
         this.price = this.min_price
 
     if(this.stock_actived) {
