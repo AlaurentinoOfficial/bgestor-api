@@ -23,8 +23,8 @@ var product = new mongoose.Schema({
     markup_pre: {type: Number, default: 0, required: false},
     sales_charge: {type: Number, default: 0, required: false},
 
-    enable_validate: {type: Boolean, required: true},
-    validate: {type: Date, required: false},
+    validate_actived: {type: Boolean, required: true},
+    validate_date: {type: Date, required: false},
     
     stock_actived: {type: Boolean, default: false, required: true},
     stock: {type: Number, default: 0, required: false},
