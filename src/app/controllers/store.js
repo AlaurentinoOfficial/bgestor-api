@@ -42,9 +42,9 @@ exports.getById = (req, res) => {
 }
 
 exports.addNew = (req, res) => {
-    var body = {name: req.body.name, address: req.body.address, solution: res.locals.user.solution}
-        
-    StoreSchema.create(body, (err, stores) => {
+    req.body.solution = res.locals.user.solution
+
+    StoreSchema.create(req.body, (err, stores) => {
         if(err || !stores)
             return res.json({status: false, value: Strings.INVALID_PARAMS})
         
@@ -53,6 +53,9 @@ exports.addNew = (req, res) => {
 }
 
 exports.putById = (req, res) => {
+    delete req.body.solution
+    delete req.body.ticket
+
     StoreSchema.findOneAndUpdate({_id: req.params.id, solution: res.locals.user.solution},req.body, {upsert: true}, (err, products) => {
         if(err || !products)
             return res.json({status: false, value: Strings.INVALID_PARAMS})

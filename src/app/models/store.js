@@ -7,8 +7,6 @@ let store = new mongoose.Schema({
     address: {type: String, default: "", required: true},
     type: {type: String, enum: ['physical', 'ecommerce'], require: true},
     ticket: {type: Number, default: 0, required: false},
-    
-    sales: [{type: mongoose.Schema.ObjectId, ref:"Sale", required: false}],
 })
 
 exports.StoreSchema = mongoose.model('Store', store)
