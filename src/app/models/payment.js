@@ -5,7 +5,8 @@ let payment = new mongoose.Schema({
 
     name: {type: String, required: true},
     cost: {type: Number, required: true},
-    time_to_receive: {type: Number, required: true}
+    time_to_receive: {type: Number, required: true},
+    type: {type: String, enum: ['money', 'creditcard', 'debitcard', 'ticket', 'paypal', 'other'], require: true}
 })
 
 exports.PaymentSchema = mongoose.model('Payment', payment)
