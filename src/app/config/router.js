@@ -3,6 +3,7 @@ import * as store from '../controllers/store'
 import * as product from '../controllers/product' 
 import * as sale from '../controllers/sale' 
 import * as payment from '../controllers/payment' 
+import * as taxe from '../controllers/taxe' 
 
 import { Authenticate } from '../middlewares/passport'
 import { Strings } from './strings'
@@ -36,6 +37,14 @@ exports.Router = (app) => {
 	app.route('/payments/:id')
 		.put(Authenticate({permission: 'updatePayment'}), payment.updateById)
 		.delete(Authenticate({permission: 'deletePayment'}), payment.deleteById)
+
+	app.route('/taxes')
+		.get(Authenticate({}), taxe.getAll)
+		.post(Authenticate({permission: 'addTaxe'}), taxe.addNew)
+	
+	app.route('/taxes/:id')
+		.put(Authenticate({permission: 'updateTaxe'}), taxe.updateById)
+		.delete(Authenticate({permission: 'deleteTaxe'}), taxe.deleteById)
 	
 	app.route('/stores/:id')
 		.get(Authenticate({}), store.getById)

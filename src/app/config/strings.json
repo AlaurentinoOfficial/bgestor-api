@@ -14,5 +14,6 @@
     "INVALID_ROUTE": {"code": 12, "message": "Route not found"},
     "ALREADY_CREATED": {"code": 13, "message": "Already created!"},
     "INTERNAL_ERROR": {"code": 14, "message": "Internal error"},
-    "INVALID_PAYMENT": {"code": 15, "message": "Internal error"}
+    "INVALID_PAYMENT": {"code": 15, "message": "Invalid Payment"},
+    "INVALID_TAXE": {"code": 16, "message": "Internal taxe"}
 }
