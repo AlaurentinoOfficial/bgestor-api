@@ -5,7 +5,7 @@ let store = new mongoose.Schema({
 
     name: {type: String, required: true},
     address: {type: String, default: "", required: true},
-    type: {type: String, enum: ['physical', 'ecommerce'], require: true},
+    type: {type: String, enum: ['physical', 'ecommerce', 'other'], require: true},
     ticket: {type: Number, default: 0, required: false},
 })
 
