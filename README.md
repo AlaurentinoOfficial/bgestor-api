@@ -1,4 +1,4 @@
-# fast business api
+# fast 2 business api
 
 ## Requirements
 * Docker
