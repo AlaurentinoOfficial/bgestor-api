@@ -19,6 +19,7 @@ var product = new mongoose.Schema({
 
     cogs: {type: Number, default: 0, required: false},
     markup: {type: Number, default: 0, required: false},
+    markup_pre: {type: Number, default: 0, required: false},
     sales_charge: {type: Number, default: 0, required: false},
 
     enable_validate: {type: Boolean, required: true},
@@ -35,14 +36,18 @@ var product = new mongoose.Schema({
 
 product.pre('save', function(next) {
     this.cogs = COGS(this.taxes, this.commission, this.profit_previous)
-    this.markup = parseFloat(Markup(this.cogs)).toFixed(5)
+    this.markup_pre = parseFloat(Markup(this.cogs)).toFixed(5)
     this.min_price = parseFloat(MinPrice(this.cost, this.markup)).toFixed(2)
 
-    if(this.price == 0)
-        this.validate = new Date()
+    if(this.price === 0) {
+        this.price = this.min_price
+        this.markup = this.markup_pre
+    }
+    else
+        this.markup = this.price / this.cost
     
     if(this.enable_validate)
-        this.price = this.min_price
+        this.validate = new Date()
 
     if(this.stock_actived) {
         if(this.stock == 0) {
