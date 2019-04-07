@@ -2,6 +2,7 @@ import * as user from '../controllers/user'
 import * as store from '../controllers/store' 
 import * as product from '../controllers/product' 
 import * as sale from '../controllers/sale' 
+import * as payment from '../controllers/payment' 
 
 import { Authenticate } from '../middlewares/passport'
 import { Strings } from './strings'
@@ -27,6 +28,14 @@ exports.Router = (app) => {
 	app.route('/stores')
 		.get(Authenticate({}), store.getAll)
 		.post(Authenticate({permission: 'addStore'}), store.addNew)
+	
+	app.route('/payments')
+		.get(Authenticate({}), payment.getAll)
+		.post(Authenticate({permission: 'addPayment'}), payment.addNew)
+	
+	app.route('/payments/:id')
+		.put(Authenticate({permission: 'updatePayment'}), payment.updateById)
+		.delete(Authenticate({permission: 'deletePayment'}), payment.deleteById)
 	
 	app.route('/stores/:id')
 		.get(Authenticate({}), store.getById)
