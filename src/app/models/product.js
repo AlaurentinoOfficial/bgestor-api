@@ -8,6 +8,7 @@ var product = new mongoose.Schema({
 
     name: {type: String, required: true},
     description: {type: String, default: "", required: true},
+    image: {type: String, default: "", required: false},
 
     price: {type: Number, default: 0, required: true},
     min_price: {type: Number, default: 0, required: false},
