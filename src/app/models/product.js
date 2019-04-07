@@ -25,6 +25,7 @@ var product = new mongoose.Schema({
     
     stock_actived: {type: Boolean, default: false, required: true},
     stock: {type: Number, default: 0, required: false},
+    stock_history: [{type: mongoose.Schema.Types.Mixed, require: false}],
     stock_recharge: [{type: mongoose.Schema.Types.Mixed, require: false}],
     stock_threshold: {type: Number, required: false},
     stock_threshold_notify: {type: Boolean, default: false, required: true},
@@ -50,6 +51,8 @@ product.pre('save', function(next) {
         else if(this.stock <= this.stock_threshold && this.stock_threshold_notify) {
             // Despatch a notification to admin
         }
+
+        stock_history.append([{date: new Date(), qty: this.stock}])
     }
 
     next()
