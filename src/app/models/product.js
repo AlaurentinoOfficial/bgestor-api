@@ -11,6 +11,12 @@ var product = new mongoose.Schema({
     image: {type: String, default: "", required: false},
     cfop: {type: Number, required: true},
 
+    gross_weight: {type: Number, default: "", required: false},
+    liquid_weight: {type: Number, default: "", required: false},
+    
+    unit: {type: String, default: "", required: true},
+    units_per_product: {type: Number, default: "", required: true},
+
     price: {type: Number, default: 0, required: true},
     min_price: {type: Number, default: 0, required: false},
     cost: {type: Number, required: true},
