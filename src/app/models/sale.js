@@ -4,6 +4,7 @@ import { SaleSchema } from "./sale"
 import { Ticket, SaleCharge } from "./analytics"
 import { Strings } from "../config/strings"
 import { ProductSchema } from "./product"
+import { PaymentSchema } from "./payment"
 
 let sale = new mongoose.Schema({
     solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"sales", required: true},
@@ -13,6 +14,8 @@ let sale = new mongoose.Schema({
     date: {type: Date, default: Date.now(), required: false},
     price: {type: Number, default: 0, required: false},
     products: [{type: mongoose.Schema.Types.Mixed, required: true}],
+    taxes: [{type: mongoose.Schema.Types.Mixed, required: true}],
+    payment_method: {type: String, required: true}
 })
 
 sale = mongoose.model('Sale', sale)
@@ -35,36 +38,51 @@ sale.createSell = (body, cb) => {
         })
     })
 
-    SaleSchema.create(body, (err, sale) => {
-        if(err || !sale)
-            return cb(Strings.INVALID_PARAMS, null)
-        
-        if(missing.length > 0){
-            SaleSchema.remove({_id: sale._id})
-            return cb({err: Strings.MISSING_STOCK, products: missing}, null)
-        }
+    var invalid_taxes = []
+    body.taxes.forEach(t => {
+        if(!(t.name !== undefined && t.value !== undefined && t.value.constructor === Number))
+            invalid_taxes.push(t)
+    })
 
-        ProductSchema.find({solution: sale.solution}, (err, products) => {
-            if(err) {
+    if (invalid_taxes.length != 0) {
+        return cb({err: Strings.INVALID_TAXE, taxes: invalid_taxes}, null)
+    }
+
+    PaymentSchema.findOne({solution: sale.solution, _id: payment_method}, (err, payment) => {
+        if(err || !payment)
+            return cb({err: Strings.INVALID_PAYMENT}, null)
+        
+        SaleSchema.create(body, (err, sale) => {
+            if(err || !sale)
+                return cb(Strings.INVALID_PARAMS, null)
+            
+            if(missing.length > 0){
                 SaleSchema.remove({_id: sale._id})
                 return cb({err: Strings.MISSING_STOCK, products: missing}, null)
             }
-
-            sale.price = 0
-            products.forEach(p => {
-                body.products.forEach(product => {
-                    if(product._id == p._id) {
-                        ProductSchema.removeStock({_id: p._id}, product.qty, (err, ret) => {})
-                        sale.price += Math.abs(p.price * product.qty)
-                    }
+    
+            ProductSchema.find({solution: sale.solution}, (err, products) => {
+                if(err) {
+                    SaleSchema.remove({_id: sale._id})
+                    return cb({err: Strings.MISSING_STOCK, products: missing}, null)
+                }
+    
+                sale.price = 0
+                products.forEach(p => {
+                    body.products.forEach(product => {
+                        if(product._id == p._id) {
+                            ProductSchema.removeStock({_id: p._id}, product.qty, (err, ret) => {})
+                            sale.price += Math.abs(p.price * product.qty)
+                        }
+                    })
                 })
+                sale.save()
+    
+                Ticket(sale.store, sale.price)
+                SaleCharge(sale.store)
+                
+                return cb(null, sale)
             })
-            sale.save() //
-
-            Ticket(sale.store, sale.price)
-            SaleCharge(sale.store)
-            
-            return cb(null, sale)
         })
     })
 }
