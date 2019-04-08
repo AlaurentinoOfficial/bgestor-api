@@ -14,6 +14,6 @@ app.set('crypt_key', 'ksdfadsklfjo34e')
 app.set('port', process.env.PORT || 8080)
 
 Router(app)
-DbConfig("mongodb://localhost:27017/fastb")
+DbConfig("mongodb://localhost:27017/fast2b")
 
 exports.Server = app

@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 import { green, red, cyan, bold } from 'colors'
 
 exports.DbConfig = (link) => {
-    mongoose.connect(link)
+    mongoose.connect(link, { useNewUrlParser: true })
 
     mongoose.connection.on('connected', () => {
         console.log(bold(green('➜  MONGODB:')) + ' Connected!')
