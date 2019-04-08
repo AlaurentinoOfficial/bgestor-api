@@ -38,12 +38,7 @@ sale.createSell = (body, cb) => {
         })
     })
 
-    var invalid_taxes = []
-    body.taxes.forEach(t => {
-        if(!(t.name !== undefined && t.value !== undefined && t.value.constructor === Number))
-            invalid_taxes.push(t)
-    })
-
+    invalid_taxes = InvalidTaxes(body.taxes)
     if (invalid_taxes.length != 0) {
         return cb({err: Strings.INVALID_TAXE, taxes: invalid_taxes}, null)
     }
@@ -88,3 +83,15 @@ sale.createSell = (body, cb) => {
 }
 
 exports.SaleSchema = sale
+
+var InvalidTaxes = (taxes) => {
+    var invalid_taxes = []
+    
+    taxes.forEach(t => {
+        if(!(t.name !== undefined && t.value !== undefined && t.value.constructor === Number))
+            invalid_taxes.push(t)
+    })
+
+    return invalid_taxes
+}
+exports.InvalidTaxes = InvalidTaxes
