@@ -1,5 +1,8 @@
 import { COGS, Markup, MinPrice } from "./analytics"
 import { Strings } from "../config/strings"
+import { UserSchema } from "./user"
+import { StoreSchema } from "./store"
+import { NotificationSchema } from "./notification"
 
 var mongoose = require("mongoose")
 
@@ -61,10 +64,40 @@ product.pre('save', function(next) {
     if(this.stock_actived) {
         if(this.stock == 0) {
             this.stockout.push(new Date())
-            // Despatch a notification to admin
+            
+            // Despatch a notification to admins
+            StoreSchema.find({_id: this.store}, (err, store) => {
+                if(err) return
+
+                UserSchema.find({solution: store. solution}, (er, users) => {
+                    users.forEach(user => {
+                        NotificationSchema.create({
+                            user: user._id,
+                            title: "Fim de estoque",
+                            message: `O produto ${this.name} acabou no estoque!`,
+                            uri: `/lojas/${this.store}/produtos/${this._id}`
+                        })
+                    })
+                })
+            })
         }
         else if(this.stock <= this.stock_threshold && this.stock_threshold_notify) {
-            // Despatch a notification to admin
+            // Despatch a notification to admins
+            StoreSchema.find({_id: this.store}, (err, store) => {
+                if(err) return
+
+                UserSchema.find({solution: store. solution}, (er, users) => {
+                    users.forEach(user => {
+                        NotificationSchema.create({
+                            user: user._id,
+                            title: "Estoque está no limite",
+                            message: `O produto ${this.name} está com o nível crítico de estoque: ${this.stock}`,
+                            uri: `/lojas/${this.store}/produtos/${this._id}`
+                        })
+                    })
+                })
+            })
+            
         }
 
         stock_history.append([{date: new Date(), qty: this.stock}])

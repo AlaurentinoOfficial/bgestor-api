@@ -9,4 +9,11 @@ let notification = new mongoose.Schema({
     status: {type: Boolean, default: false, required: true}
 })
 
+notification.pre('save', function(next) {
+    if(this.isNew) {
+        this.date = new Date()
+        this.status = false
+    }
+});
+
 exports.NotificationSchema = mongoose.model('Notification', notification)
