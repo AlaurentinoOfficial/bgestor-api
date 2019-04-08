@@ -6,13 +6,15 @@ var mongoose = require("mongoose")
 var product = new mongoose.Schema({
     store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"products", required: true},
 
-    name: {type: String, required: true},
-    description: {type: String, default: "", required: true},
     image: {type: String, default: "", required: false},
+    
+    name: {type: String, required: true},
+    barcode: {type: String, required: true},
+    description: {type: String, default: "", required: true},
     cfop: {type: Number, required: true},
 
-    gross_weight: {type: Number, default: "", required: false},
-    liquid_weight: {type: Number, default: "", required: false},
+    gross_weight: {type: Number, default: "", required: true},
+    liquid_weight: {type: Number, default: "", required: true},
     
     unit: {type: String, default: "", required: true},
     units_per_product: {type: Number, default: "", required: true},
