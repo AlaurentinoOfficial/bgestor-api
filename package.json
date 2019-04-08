@@ -25,7 +25,9 @@
     "express": "^4.16.3",
     "jsonwebtoken": "^8.1.0",
     "mongoose": "^5.0.0-rc1",
-    "mongoose-relationship": "^0.1.5"
+    "mongoose-relationship": "^0.1.5",
+    "mongoose-uuid2": "^2.3.0",
+    "node-uuid": "^1.4.8"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

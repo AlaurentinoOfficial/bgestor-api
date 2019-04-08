@@ -1,4 +1,5 @@
 var mongoose = require("mongoose")
+import uuid from "node-uuid"
 
 import { SaleSchema } from "./sale"
 import { Ticket, SaleCharge } from "./analytics"
@@ -6,7 +7,11 @@ import { Strings } from "../config/strings"
 import { ProductSchema } from "./product"
 import { PaymentSchema } from "./payment"
 
+require('mongoose-uuid2')(mongoose)
+let UUID = mongoose.Types.UUID
+
 let sale = new mongoose.Schema({
+    _id: { type: UUID, default: uuid.v4 },
     solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"sales", required: true},
     store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"sales", required: true},
     

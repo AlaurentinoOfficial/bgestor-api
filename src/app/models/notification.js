@@ -1,6 +1,11 @@
 var mongoose = require("mongoose")
+import uuid from "node-uuid"
+
+require('mongoose-uuid2')(mongoose)
+let UUID = mongoose.Types.UUID
 
 let notification = new mongoose.Schema({
+    _id: { type: UUID, default: uuid.v4 },
     user: {type: mongoose.Schema.ObjectId, ref:"User", childPath:"notifications", required: false},
     title: {type: String, required: true},
     message: {type: String, required: true},

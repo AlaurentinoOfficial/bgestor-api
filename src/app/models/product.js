@@ -1,12 +1,17 @@
+var mongoose = require("mongoose")
+import uuid from "node-uuid"
+
 import { COGS, Markup, MinPrice } from "./analytics"
 import { Strings } from "../config/strings"
 import { UserSchema } from "./user"
 import { StoreSchema } from "./store"
 import { NotificationSchema } from "./notification"
 
-var mongoose = require("mongoose")
+require('mongoose-uuid2')(mongoose)
+let UUID = mongoose.Types.UUID
 
 var product = new mongoose.Schema({
+    _id: { type: UUID, default: uuid.v4 },
     store: {type: mongoose.Schema.ObjectId, ref:"Store", childPath:"products", required: true},
 
     image: {type: String, default: "", required: false},

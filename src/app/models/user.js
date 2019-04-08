@@ -1,7 +1,12 @@
 var mongoose = require("mongoose")
 var bcrypt = require("bcrypt")
+import uuid from "node-uuid"
+
+require('mongoose-uuid2')(mongoose)
+let UUID = mongoose.Types.UUID
 
 let userSchema = new mongoose.Schema({
+    _id: { type: UUID, default: uuid.v4 },
     solution: {type: mongoose.Schema.ObjectId, ref:"Solution", childPath:"employees"},
 
     name: {type: String, required: true, unique: true},
