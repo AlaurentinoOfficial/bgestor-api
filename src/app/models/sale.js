@@ -16,7 +16,7 @@ let sale = new mongoose.Schema({
     products: [{type: mongoose.Schema.Types.Mixed, required: true}],
     taxes: [{type: mongoose.Schema.Types.Mixed, required: true}],
     payment_method: {type: String, required: true}
-})
+}, {versionKey: false})
 
 sale = mongoose.model('Sale', sale)
 

@@ -14,6 +14,6 @@ let store = new mongoose.Schema({
     street: {type: String, required: true},
     number: {type: Number, required: true},
     complement: {type: String, required: true},
-})
+}, {versionKey: false})
 
 exports.StoreSchema = mongoose.model('Store', store)

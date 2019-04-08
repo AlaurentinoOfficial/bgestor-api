@@ -16,6 +16,6 @@ let solution = new mongoose.Schema({
     products_limit: {type: Number, required: true},
     monthly_price: {type: Number, required: true},
     certificate: {type: String, required: true, unique: true}
-})
+}, {versionKey: false})
 
 exports.SolutionSchema = mongoose.model('Solution', solution)

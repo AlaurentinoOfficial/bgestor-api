@@ -14,7 +14,7 @@ let userSchema = new mongoose.Schema({
     permissions: [{type: String, enum: ['admin', 'addUser', 'deleteUser', 'updateUser', 'addStore', 'deleteStore', 'updateStore', 'addProduct', 'deleteProduct', 'updateProduct', 'addInStock', 'sell', 'addPayment', 'updatePayment', 'deletePayment', 'addTaxe', 'updateTaxe', 'deleteTaxe'], require: true}],
     status: {type: Boolean, default: false, require: false},
     block: {type: Boolean, default: false, require: false},
-})
+}, {versionKey: false})
 
 userSchema.pre('save', function(next) {
     let user = this

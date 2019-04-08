@@ -44,7 +44,7 @@ var product = new mongoose.Schema({
     stock_threshold: {type: Number, required: false},
     stock_threshold_notify: {type: Boolean, default: false, required: true},
     stockout: [{type: Date, default: null, required: false}]
-})
+}, {versionKey: false})
 
 product.pre('save', function(next) {
     this.cogs = COGS(this.taxes, this.commission, this.profit_previous)
