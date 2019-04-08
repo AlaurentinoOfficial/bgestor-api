@@ -4,6 +4,7 @@ import * as product from '../controllers/product'
 import * as sale from '../controllers/sale' 
 import * as payment from '../controllers/payment' 
 import * as taxe from '../controllers/taxe' 
+import * as notification from '../controllers/notification' 
 
 import { Authenticate } from '../middlewares/passport'
 import { Strings } from './strings'
@@ -25,6 +26,12 @@ exports.Router = (app) => {
 	app.route('/users/:id')
 		.get(Authenticate({}), user.getById)
 		.put(Authenticate({permission: 'updateUser'}), user.updateById)
+	
+	app.route('/notifications')
+		.get(Authenticate({}), notification.getAll)
+
+	app.route('/notifications/:id')
+		.post(Authenticate({}), notification.statusOk)
 
 	app.route('/stores')
 		.get(Authenticate({}), store.getAll)
