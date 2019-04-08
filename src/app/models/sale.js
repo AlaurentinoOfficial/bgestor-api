@@ -84,11 +84,18 @@ sale.createSell = (body, cb) => {
 
 exports.SaleSchema = sale
 
+/**
+ * InvalidTaxes
+ * Returns the invlid taxes
+ * 
+ * @param taxes Taxes: [{name: String, cost: Number}]
+ * @returns Invalid Taxes: [{name: String, cost: Number}]
+ */
 var InvalidTaxes = (taxes) => {
     var invalid_taxes = []
     
     taxes.forEach(t => {
-        if(!(t.name !== undefined && t.value !== undefined && t.value.constructor === Number))
+        if(!(t.name !== undefined && t.cost !== undefined && t.cost.constructor === Number))
             invalid_taxes.push(t)
     })
 
